@@ -1,8 +1,8 @@
-name: Deploy Next.js site to Pages
+name: Deploy Next.js site to Pages - Prod
 
 on:
   push:
-    branches: ['main','dev']
+    branches: ['main']
   workflow_dispatch:
 
 permissions:
