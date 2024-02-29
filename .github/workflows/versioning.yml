@@ -1,0 +1,59 @@
+name: Versioning
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  bump_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Verifica se a alteração está relacionada aos tags
+      - name: Check if tag event
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        run: echo "Tag event detected, proceeding with versioning"
+
+      # Sair se a alteração não estiver relacionada aos tags
+      - name: Exit if not tag event
+        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags/')
+        run: |
+          echo "No tag event detected, skipping versioning"
+          exit 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          CI: false
+
+      - name: Check if working directory is clean
+        run: git diff-index --quiet HEAD -- || (echo "Working directory is not clean" && exit 1)
+
+      - name: Bump version
+        run: npm version patch -m "Bump version to %s"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Push tags
+        run: git push --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Create new branch
+        run: |
+          echo "Getting current version..."
+          current_version=$(git describe --tags)
+          echo "Current version: $current_version"
+          branch_name="release/$current_version"
+          echo "Creating new branch: $branch_name"
+          git checkout -b $branch_name
+          git push -u origin $branch_name
+          echo "New branch $branch_name created and pushed successfully."
