@@ -8,6 +8,7 @@ const nextConfig = {
     unoptimized: true,
   },
   basePath: '/github-pages',
+  distDir: 'build',
 }
 
 module.exports = nextConfig
