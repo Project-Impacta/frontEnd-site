@@ -5,7 +5,7 @@ const nextConfig = {
   output: 'export',
   reactStrictMode: true,
   images: {
-    unoptimized: false,
+    unoptimized: true,
   },
   basePath: '/github-pages',
   assetPrefix: '/github-pages/',
