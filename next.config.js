@@ -1,11 +1,13 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
   output: 'export',
   reactStrictMode: true,
   images: {
     unoptimized: true,
   },
-  distDir: 'dist',
+  basePath: '/github-pages',
 }
 
 module.exports = nextConfig
