@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "node format.js"
+    "format": "node format.js",
+    "export": "next export"
   },
   "dependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
