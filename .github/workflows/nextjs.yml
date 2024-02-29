@@ -92,3 +92,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }} # Utilize o token de acesso GH_TOKEN aqui
