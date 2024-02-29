@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: nextjs-export
-          path: ./build # <--- Ajuste o caminho do diretório de saída do build do Next.js
+          path: ./build
 
   deploy:
     environment:
@@ -88,7 +88,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: nextjs-export
-          path: ./build # <--- Ajuste o caminho onde o artefato será baixado
+          path: ./build
 
       # Implementa no GitHub Pages
       - name: Deploy to GitHub Pages
