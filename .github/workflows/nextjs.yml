@@ -69,11 +69,11 @@ jobs:
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
 
-      # Faz o upload do artefato
-      - name: Upload artifact
+      # Faz o upload do artefato para GitHub Pages
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-artifact@v2
         with:
-          name: nextjs-export
+          name: github-pages
           path: ./build
 
   deploy:
@@ -87,7 +87,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: nextjs-export
+          name: github-pages
           path: ./build
 
       # Implementa no GitHub Pages
