@@ -6,5 +6,5 @@ module.exports = {
   jsxSingleQuote: false,
   tabWidth: 2,
   endOfLine: 'auto',
-  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  plugins: [require('@trivago/prettier-plugin-sort-imports')],
 }

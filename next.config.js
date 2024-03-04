@@ -2,13 +2,13 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  output: "export",
+  output: 'export',
   reactStrictMode: true,
   images: {
     unoptimized: true,
   },
   basePath: '/github-pages',
-  distDir: 'build'
+  distDir: 'build',
 }
 
 module.exports = nextConfig
