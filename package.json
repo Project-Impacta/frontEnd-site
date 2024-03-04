@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "release": {
+    "repositoryUrl": "https://github.com/Project-Impacta/frontEnd-site",
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
