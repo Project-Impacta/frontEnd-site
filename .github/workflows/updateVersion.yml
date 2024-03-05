@@ -26,4 +26,14 @@ jobs:
       - name: Run Semantic Release
         run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Add package.json changes
+        run: git add package.json
+
+      - name: Commit package.json changes
+        run: |
+          git config --global user.email "jon.1lima@hotmail.com"
+          git config --global user.name "JhowSL"
+          git commit -m "chore: bump version [skip ci]" || echo "No changes to commit"
+          git push
