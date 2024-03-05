@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
           token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
 
       - name: Use Node.js 20.11.1
@@ -26,5 +25,4 @@ jobs:
       - name: Run Semantic Release
         run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
