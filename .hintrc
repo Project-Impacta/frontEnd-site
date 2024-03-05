@@ -10,6 +10,7 @@
           "backdrop-filter"
         ]
       }
-    ]
+    ],
+    "typescript-config/is-valid": "off"
   }
 }
