@@ -83,21 +83,48 @@ body {
   margin-bottom: 20px;
 }
 
-/* Estilos de espaçamento */
-.m-1 {
-  margin: 0.25rem;
-}
-
-.m-2 {
-  margin: 0.5rem;
-}
-
 /* Estilos para o header */
 .headerTitle {
   /* Aplicando a cor do texto primário */
   color: var(--text-primary);
 }
 
-.font-montserrat {
+/* Estilos para o título */
+.title {
   font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Estilos para a descrição */
+.description {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Estilos para o botão */
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+/* Adicionando media queries para dispositivos móveis */
+@media (max-width: 767px) {
+  .container {
+    padding: 0 10px;
+  }
+}
+
+/* Adicionando media queries para dispositivos grandes */
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
 }
