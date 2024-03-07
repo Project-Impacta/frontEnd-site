@@ -1,7 +1,0 @@
-[
-  {
-    "key": "ctrl+shift+f",
-    "command": "workbench.action.tasks.runTask",
-    "args": "format.js"
-  }
-]
