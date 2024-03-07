@@ -113,7 +113,7 @@
   "editor.scrollbar.vertical": "hidden",
   "explorer.sortOrder": "foldersNestsFiles",
   "explorer.fileNesting.patterns": {
-    "package.json": " vite*, pnpm-lock*, bun.lockb, nest*",
+    "package.json": " vite*, pnpm-lock*, bun.lockb, nest*, .prettierrc*, prettierrc*, .eslintrc*, eslintrc*",
     "tailwind.config.js": "tailwind.config*, postcss.config*",
     ".env.local": ".env*",
     ".env": ".env*"
@@ -122,6 +122,6 @@
   "workbench.colorTheme": "Min Dark",
   "workbench.statusBar.visible": true,
   "scripts": {
-    "format": "prettier --write ."
+    "format": "format.js"
   }
 }
