@@ -3,7 +3,6 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-package-lock.json
 
 # Código compilado
 /dist
@@ -38,3 +37,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env*.local
+
+# Exclui o package-lock.json
+package-lock.json
