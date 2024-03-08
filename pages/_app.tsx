@@ -1,6 +1,6 @@
 import '../src/styles/tailwind.css'
-import Layout from '@/src/components/layout'
-import ThemeProvider from '@/src/providers/theme-provider'
+import Layout from '@/components/layout'
+import ThemeProvider from '@/providers/theme-provider'
 import type { AppProps } from 'next/app'
 import React from 'react'
 

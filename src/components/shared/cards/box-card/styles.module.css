@@ -1,0 +1,43 @@
+/* styles.module.css */
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 90vw; /* Alterado para porcentagem da largura da viewport */
+  height: 90%;
+  max-height: 90vh; /* Alterado para porcentagem da altura da viewport */
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: var(--bg-primary);
+  padding: 20px;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 20px;
+  }
+  .root {
+    height: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+  .root{
+    width: 20%;
+    max-width: 50%;
+  }
+}
+.formCentralize {
+  width: 100%;
+  max-width: 70vw;
+}

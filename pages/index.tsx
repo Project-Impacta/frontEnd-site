@@ -1,8 +1,8 @@
-import HomePage from './home-page'
+import Home from './home-page'
 import React from 'react'
 
 const indexPage = (): JSX.Element => {
-  return <HomePage />
+  return <Home />
 }
 
 export default indexPage

@@ -1,6 +1,6 @@
-import { Home } from '@/src/components'
+import { HomePage } from '@/components/landing-pages'
 import React from 'react'
 
-export default function HomePage(): JSX.Element {
-  return <Home />
+export default function Home(): JSX.Element {
+  return <HomePage />
 }
