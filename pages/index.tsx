@@ -1,8 +1,8 @@
-import Home from './home-page'
+import Login from './account-page'
 import React from 'react'
 
 const indexPage = (): JSX.Element => {
-  return <Home />
+  return <Login />
 }
 
 export default indexPage

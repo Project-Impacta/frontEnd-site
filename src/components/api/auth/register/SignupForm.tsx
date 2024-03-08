@@ -1,4 +1,10 @@
 import { BoxAccount } from '@/components/shared/cards'
+import {
+  Alert,
+  Button,
+  VisibilityIcon,
+  VisibilityOffIcon,
+} from '@/styles/icons/icons'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 
@@ -32,19 +38,35 @@ const SignupForm: React.FC = () => {
     validatePasswordsMatch()
   }, [formData.password, formData.repeatPassword])
 
+  const validateFormFields = () => {
+    const newErrors = { ...errors }
+    let valid = true
+    Object.keys(formData).forEach((key) => {
+      if (formData[key as keyof FormData].trim() === '') {
+        newErrors[key as keyof FormErrors] = 'Este campo é obrigatório.'
+        valid = false
+      }
+    })
+
+    setErrors(newErrors)
+    return valid
+  }
+
   const toggleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword)
   }
 
-  const validatePasswordsMatch = () => {
+  const validatePasswordsMatch = (): boolean => {
     const { password, repeatPassword } = formData
     if (password && repeatPassword && password !== repeatPassword) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         repeatPassword: 'As senhas não coincidem.',
       }))
+      return false // Retorna false se as senhas não coincidirem
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, repeatPassword: '' }))
+      return true // Retorna true se as senhas coincidirem
     }
   }
 
@@ -81,8 +103,22 @@ const SignupForm: React.FC = () => {
       : null
   }
 
+  const isFormValid = () => {
+    return (
+      Object.values(formData).every((value) => value.trim()) &&
+      formData.password === formData.repeatPassword
+    )
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    setErrors({})
+
+    const fieldsAreValid = validateFormFields()
+    const passwordsMatch = validatePasswordsMatch()
+
+    if (!fieldsAreValid || !passwordsMatch) return
 
     const requestOptions = {
       method: 'POST',
@@ -173,23 +209,30 @@ const SignupForm: React.FC = () => {
             <p className="error">{errors.repeatPassword}</p>
           )}
         </div>
-        <button
-          type="button"
-          className="toggle-password"
-          onClick={toggleShowPassword}
-          aria-label="Mostrar ou ocultar senha"
-        >
-          {showPassword ? 'Ocultar Senha' : 'Mostrar Senha'}
-        </button>
-        <div className="form-group action">
+        {Object.keys(errors).map((key) => {
+          const message = errors[key as keyof FormErrors]
+          return (
+            message && (
+              <Alert key={key} variant="outlined" severity="error">
+                {message}
+              </Alert>
+            )
+          )
+        })}
+
+        <div>
           <button
             type="button"
-            className="toggle-password"
             onClick={toggleShowPassword}
             aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
           >
-            <i className="fi-rr-eye"></i>
+            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </button>
+        </div>
+        <div className="form-group action">
+          <Button type="submit" variant="contained" disabled={!isFormValid()}>
+            Cadastrar
+          </Button>
         </div>
       </form>
     </BoxAccount>

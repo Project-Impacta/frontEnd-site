@@ -8,6 +8,9 @@ const nextConfig = {
   output: 'export',
   reactStrictMode: true,
   images: {
+    // Se você realmente precisa desativar a otimização de imagens (não recomendado),
+    // você pode definir `unoptimized: true`. Caso contrário, é melhor remover essa linha
+    // e deixar o Next.js otimizar suas imagens automaticamente.
     unoptimized: true,
   },
   basePath: '/github-pages',
@@ -15,24 +18,6 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'src/styles')],
   },
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 8192,
-          name: '[name].[ext]',
-          publicPath: '/_next/static/assets',
-          outputPath: 'static/assets',
-          esModule: false,
-        },
-      },
-    })
-
-    return config
-  },
 }
 
-// eslint-disable-next-line no-undef
 module.exports = nextConfig
