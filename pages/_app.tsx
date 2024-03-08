@@ -1,3 +1,4 @@
+import '../src/styles/flaticon.css'
 import '../src/styles/tailwind.css'
 import Layout from '@/components/layout'
 import ThemeProvider from '@/providers/theme-provider'

@@ -182,8 +182,13 @@ const SignupForm: React.FC = () => {
           {showPassword ? 'Ocultar Senha' : 'Mostrar Senha'}
         </button>
         <div className="form-group action">
-          <button type="submit" className="submit">
-            Cadastrar
+          <button
+            type="button"
+            className="toggle-password"
+            onClick={toggleShowPassword}
+            aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+          >
+            <i className="fi-rr-eye"></i>
           </button>
         </div>
       </form>
