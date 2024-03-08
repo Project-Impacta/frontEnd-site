@@ -1,13 +1,13 @@
-/* styles.module.css */
-
 .root {
   display: flex;
+  position: relative;
+  top: 10vh;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  max-width: 90vw; /* Alterado para porcentagem da largura da viewport */
+  width: 50%;
+  max-width: 90vw;
   height: 90%;
-  max-height: 90vh; /* Alterado para porcentagem da altura da viewport */
+  max-height: 90vh;
   margin: 0 auto;
   box-sizing: border-box;
 }
@@ -25,6 +25,7 @@
   }
   .root {
     height: 100%;
+    width: 90%;
   }
 }
 
@@ -32,9 +33,8 @@
   .container {
     padding: 40px;
   }
-  .root{
+  .root {
     width: 20%;
-    max-width: 50%;
   }
 }
 .formCentralize {
