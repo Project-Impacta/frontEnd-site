@@ -23,7 +23,12 @@
       "version": "detect"
     }
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "eslint-plugin-prettier"
+  ],
   "rules": {
     "prettier/prettier": "error"
   }
