@@ -5,7 +5,7 @@ const path = require('path')
  * @type {import('next').NextConfig}
  */
 
-if(process.env.NEXT_PUBLIC_NODE_ENV=='local'){
+if (process.env.NEXT_PUBLIC_NODE_ENV == 'local') {
   console.log('Ambiente local vai ser iniciado!')
   const nextConfig = {
     reactStrictMode: true,
