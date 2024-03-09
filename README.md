@@ -64,6 +64,8 @@ As classes do Tailwind CSS são utilizadas para fornecer estilos responsivos aos
 
 Para iniciar o servidor de desenvolvimento, execute o seguinte comando:
 
+OBS: Deve ser copiado o aquivo '.env.example' na raiz do projeto e renomear para '.env', isso fara que o codigo consiga rodar o comando abaixo sem precisar motificar o next.config.ts
+
 ```bash
 npm run dev
 ```
