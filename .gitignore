@@ -28,7 +28,7 @@ next-env.d.ts
 /coverage
 
 # Arquivos específicos do build
-/build
+build
 
 # Outros
 .DS_Store
