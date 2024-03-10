@@ -4,7 +4,6 @@ import {
   isValidCPF,
   validateEmail,
   validateFormFields,
-  validatePasswordsMatch,
 } from './utils/formUtils'
 import { BoxAccount } from '@/components/shared/cards'
 import {
