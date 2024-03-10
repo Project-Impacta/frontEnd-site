@@ -11,9 +11,6 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
     output: 'export',
     reactStrictMode: true,
     images: {
-      // Se você realmente precisa desativar a otimização de imagens (não recomendado),
-      // você pode definir `unoptimized: true`. Caso contrário, é melhor remover essa linha
-      // e deixar o Next.js otimizar suas imagens automaticamente.
       unoptimized: true,
     },
     basePath: '/github-pages',
@@ -28,9 +25,6 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
   const nextConfig = {
     reactStrictMode: true,
     images: {
-      // Se você realmente precisa desativar a otimização de imagens (não recomendado),
-      // você pode definir `unoptimized: true`. Caso contrário, é melhor remover essa linha
-      // e deixar o Next.js otimizar suas imagens automaticamente.
       unoptimized: true,
     },
     basePath: '/github-pages',
