@@ -19,6 +19,9 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
       includePaths: [path.join(__dirname, 'src/styles')],
     },
   }
+  console.log(
+    `${nextConfig.output}\n${nextConfig.reactStrictMode}\n${nextConfig.images}\n${nextConfig.images.unoptimized}\n${nextConfig.basePath}\n${nextConfig.distDir}\n${nextConfig.sassOptions}\n${nextConfig.sassOptions.includePaths}`,
+  )
   module.exports = nextConfig
 } else {
   console.log('Ambiente local vai ser iniciado!')
@@ -31,5 +34,8 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
       includePaths: [path.join(__dirname, 'src/styles')],
     },
   }
+  console.log(
+    `${nextConfig.reactStrictMode}\n${nextConfig.images}\n${nextConfig.sassOptions}\n${nextConfig.sassOptions.includePaths}`,
+  )
   module.exports = nextConfig
 }
