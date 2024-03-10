@@ -13,7 +13,7 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
     images: {
       unoptimized: true,
     },
-    basePath: '/github-pages-dev',
+    basePath: '/github-pages',
     distDir: 'build',
     sassOptions: {
       includePaths: [path.join(__dirname, 'src/styles')],
