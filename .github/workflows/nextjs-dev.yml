@@ -51,7 +51,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
-          static_site_generator: build
+          static_site_generator: next
 
       # Instala as dependências
       - name: Install dependencies
@@ -59,7 +59,9 @@ jobs:
 
       # Constrói com o Next.js
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} next build
+          npx next telemetry disable
 
       # Restaura o cache
       - name: Restore cache
