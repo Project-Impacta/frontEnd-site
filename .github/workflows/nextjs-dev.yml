@@ -44,8 +44,7 @@ jobs:
       - name: Build with Next.js
         run: |
           npx --no-install next build
-          npx next telemetry disable
-
+          
       # Faz o upload do artefato para GitHub Pages
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1
