@@ -55,7 +55,10 @@ jobs:
 
       # Instala as dependências
       - name: Install dependencies
-        run: npm install
+        run:| 
+              npm install
+              npm i sharp
+              
 
       # Constrói com o Next.js
       - name: Build with Next.js
