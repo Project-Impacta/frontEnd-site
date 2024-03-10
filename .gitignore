@@ -22,7 +22,7 @@
 next-env.d.ts
 
 # Arquivos específicos do projeto
-.hintrc
+*.hintrc
 
 # Arquivos específicos do Jest
 /coverage
