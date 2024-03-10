@@ -1,8 +1,8 @@
 import styles from './styles.module.css'
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 interface BoxAccountProps {
-  children: JSX.Element
+  children: ReactNode
 }
 
 const BoxAccount = (props: BoxAccountProps): JSX.Element => {
