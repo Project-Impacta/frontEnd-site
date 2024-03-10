@@ -1,6 +1,6 @@
 import ThemeSwitcher from '../shared/button/theme-switcher'
 import HeaderPage from './header'
-import ThemeProvider from '@/providers/theme-provider'
+import ThemeProvider from '@/providers/theme-provider/theme-provider'
 import React, { ReactNode } from 'react'
 
 interface LayoutProps {

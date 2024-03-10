@@ -4,23 +4,22 @@ import {
   isValidCPF,
   validateEmail,
   validateFormFields,
+  validatePasswordsMatch,
 } from './utils/formUtils'
 import { BoxAccount } from '@/components/shared/cards'
 import {
   Button,
   Dialog,
-  DialogActions,
-  DialogContent,
   DialogTitle,
   LinearProgress,
   Alert,
-  VisibilityIcon,
   VisibilityOffIcon,
+  VisibilityIcon,
+  Skeleton,
 } from '@/styles/icons/icons'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
-// Definição de tipos para os dados do formulário e para os erros
 type FormData = {
   firstName: string
   lastName: string
@@ -34,7 +33,6 @@ type FormData = {
 type FormErrors = Partial<FormData>
 
 const SignupForm: React.FC = () => {
-  // Estado inicial do formulário e variáveis de controle
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -50,6 +48,7 @@ const SignupForm: React.FC = () => {
   const [dialogMessage, setDialogMessage] = useState('')
   const [progress, setProgress] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const [redirecting, setRedirecting] = useState(false)
 
   const router = useRouter()
   const API_URL = 'http://localhost:10000'
@@ -63,24 +62,12 @@ const SignupForm: React.FC = () => {
     }))
   }, [formData.password, formData.repeatPassword])
 
-  // Modifique a função validatePasswordsMatch para retornar match e message
-  const validatePasswordsMatch = (password: string, repeatPassword: string) => {
-    if (password && repeatPassword && password !== repeatPassword) {
-      return { match: false, message: 'As senhas não coincidem.' }
-    } else {
-      return { match: true, message: '' }
-    }
-  }
-
-  // Função para alternar a visibilidade da senha
   const toggleShowPassword = () => setShowPassword(!showPassword)
 
-  // Função para tratar mudanças nos inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     let newValue = value
 
-    // Especificações para formatação e validação de CPF e telefone
     if (name === 'cpf') {
       newValue = formatCPF(value)
       setErrors((prevErrors) => ({
@@ -99,11 +86,10 @@ const SignupForm: React.FC = () => {
     setFormData((prevState) => ({ ...prevState, [name]: newValue }))
   }
 
-  // Função para submeter o formulário
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setErrors({})
-    setProgress(50)
+    setProgress(100)
     setSubmitting(true)
 
     if (!validateFormFields(formData)) {
@@ -112,7 +98,6 @@ const SignupForm: React.FC = () => {
       return
     }
 
-    // Prepara os dados do formulário para envio, removendo formatação do CPF
     const formDataForBackend = {
       ...formData,
       cpf: formData.cpf.replace(/\D/g, ''),
@@ -139,10 +124,14 @@ const SignupForm: React.FC = () => {
 
       setDialogMessage('Cadastro realizado com sucesso!')
       setDialogOpen(true)
+      setRedirecting(true)
 
-      // Redireciona para a homepage após 2 segundos
       setTimeout(() => {
-        router.push('/home-page')
+        setDialogMessage('Redirecionando para a página inicial...')
+        setTimeout(() => {
+          console.log('Redirecionando para a homepage...')
+          router.push('/home-page')
+        }, 3000)
       }, 2000)
     } catch (error) {
       console.error('Erro ao enviar o formulário:', error)
@@ -155,10 +144,8 @@ const SignupForm: React.FC = () => {
     }
   }
 
-  // Função para fechar o diálogo
   const handleCloseDialog = () => setDialogOpen(false)
 
-  // Renderização do componente de formulário
   return (
     <BoxAccount>
       {submitting && <LinearProgress variant="determinate" value={progress} />}
@@ -268,16 +255,19 @@ const SignupForm: React.FC = () => {
           </div>
           <Dialog open={dialogOpen} onClose={handleCloseDialog}>
             <DialogTitle>{dialogMessage}</DialogTitle>
-            <DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialog} autoFocus>
-                  Ok
-                </Button>
-              </DialogActions>
-            </DialogContent>
           </Dialog>
         </>
       </form>
+      {redirecting && (
+        <div className="redirecting">
+          <div className="loading-container">
+            <LinearProgress value={progress} />
+            <Skeleton variant="text" width="100%" />
+            <Skeleton variant="text" width="100%" />
+            <Skeleton variant="text" width="100%" />
+          </div>
+        </div>
+      )}
     </BoxAccount>
   )
 }
