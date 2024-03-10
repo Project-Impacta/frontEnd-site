@@ -6,7 +6,7 @@ const path = require('path')
  */
 
 if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
-  console.log('FrontEnd-NextConfig-CICD')
+  console.log('FrontEnd-NextConfig-CI/CD')
   const nextConfig = {
     output: 'export',
     reactStrictMode: true,
@@ -27,7 +27,6 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
     images: {
       unoptimized: true,
     },
-    basePath: '/github-pages',
     sassOptions: {
       includePaths: [path.join(__dirname, 'src/styles')],
     },
