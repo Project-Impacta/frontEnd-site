@@ -5,9 +5,19 @@ const path = require('path')
  * @type {import('next').NextConfig}
  */
 
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    unoptimized: true,
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src/styles')],
+  },
+}
+
 if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
   console.log('FrontEnd-NextConfig-CI/CD')
-  const nextConfig = {
+  Object.assign(nextConfig, {
     output: 'export',
     reactStrictMode: true,
     images: {
@@ -18,18 +28,9 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'local') {
     sassOptions: {
       includePaths: [path.join(__dirname, 'src/styles')],
     },
-  }
-  module.exports = nextConfig
+  })
 } else {
   console.log('Ambiente local vai ser iniciado!')
-  const nextConfig = {
-    reactStrictMode: true,
-    images: {
-      unoptimized: true,
-    },
-    sassOptions: {
-      includePaths: [path.join(__dirname, 'src/styles')],
-    },
-  }
-  module.exports = nextConfig
 }
+
+module.exports = nextConfig
