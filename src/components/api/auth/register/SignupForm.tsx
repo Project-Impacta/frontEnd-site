@@ -15,7 +15,6 @@ import {
   Alert,
   VisibilityOffIcon,
   VisibilityIcon,
-  Skeleton,
 } from '@/styles/icons/icons'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -262,9 +261,6 @@ const SignupForm: React.FC = () => {
         <div className="redirecting">
           <div className="loading-container">
             <LinearProgress value={progress} />
-            <Skeleton variant="text" width="100%" />
-            <Skeleton variant="text" width="100%" />
-            <Skeleton variant="text" width="100%" />
           </div>
         </div>
       )}
