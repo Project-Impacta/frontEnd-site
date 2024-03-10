@@ -14,7 +14,7 @@ const nextConfig = {
     unoptimized: true,
   },
   basePath: '/github-pages',
-  distDir: 'build',
+  distDir: 'next',
   sassOptions: {
     includePaths: [path.join(__dirname, 'src/styles')],
   },
