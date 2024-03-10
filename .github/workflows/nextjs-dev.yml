@@ -51,14 +51,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
-          static_site_generator: next
+          static_site_generator: build
 
       # Instala as dependências
       - name: Install dependencies
-        run:| 
-              npm install
-              npm i sharp
-              
+        run: npm install
 
       # Constrói com o Next.js
       - name: Build with Next.js
