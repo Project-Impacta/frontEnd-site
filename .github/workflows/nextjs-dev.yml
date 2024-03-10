@@ -46,16 +46,16 @@ jobs:
           npx --no-install next build
           npx next telemetry disable
 
-      # Faz o upload do artefato para GitHub Pages
-      - name: Upload GitHub Pages artifact
+      # Faz o upload do artefato para GitHub Pages Dev
+      - name: Upload GitHub Pages Dev artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
+          name: github-pages-dev
           path: ./build
 
   deploy:
     environment:
-      name: github-pages
+      name: github-pages-dev
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
@@ -64,10 +64,10 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: github-pages
+          name: github-pages-dev
           path: ./build
 
-      # Implementa no GitHub Pages
-      - name: Deploy to GitHub Pages
+      # Implementa no GitHub Pages Dev
+      - name: Deploy to GitHub Pages Dev Dev Dev
         id: deployment
         uses: actions/deploy-pages@v3
