@@ -64,10 +64,10 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: github-pages-dev
+          name: github-pages
           path: ./build
 
       # Implementa no GitHub Pages Dev
-      - name: Deploy to GitHub Pages Dev Dev Dev
+      - name: Deploy to GitHub Pages Dev
         id: deployment
         uses: actions/deploy-pages@v3
