@@ -21,25 +21,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Detecta o gerenciador de pacotes (npm ou yarn)
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          if [ -f "${{ github.workspace }}/package-lock.json" ]; then
-            echo "manager=npm" >> $GITHUB_OUTPUT
-            echo "command=ci" >> $GITHUB_OUTPUT
-            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-            exit 0
-          elif [ -f "${{ github.workspace }}/yarn.lock" ]; then
-            echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=yarn" >> $GITHUB_OUTPUT
-            exit 0
-          else
-            echo "Unable to determine package manager"
-            exit 1
-          fi
-
       # Configura o ambiente Node.js
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -53,21 +34,15 @@ jobs:
         with:
           static_site_generator: next
 
-      # Instala as dependências
-      - name: Install dependencies
-        run: npm install
+      # Instala as dependências, incluindo o sharp para otimização de imagens
+      - name: Install dependencies and sharp for image optimization
+        run: |
+          npm install
+          npm install sharp
 
       # Constrói com o Next.js
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
-
-      # Restaura o cache
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: build/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
+        run: npx --no-install next build
 
       # Faz o upload do artefato para GitHub Pages
       - name: Upload GitHub Pages artifact
