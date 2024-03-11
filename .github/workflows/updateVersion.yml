@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+          persist-credentials: true # Certifique-se de que o git possa fazer commits
 
       - name: Use Node.js 20.11.1
         uses: actions/setup-node@v2
@@ -25,4 +26,12 @@ jobs:
       - name: Run Semantic Release
         run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Commit updated package.json
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json
+          git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
+          git push

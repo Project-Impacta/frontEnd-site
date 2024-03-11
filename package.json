@@ -1,6 +1,6 @@
 {
   "name": "frontend-site",
-  "version": "4.1.0",
+  "version": "0.1.0",
   "private": true,
   "release": {
     "branches": [
@@ -72,6 +72,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "node format.js",
-    "export": "next export"
+    "export": "next export",
+    "release:dryrun": "semantic-release --dry-run"
   }
 }
