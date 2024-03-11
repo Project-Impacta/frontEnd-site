@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { version } = require('./package.json')
 
 /**
  * @type {import('next').NextConfig}
@@ -16,6 +18,12 @@ const nextConfig = {
   distDir: 'build',
   sassOptions: {
     includePaths: [path.join(__dirname, 'src/styles')],
+  },
+  experimental: {
+    optimizePackageImports: ['@mui/icons-material/*'],
+  },
+  env: {
+    version,
   },
 }
 module.exports = nextConfig
