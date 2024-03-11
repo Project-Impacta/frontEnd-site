@@ -1,4 +1,3 @@
-import ThemeSwitcher from '../shared/button/theme-switcher'
 import Footer from './footer'
 import HeaderPage from './header'
 import ThemeProvider from '@/providers/theme-provider/theme-provider'
@@ -15,7 +14,6 @@ const Layout = ({ children }: LayoutProps) => {
       <Box>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <HeaderPage />
-          <ThemeSwitcher />
           <main>{children}</main>
           <Footer />
         </ThemeProvider>

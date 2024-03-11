@@ -1,3 +1,4 @@
+import styles from './styles.module.css'
 import { Box } from '@/styles/display'
 import { PagesIcon } from '@/styles/icons'
 import React from 'react'
@@ -6,13 +7,7 @@ const Footer: React.FC = () => {
   return (
     <>
       <div
-        style={{
-          padding: '2vh',
-          display: 'flex',
-          position: 'relative',
-          paddingTop: '30vh',
-        }}
-        className={`text-light-textSecondary dark:text-dark-textSecondary`}
+        className={`text-light-textSecondary dark:text-dark-textSecondary ${styles.footer}`}
       >
         <Box component="div" sx={{ display: 'inline' }}>
           <div

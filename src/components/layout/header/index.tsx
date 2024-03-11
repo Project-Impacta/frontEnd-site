@@ -1,9 +1,13 @@
+import styles from './styles.module.css'
+import ThemeSwitcher from '@/components/shared/button/theme-switcher'
 import LogoImpactaStore from '@/components/shared/imagens/logo-impacta'
 import React from 'react'
 
 export default function HeaderPage() {
   return (
-    <div className="bg-light-background dark:bg-dark-background text-light-textPrimary dark:text-dark-textPrimary ">
+    <div
+      className={`bg-light-background dark:bg-dark-background text-light-textPrimary dark:text-dark-textPrimary ${styles.headerBg}`}
+    >
       <>
         <div
           className="title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
@@ -17,6 +21,11 @@ export default function HeaderPage() {
         >
           Store Impacta
         </h1>
+        <div
+          className={`title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${styles.themeIcon}`}
+        >
+          <ThemeSwitcher />
+        </div>
       </>
     </div>
   )
