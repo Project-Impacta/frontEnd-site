@@ -26,6 +26,7 @@ module.exports = {
           background: '#011826',
           primaryButton: '#0597F2',
           textPrimary: '#F2F2F2',
+          textSecondary: '#F2F2F2',
           formFieldBackground: '#011826',
           formFieldBorder: '#F2F2F2',
           detailAccent: '#012340',

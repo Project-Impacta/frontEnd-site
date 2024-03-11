@@ -1,4 +1,6 @@
 import HomeIcon from '@mui/icons-material/Home'
+import MoreIcon from '@mui/icons-material/More'
+import PagesIcon from '@mui/icons-material/Pages'
 import SettingsIcon from '@mui/icons-material/Settings'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
@@ -30,4 +32,6 @@ export {
   Skeleton,
   CircularProgress,
   CircularProgressWithLabel,
+  MoreIcon,
+  PagesIcon,
 }

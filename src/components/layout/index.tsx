@@ -1,6 +1,8 @@
 import ThemeSwitcher from '../shared/button/theme-switcher'
+import Footer from './footer'
 import HeaderPage from './header'
 import ThemeProvider from '@/providers/theme-provider/theme-provider'
+import { Box } from '@/styles/display'
 import React, { ReactNode } from 'react'
 
 interface LayoutProps {
@@ -10,11 +12,14 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <HeaderPage />
-        <ThemeSwitcher />
-        <main>{children}</main>
-      </ThemeProvider>
+      <Box>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <HeaderPage />
+          <ThemeSwitcher />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
+      </Box>
     </>
   )
 }
