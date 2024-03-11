@@ -1,0 +1,45 @@
+/* Estilo base para dispositivos móveis */
+.footer {
+  position: relative;
+  padding-top: 30vw;
+  padding-left: 16vw;
+}
+
+/* Para tablets ou telas pequenas (acima de 600px) */
+@media (min-width: 600px) {
+  .footer {
+    position: relative;
+    padding-top: 30vw;
+    padding-left: 16vw; /* Ajuste conforme necessário para tablets */
+  }
+}
+
+/* Para telas médias (acima de 900px) */
+@media (min-width: 900px) {
+  .footer {
+    position: relative;
+
+    padding-top: 58vw;
+    padding-left: 35vw; /* Aumenta o padding para telas maiores */
+  }
+}
+
+/* Para telas grandes (acima de 1200px) */
+@media (min-width: 1200px) {
+  .footer {
+    position: relative;
+
+    padding-top: 10vw;
+    padding-left: 32vw; /* Mantém ou ajusta o padding para telas grandes */
+  }
+}
+
+/* Para telas extra grandes (acima de 1500px) */
+@media (min-width: 1500px) {
+  .footer {
+    position: relative;
+
+    padding-top: 25vw;
+    padding-left: 42vw; /* Opcional: ajuste adicional para telas muito grandes */
+  }
+}
