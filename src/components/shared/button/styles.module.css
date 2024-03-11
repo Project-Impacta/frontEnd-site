@@ -1,0 +1,9 @@
+.iconButtonTransition {
+  transition:
+    transform 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.iconButtonTransition:hover {
+  transform: rotate(180deg); /* Animação extra ao passar o mouse */
+}

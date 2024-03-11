@@ -1,40 +1,71 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Store Impacta - Documentação Visual
 
-## Getting Started
+## Tema e Estilos
 
-First, run the development server:
+Este projeto utiliza temas claro e escuro para fornecer uma experiência visual agradável aos usuários. Os estilos de cores e fontes são definidos de acordo com os temas selecionados.
+
+### Tema Claro
+
+- **Cores:**
+  - **Background:** ![#F2F2F2](https://via.placeholder.com/15/F2F2F2/000000?text=+) `#F2F2F2`
+  - **Botão Primário:** ![#0597F2](https://via.placeholder.com/15/0597F2/000000?text=+) `#0597F2`
+  - **Botão Secundário:** ![#0C87F2](https://via.placeholder.com/15/0C87F2/000000?text=+) `#0C87F2`
+  - **Texto Primário:** ![#012340](https://via.placeholder.com/15/012340/000000?text=+) `#012340`
+  - **Texto Secundário:** ![#262626](https://via.placeholder.com/15/262626/000000?text=+) `#262626`
+  - **Campo de Formulário (Background):** ![#F2F2F2](https://via.placeholder.com/15/F2F2F2/000000?text=+) `#F2F2F2`
+  - **Borda do Campo de Formulário:** ![#012340](https://via.placeholder.com/15/012340/000000?text=+) `#012340`
+  - **Link Auxiliar:** ![#0C87F2](https://via.placeholder.com/15/0C87F2/000000?text=+) `#0C87F2`
+
+### Tema Escuro
+
+- **Cores:**
+  - **Background:** ![#011826](https://via.placeholder.com/15/011826/000000?text=+) `#011826`
+  - **Botão Primário:** ![#0597F2](https://via.placeholder.com/15/0597F2/000000?text=+) `#0597F2`
+  - **Texto Primário:** ![#F2F2F2](https://via.placeholder.com/15/F2F2F2/000000?text=+) `#F2F2F2`
+  - **Campo de Formulário (Background):** ![#011826](https://via.placeholder.com/15/011826/000000?text=+) `#011826`
+  - **Borda do Campo de Formulário:** ![#26221F](https://via.placeholder.com/15/26221F/000000?text=+) `#26221F`
+  - **Acento de Detalhe:** ![#012340](https://via.placeholder.com/15/012340/000000?text=+) `#012340`
+
+### Fontes
+
+As fontes utilizadas neste projeto são importadas do Google Fonts e incluem:
+
+- **Roboto:** Peso 400, 500 e 700
+- **Montserrat:** Peso 400, 500 e 700
+- **Lato:** Peso 400 e 700
+
+## Estilos de Elementos
+
+### Título
+
+Os títulos são estilizados com a fonte Montserrat, com um peso de 700 e um tamanho de 2rem.
+
+### Descrição
+
+As descrições são estilizadas com a fonte Lato, com um peso de 400 e um tamanho de 1rem. O espaçamento entre linhas é configurado para 1.5 para melhor legibilidade.
+
+### Botão
+
+Os botões possuem um padding de 10px por 20px, bordas arredondadas e são estilizados com a fonte Roboto, com um peso de 500.
+
+## Responsividade
+
+O projeto é responsivo e adapta-se automaticamente a diferentes tamanhos de tela. As seguintes definições de responsividade são aplicadas:
+
+- **text-sm:** Define o tamanho do texto como "small" (pequeno). É aplicado a telas pequenas e maiores.
+- **sm:text-base:** Define o tamanho do texto como "base" (base). É aplicado a telas médias (a partir de 640px) e maiores.
+- **md:text-lg:** Define o tamanho do texto como "large" (grande). É aplicado a telas grandes (a partir de 768px) e maiores.
+- **lg:text-xl:** Define o tamanho do texto como "extra large" (extra grande). É aplicado a telas extra grandes (a partir de 1024px) e maiores.
+- **xl:text-2xl:** Define o tamanho do texto como "2 extra large" (2 vezes extra grande). É aplicado a telas extra extra grandes (a partir de 1280px) e maiores.
+
+As classes do Tailwind CSS são utilizadas para fornecer estilos responsivos aos elementos, garantindo uma experiência de usuário consistente em todos os dispositivos.
+
+## Iniciando o Projeto
+
+Para iniciar o servidor de desenvolvimento, execute o seguinte comando:
+
+OBS: Deve ser copiado o aquivo '.env.example' na raiz do projeto e renomear para '.env', isso fara que o codigo consiga rodar o comando abaixo sem precisar motificar o next.config.ts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

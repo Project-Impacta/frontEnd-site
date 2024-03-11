@@ -10,6 +10,16 @@
           "backdrop-filter"
         ]
       }
-    ]
+    ],
+    "typescript-config/is-valid": "off",
+    "axe/forms": "off",
+    "axe/parsing": [
+      "default",
+      {
+        "duplicate-id-active": "off"
+      }
+    ],
+    "no-inline-styles": "off",
+    "typescript-config/consistent-casing": "off"
   }
 }

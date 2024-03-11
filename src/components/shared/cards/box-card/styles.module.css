@@ -1,0 +1,43 @@
+.root {
+  display: flex;
+  position: relative;
+  top: 10vh;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  max-width: 90vw;
+  height: 90%;
+  max-height: 90vh;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: var(--bg-primary);
+  padding: 20px;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 20px;
+  }
+  .root {
+    height: 100%;
+    width: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+  .root {
+    width: 20%;
+  }
+}
+.formCentralize {
+  width: 100%;
+  max-width: 70vw;
+}
