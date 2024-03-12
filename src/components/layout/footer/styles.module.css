@@ -1,45 +1,69 @@
 /* Estilo base para dispositivos móveis */
 .footer {
   position: relative;
-  padding-top: 30vw;
-  padding-left: 16vw;
+  top: 30vw;
+  padding-left: 24vw;
 }
 
-/* Para tablets ou telas pequenas (acima de 600px) */
-@media (min-width: 600px) {
+/* Telas Extra Pequenas (até 576px) */
+@media (max-width: 576px) {
   .footer {
     position: relative;
-    padding-top: 30vw;
-    padding-left: 16vw; /* Ajuste conforme necessário para tablets */
+    top: 45vw; /* Ajuste para telas muito pequenas */
+    padding-left: 24vw;
   }
 }
 
-/* Para telas médias (acima de 900px) */
-@media (min-width: 900px) {
+/* Para tablets ou telas pequenas (acima de 576px até 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
   .footer {
     position: relative;
-
-    padding-top: 58vw;
-    padding-left: 35vw; /* Aumenta o padding para telas maiores */
+    top: 48vw; /* Ajuste conforme necessário para telas pequenas */
+    padding-left: 34vw;
   }
 }
 
-/* Para telas grandes (acima de 1200px) */
-@media (min-width: 1200px) {
+/* Para telas médias (acima de 768px até 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
   .footer {
     position: relative;
+    top: 50vw; /* Ajuste para tablets e dispositivos de tela média */
+    padding-left: 34vw;
+  }
+}
 
-    padding-top: 10vw;
-    padding-left: 32vw; /* Mantém ou ajusta o padding para telas grandes */
+/* Para telas grandes (acima de 992px até 1200px) */
+@media (min-width: 993px) and (max-width: 1200px) {
+  .footer {
+    position: relative;
+    top: 40vw; /* Ajuste para desktops e laptops pequenos */
+    padding-left: 26vw;
+  }
+}
+
+/* Para telas grandes (acima de 1200px até 1500px) */
+@media (min-width: 1201px) and (max-width: 1500px) {
+  .footer {
+    position: relative;
+    top: 8vw; /*Ajuste para telas grandes */
+    padding-left: 39vw;
   }
 }
 
 /* Para telas extra grandes (acima de 1500px) */
-@media (min-width: 1500px) {
+@media (min-width: 1501px) {
   .footer {
     position: relative;
+    top: 24vw; /* Ajuste adicional para telas muito grandes */
+    padding-left: 41.5vw;
+  }
+}
 
-    padding-top: 25vw;
-    padding-left: 42vw; /* Opcional: ajuste adicional para telas muito grandes */
+
+@media (max-width: 1200px) and (min-width: 993px) {
+  .footer {
+    position: relative;
+    top: 100vw; /*Ajuste para telas grandes */
+    padding-left: 39vw;
   }
 }

@@ -1,6 +1,6 @@
 import styles from './styles.module.css'
-import { Box } from '@/styles/display'
-import { PagesIcon } from '@/styles/icons'
+import { Box } from '@/styles/display/display'
+import { PagesIcon } from '@/styles/icons/icons'
 import React from 'react'
 
 const Footer: React.FC = () => {
