@@ -1,74 +1,119 @@
 /* Estilo base para dispositivos móveis */
-.footer {
+.error404 {
   position: relative;
   top: 30vw;
   padding-left: 24vw;
 }
 
+.link {
+  position: relative;
+  top: 2vw;
+  padding-left: 24vw;
+}
+
 /* Telas Extra Pequenas (até 576px) */
 @media screen and (max-width: 576px) {
-  .footer {
+  .error404 {
     position: relative;
-    top: calc(45vw - 21px); /* Ajuste para telas muito pequenas */
-    padding-left: 24vw;
+    top: calc(70vw - 21px); /* Ajuste para telas muito pequenas */
+    padding-left: 5vw;
+    padding-bottom: calc(95vw - 21px);
+  }
+  .link {
+    position: relative;
+    top: 2vw;
+    left: 2vw;
   }
 }
 
 /* Para tablets ou telas pequenas (acima de 576px até 768px) */
 @media screen and (min-width: 577px) and (max-width: 768px) {
-  .footer {
+  .error404 {
     position: relative;
     top: calc(48vw - 21px);
     /* Ajuste conforme necessário para telas pequenas */
     padding-left: 34vw;
   }
+  .link {
+    position: relative;
+    top: 2vw;
+    padding-left: 24vw;
+  }
 }
 
 /* Para telas médias (acima de 768px até 992px) */
 @media screen and (min-width: 769px) and (max-width: 992px) {
-  .footer {
+  .error404 {
     position: relative;
-    top: calc(50vw - 21px);
+    top: calc(35vw - 21px);
     /* Ajuste para tablets e dispositivos de tela média */
-    padding-left: 34vw;
+    padding-left: 2vw;
+    padding-bottom: calc(26vw - 21px);
+  }
+  .link {
+    position: relative;
+    top: 2vw;
+    left: 14vw;
   }
 }
 
 /* Para telas grandes (acima de 992px até 1200px) */
 @media screen and (min-width: 993px) and (max-width: 1200px) {
-  .footer {
+  .error404 {
     position: relative;
     top: calc(40vw - 21px);
     /* Ajuste para desktops e laptops pequenos */
     padding-left: 26vw;
   }
+  .link {
+    position: relative;
+    top: 2vw;
+    padding-left: 24vw;
+  }
 }
 
 /* Para telas grandes (acima de 1200px até 1500px) */
 @media screen and (min-width: 1201px) and (max-width: 1500px) {
-  .footer {
+  .error404 {
     position: relative;
     top: 8vw;
     /*Ajuste para telas grandes */
     padding-left: 39vw;
   }
+  .link {
+    position: relative;
+    top: 2vw;
+    padding-left: 24vw;
+  }
 }
 
 /* Para telas extra grandes (acima de 1500px) */
 @media screen and (min-width: 1501px) {
-  .footer {
+  .error404 {
     position: relative;
-    top: calc(24vw - 21px);
+    top: calc(15vw - 21px);
     /* Ajuste adicional para telas muito grandes */
-    padding-left: 41.5vw;
+    padding-left: 2vw;
+    padding-bottom: calc(12vw - 21px);
+  }
+  .link {
+    position: relative;
+    top: 2vw;
+    left: 18vw;
   }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
-  .footer {
+  .error404 {
     position: relative;
-    top: calc(100vw - 21px);
+    top: calc(50vw - 21px);
     /*Ajuste para telas grandes */
-    padding-left: 39vw;
+    padding-left: 2vw;
+    padding-bottom: calc(45vw - 21px);
+  }
+  .link {
+    position: relative;
+    top: 2vw;
+    left: 14vw;
   }
 }

@@ -1,7 +1,7 @@
 import Footer from './footer'
 import HeaderPage from './header'
 import ThemeProvider from '@/providers/theme-provider/theme-provider'
-import { Box } from '@/styles/display'
+import { Box } from '@/styles/display/display'
 import React, { ReactNode } from 'react'
 
 interface LayoutProps {

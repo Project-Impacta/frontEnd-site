@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './styles.module.css'
-import { DarkModeIcon, IconButton, LightModeIcon } from '@/styles/icons'
+import { DarkModeIcon, IconButton, LightModeIcon } from '@/styles/icons/icons'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import React from 'react'
