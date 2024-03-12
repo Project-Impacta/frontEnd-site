@@ -31,7 +31,7 @@ type FormData = {
 
 type FormErrors = Partial<FormData>
 
-const SignupForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -268,4 +268,4 @@ const SignupForm: React.FC = () => {
   )
 }
 
-export default SignupForm
+export default RegisterForm

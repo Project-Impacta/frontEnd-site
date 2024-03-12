@@ -11,7 +11,7 @@
 }
 
 /* Telas Extra Pequenas (até 576px) */
-@media (max-width: 576px) {
+@media screen and (max-width: 576px) {
   .themeIcon {
     position: relative;
     padding-left: 85vw; /* Ajuste para telas muito pequenas */
@@ -23,7 +23,7 @@
 }
 
 /* Para tablets ou telas pequenas (acima de 576px até 768px) */
-@media (min-width: 577px) and (max-width: 768px) {
+@media screen and (min-width: 577px) and (max-width: 768px) {
   .themeIcon {
     position: relative;
     padding-left: 92vw; /* Ajuste conforme necessário para telas pequenas */
@@ -34,7 +34,7 @@
 }
 
 /* Para telas médias (acima de 768px até 992px) */
-@media (min-width: 769px) and (max-width: 992px) {
+@media screen and (min-width: 769px) and (max-width: 992px) {
   .themeIcon {
     position: relative;
     padding-left: 90vw; /* Ajuste para tablets e dispositivos de tela média */
@@ -46,7 +46,7 @@
 }
 
 /* Para telas grandes (acima de 992px até 1200px) */
-@media (min-width: 993px) and (max-width: 1200px) {
+@media screen and (min-width: 993px) and (max-width: 1200px) {
   .themeIcon {
     position: relative;
     padding-left: 65vw; /* Ajuste para desktops e laptops pequenos */
@@ -57,10 +57,10 @@
 }
 
 /* Para telas grandes (acima de 1200px até 1500px) */
-@media (min-width: 1201px) and (max-width: 1500px) {
+@media screen and (min-width: 1201px) and (max-width: 1500px) {
   .themeIcon {
     position: relative;
-   
+
     padding-left: 95vw; /* Ajuste para telas grandes */
   }
   .headerBg {
@@ -70,7 +70,7 @@
 }
 
 /* Para telas extra grandes (acima de 1500px) */
-@media (min-width: 1501px) {
+@media screen and (min-width: 1501px) {
   .themeIcon {
     bottom: 90px;
     padding-left: 95vw; /* Ajuste adicional para telas muito grandes */
@@ -80,7 +80,7 @@
   }
 }
 
-@media (max-width: 1200px) and (min-width: 993px) {
+@media screen and (max-width: 1200px) and (min-width: 993px) {
   .themeIcon {
     position: relative;
     bottom: 85px;
