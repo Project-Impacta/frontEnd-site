@@ -7,8 +7,8 @@ const { version } = require('./package.json')
  * @type {import('next').NextConfig}
  */
 
-console.log('FrontEnd-NextConfig-CI/CD')
 const nextConfig = {
+  extends: ['plugin:@next/next/recommended'],
   output: 'export',
   reactStrictMode: true,
   images: {
@@ -20,7 +20,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'src/styles')],
   },
   experimental: {
-    optimizePackageImports: ['@mui/icons-material/*'],
+    optimizePackageImports: ['@mui/icons-material'],
   },
   env: {
     version,
