@@ -62,7 +62,6 @@ jobs:
       # Constrói com o Next.js
       - name: Build with Next.js
         run: |
-          npx next telemetry disable
           {{ steps.detect-package-manager.outputs.runner }} next build
 
       # Restaura o cache
