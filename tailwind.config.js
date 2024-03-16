@@ -18,7 +18,7 @@ module.exports = {
           secondaryButton: '#0C87F2',
           textPrimary: '#012340',
           textSecondary: '#262626',
-          formFieldBackground: '#F2F2F2',
+          formFieldBackground: '#F9F9F9',
           formFieldBorder: '#012340',
           auxiliaryLink: '#0C87F2',
         },

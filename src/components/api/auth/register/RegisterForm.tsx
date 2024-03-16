@@ -6,9 +6,12 @@ import {
   validateFormFields,
   validatePasswordsMatch,
 } from './utils/formUtils'
+import { CssTextField } from '@/components/layout/text-area'
+import { ButtonPrimary } from '@/components/shared/button'
 import { BoxAccount } from '@/components/shared/cards'
+import LogoImpactaStore from '@/components/shared/imagens/logo-impacta'
+import { Box, Grid } from '@/styles/display/display'
 import {
-  Button,
   Dialog,
   DialogTitle,
   LinearProgress,
@@ -16,6 +19,7 @@ import {
   VisibilityOffIcon,
   VisibilityIcon,
 } from '@/styles/icons/icons'
+import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -43,11 +47,17 @@ const RegisterForm: React.FC = () => {
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [showPassword, setShowPassword] = useState(false)
+
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogMessage, setDialogMessage] = useState('')
   const [progress, setProgress] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
+
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false)
+
+  const toggleShowRepeatPassword = () =>
+    setShowRepeatPassword(!showRepeatPassword)
 
   const router = useRouter()
   const API_URL = 'http://localhost:10000'
@@ -59,10 +69,10 @@ const RegisterForm: React.FC = () => {
       ...prevErrors,
       repeatPassword: matchResult.message,
     }))
-  }, [formData.password, formData.repeatPassword])
+  }, [formData, formData.password, formData.repeatPassword])
 
   const toggleShowPassword = () => setShowPassword(!showPassword)
-
+  const { theme } = useTheme()
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     let newValue = value
@@ -90,6 +100,26 @@ const RegisterForm: React.FC = () => {
     setErrors({})
     setProgress(100)
     setSubmitting(true)
+
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'phone',
+      'cpf',
+      'email',
+      'password',
+      'repeatPassword',
+    ]
+    const incompleteFields = requiredFields.filter(
+      (field) => !formData[field as keyof FormData],
+    )
+
+    if (incompleteFields.length > 0) {
+      setDialogMessage(`Preencha todos os campos.`)
+      setDialogOpen(true)
+      setSubmitting(false)
+      return
+    }
 
     if (!validateFormFields(formData)) {
       setProgress(0)
@@ -120,7 +150,6 @@ const RegisterForm: React.FC = () => {
       if (!response.ok) {
         throw new Error('Falha ao enviar os dados do formulário')
       }
-
       setDialogMessage('Cadastro realizado com sucesso!')
       setDialogOpen(true)
       setRedirecting(true)
@@ -137,6 +166,7 @@ const RegisterForm: React.FC = () => {
       setDialogMessage(
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
       )
+
       setDialogOpen(true)
     } finally {
       setSubmitting(false)
@@ -148,115 +178,215 @@ const RegisterForm: React.FC = () => {
   return (
     <BoxAccount>
       {submitting && <LinearProgress variant="determinate" value={progress} />}
-      <form onSubmit={handleSubmit} className="signup-form">
-        <>
-          <div className="form-group">
-            <label htmlFor="firstName">Nome</label>
-            <input
-              type="text"
-              name="firstName"
-              id="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Sobrenome</label>
-            <input
-              type="text"
-              name="lastName"
-              id="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="cpf">CPF:</label>
-            <input
-              type="text"
-              name="cpf"
-              id="cpf"
-              value={formData.cpf}
-              onChange={handleChange}
-            />
-            {errors.cpf && <div className="error">{errors.cpf}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">Celular</label>
-            <input
-              type="tel"
-              name="phone"
-              id="phone"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            {errors.phone && <div className="error">{errors.phone}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <div className="error">{errors.email}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Senha</label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            {errors.password && <p className="error">{errors.password}</p>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="repeatPassword">Repetir Senha</label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="repeatPassword"
-              id="repeatPassword"
-              value={formData.repeatPassword}
-              onChange={handleChange}
-            />
-            {errors.repeatPassword && (
-              <p className="error">{errors.repeatPassword}</p>
-            )}
-          </div>
-          {Object.keys(errors).map((key) => {
-            const message = errors[key as keyof FormErrors]
-            return (
-              message && (
-                <Alert key={key} variant="outlined" severity="error">
-                  {message}
-                </Alert>
-              )
-            )
-          })}
+      <Box
+        sx={{
+          mt: 2,
+          mb: 2,
+          ml: 2,
+          mr: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <LogoImpactaStore />
 
-          <div>
-            <button
-              type="button"
-              onClick={toggleShowPassword}
-              aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
-            >
-              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            </button>
-          </div>
-          <div className="form-group action">
-            <Button type="submit" variant="contained" disabled={submitting}>
-              Cadastrar
-            </Button>
-          </div>
+        <div className="title text-light-textPrimary dark:text-dark-textPrimary">
+          Cadastre-se
+        </div>
+
+        <Box
+          component="form"
+          onSubmit={(e) => handleSubmit(e)}
+          noValidate
+          sx={{ mt: 3, maxHeight: '300vh' }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
+              <CssTextField
+                autoComplete="given-name"
+                name="firstName"
+                required
+                fullWidth
+                id="firstName"
+                label="Nome"
+                autoFocus
+                value={formData.firstName}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <CssTextField
+                autoComplete="given-name"
+                name="lastName"
+                required
+                fullWidth
+                id="lastName"
+                label="Sobrenome"
+                autoFocus
+                value={formData.lastName}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <CssTextField
+                required
+                fullWidth
+                id="cpf"
+                label="CPF"
+                name="cpf"
+                autoComplete="cpf"
+                value={formData.cpf}
+                onChange={handleChange}
+              />
+              <Grid>
+                {errors.cpf && <Alert severity="error">{errors.cpf}</Alert>}
+              </Grid>
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <CssTextField
+                required
+                fullWidth
+                id="phone"
+                label="Celular"
+                name="phone"
+                autoComplete="phone"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CssTextField
+                required
+                fullWidth
+                id="email"
+                label="E-mail"
+                name="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <Grid>
+                {errors.email && <Alert severity="error">{errors.email}</Alert>}
+              </Grid>
+            </Grid>
+            <Grid item xs={5} sm={6}>
+              <CssTextField
+                required
+                fullWidth
+                name="password"
+                label="Senha"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                value={formData.password}
+                onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <button
+                      type="button"
+                      onClick={toggleShowPassword}
+                      aria-label={
+                        showPassword ? 'Ocultar senha' : 'Mostrar senha'
+                      }
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {showPassword ? (
+                        <VisibilityOffIcon
+                          sx={{
+                            color: theme === 'dark' ? '#F2F2F2' : '#012340',
+                          }}
+                          fontSize="small"
+                        />
+                      ) : (
+                        <VisibilityIcon
+                          sx={{
+                            color: theme === 'dark' ? '#F2F2F2' : '#012340',
+                          }}
+                          fontSize="small"
+                        />
+                      )}
+                    </button>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={7} sm={6}>
+              <CssTextField
+                required
+                fullWidth
+                name="repeatPassword"
+                label="Repita a Senha"
+                type={showRepeatPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                value={formData.repeatPassword}
+                onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <button
+                      type="button"
+                      onClick={toggleShowRepeatPassword}
+                      aria-label={
+                        showRepeatPassword ? 'Ocultar senha' : 'Mostrar senha'
+                      }
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {showRepeatPassword ? (
+                        <VisibilityOffIcon
+                          sx={{
+                            color: theme === 'dark' ? '#F2F2F2' : '#012340',
+                          }}
+                          fontSize="small"
+                        />
+                      ) : (
+                        <VisibilityIcon
+                          sx={{
+                            color: theme === 'dark' ? '#F2F2F2' : '#012340',
+                          }}
+                          fontSize="small"
+                        />
+                      )}
+                    </button>
+                  ),
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid item>
+            {errors.repeatPassword && (
+              <Alert severity="error">{errors.repeatPassword}</Alert>
+            )}
+          </Grid>
+          <ButtonPrimary
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 3,
+              mb: 1,
+            }}
+          >
+            Cadastrar
+          </ButtonPrimary>
+          {/* <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="#">Already have an account? Sign in</Link>
+            </Grid>
+          </Grid> */}
+        </Box>
+        {
           <Dialog open={dialogOpen} onClose={handleCloseDialog}>
             <DialogTitle>{dialogMessage}</DialogTitle>
           </Dialog>
-        </>
-      </form>
+        }
+      </Box>
       {redirecting && (
         <div className="redirecting">
           <div className="loading-container">

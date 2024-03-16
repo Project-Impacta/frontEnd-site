@@ -7,7 +7,7 @@ const RegisterPage = (): JSX.Element => {
     <>
       <Head>
         <title>Cadastre-se</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo/logoImpacta.png" type="image/png" />
       </Head>
       <div>
         <RegisterForm />

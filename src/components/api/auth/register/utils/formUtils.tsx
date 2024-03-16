@@ -22,7 +22,7 @@ export const validatePasswordsMatch = (password: any, repeatPassword: any) => {
 export const validateEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ? ''
-    : 'Por favor, insira um endereço de email válido.'
+    : 'Insira um endereço de email válido.'
 }
 
 export const isValidCPF = (cpf: string) => {
