@@ -44,8 +44,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '>= 18'
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          node-version: '20.11.1'
+          cache: npm
 
       # Configura o Next.js
       - name: Setup Pages
@@ -53,13 +53,13 @@ jobs:
         with:
           static_site_generator: next
 
-      # Instala as dependências
-      - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-
+      
       # Constrói com o Next.js
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: |
+          npm install
+          ${{ steps.detect-package-manager.outputs.runner }} next build
+          npx next telemetry disable
 
       # Restaura o cache
       - name: Restore cache
