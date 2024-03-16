@@ -1,4 +1,4 @@
-import styles from './styles.module.css'
+import { Box, Container } from '@mui/material'
 import React, { ReactNode } from 'react'
 
 interface BoxAccountProps {
@@ -7,15 +7,27 @@ interface BoxAccountProps {
 
 const BoxAccount = (props: BoxAccountProps): JSX.Element => {
   return (
-    <div
-      className={`${styles.root} border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 border-solid  rounded-lg dark:border-dark-formFieldBorder `}
-    >
-      <div
-        className={`${styles.container} ${styles.formCentralize} bg-light-background-primary dark:bg-dark-background-primary text-light-textPrimary dark:text-dark-textPrimary`}
+    <Container maxWidth="xs">
+      <Box
+        sx={{
+          mt: 5,
+          maxHeight: '200vh',
+          maxWidth: '100vh',
+        }}
+        className={`border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 border-solid rounded-lg dark:border-dark-formFieldBorder bg-light-formFieldBackground dark:bg-dark-formFieldBackground 
+        `}
       >
-        {props.children}
-      </div>
-    </div>
+        <Box
+          sx={{
+            maxHeight: '200vh',
+            maxWidth: '300vh',
+          }}
+          className={` bg-light-formFieldBackground dark:bg-dark-formFieldBackground text-light-textPrimary dark:text-dark-textPrimary`}
+        >
+          {props.children}
+        </Box>
+      </Box>
+    </Container>
   )
 }
 

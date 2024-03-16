@@ -52,7 +52,7 @@ jobs:
         uses: actions/configure-pages@v4
         with:
           static_site_generator: next
-          
+
       # Instala as dependências
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}

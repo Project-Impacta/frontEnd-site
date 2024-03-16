@@ -1,5 +1,5 @@
 import styles from './styles.module.css'
-import ThemeSwitcher from '@/components/shared/button/theme-switcher'
+import { ThemeSwitcher } from '@/components/shared/button'
 import LogoImpactaStore from '@/components/shared/imagens/logo-impacta'
 import React from 'react'
 
