@@ -9,7 +9,8 @@ import {
 import { CssTextField } from '@/components/layout/text-area'
 import { ButtonPrimary } from '@/components/shared/button'
 import { BoxAccount } from '@/components/shared/cards'
-import { Avatar, Box, Grid } from '@/styles/display/display'
+import LogoImpactaStore from '@/components/shared/imagens/logo-impacta'
+import { Box, Grid } from '@/styles/display/display'
 import {
   Dialog,
   DialogTitle,
@@ -188,7 +189,8 @@ const RegisterForm: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar alt="Store Impacta" src="/logo/logoImpacta.png" />
+        <LogoImpactaStore />
+
         <div className="title text-light-textPrimary dark:text-dark-textPrimary">
           Cadastre-se
         </div>
