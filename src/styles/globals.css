@@ -25,7 +25,7 @@ body {
 /* Estilos para o tema claro */
 .theme-light {
   --bg-primary: #f2f2f2;
-  --bg-secondary: #ffffff;
+  --bg-secondary: #f2f2f2;
   --text-primary: #012340;
   --text-secondary: #262626;
   --formFieldBorder: #012340;
