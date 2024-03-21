@@ -131,6 +131,7 @@ const RegisterForm: React.FC = () => {
       ...formData,
       cpf: formData.cpf.replace(/\D/g, ''),
       phone: formData.phone.replace(/\D/g, ''),
+      email: formData.email.replace(/\D/g, ''),
     }
 
     const requestOptions = {

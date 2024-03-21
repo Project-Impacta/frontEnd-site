@@ -18,10 +18,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-      
+
       - name: Update
         run: npm update
-      
+
       - name: Formatando Padrão Lint e Prettier
         run: npm run format
 
