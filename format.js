@@ -1,4 +1,4 @@
-// format.js
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { execSync } = require('child_process')
 
 try {
@@ -9,7 +9,7 @@ try {
   process.exit(1)
 }
 
-/*adicionar o packsge.json do projeto
+/*adicionar o package.json do projeto
 {
     "scripts": {
       "format": "node format.js"

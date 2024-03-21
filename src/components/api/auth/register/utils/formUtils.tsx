@@ -10,7 +10,6 @@ export const validateFormFields = (formData: { [x: string]: string }) => {
   return { valid, newErrors }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validatePasswordsMatch = (password: any, repeatPassword: any) => {
   if (password && repeatPassword && password !== repeatPassword) {
     return { match: false, message: 'As senhas não coincidem.' }
@@ -29,7 +28,6 @@ export const isValidCPF = (cpf: string) => {
   return /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)
 }
 
-// Funções de formatação
 export const formatCPF = (value: string) => {
   return value
     .replace(/\D/g, '')

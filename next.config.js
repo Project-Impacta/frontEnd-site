@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
 const { version } = require('./package.json')
 
 /**
@@ -10,9 +8,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'src/styles')],
-  },
+  output: 'standalone',
   experimental: {
     optimizePackageImports: ['@mui/icons-material'],
   },
