@@ -154,10 +154,9 @@ const RegisterForm: React.FC = () => {
           case 409:
             setDialogMessage(responseData.message)
             break
+
           default:
-            setDialogMessage(
-              'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
-            )
+            setDialogMessage(responseData.message)
         }
         setDialogOpen(true)
       }
