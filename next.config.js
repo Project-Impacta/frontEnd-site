@@ -8,6 +8,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  basePath: '/github-pages',
   output: 'standalone',
   experimental: {
     optimizePackageImports: ['@mui/icons-material'],
