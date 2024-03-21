@@ -13,7 +13,7 @@ module.exports = {
       },
       colors: {
         light: {
-          background: '#F2F2F2',
+          backgroundColor: '#F2F2F2',
           primaryButton: '#0597F2',
           secondaryButton: '#0C87F2',
           textPrimary: '#012340',
@@ -23,7 +23,7 @@ module.exports = {
           auxiliaryLink: '#0C87F2',
         },
         dark: {
-          background: '#011826',
+          backgroundColor: '#011826',
           primaryButton: '#0597F2',
           textPrimary: '#F2F2F2',
           textSecondary: '#F2F2F2',
