@@ -20,6 +20,7 @@ body {
 /* Definindo uma fonte padrão para toda a página */
 body {
   font-family: 'Roboto', sans-serif;
+  @apply bg-light-backgroundColor bg-dark-backgroundColor;
 }
 
 /* Estilos para o tema claro */
