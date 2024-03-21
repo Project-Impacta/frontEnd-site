@@ -3,7 +3,6 @@ import {
   formatPhone,
   isValidCPF,
   validateEmail,
-  validateFormFields,
   validatePasswordsMatch,
 } from './utils/formUtils'
 import { CssTextField } from '@/components/layout/text-area'
@@ -121,17 +120,11 @@ const RegisterForm: React.FC = () => {
       return
     }
 
-    if (!validateFormFields(formData)) {
-      setProgress(0)
-      setSubmitting(false)
-      return
-    }
-
     const formDataForBackend = {
       ...formData,
       cpf: formData.cpf.replace(/\D/g, ''),
       phone: formData.phone.replace(/\D/g, ''),
-      email: formData.email.replace(/\D/g, ''),
+      email: formData.email.toLowerCase().trim(),
     }
 
     const requestOptions = {
@@ -141,33 +134,38 @@ const RegisterForm: React.FC = () => {
     }
 
     try {
-      console.log(
-        'Enviando dados do formulário para o backend:',
-        formDataForBackend,
-      )
       const response = await fetch(`${API_URL}/client`, requestOptions)
-      console.log('Resposta do servidor:', response)
+      const responseData = await response.json()
 
-      if (!response.ok) {
-        throw new Error('Falha ao enviar os dados do formulário')
-      }
-      setDialogMessage('Cadastro realizado com sucesso!')
-      setDialogOpen(true)
-      setRedirecting(true)
+      if (response.ok) {
+        setDialogMessage('Cadastro realizado com sucesso!')
+        setDialogOpen(true)
+        setRedirecting(true)
 
-      setTimeout(() => {
-        setDialogMessage('Redirecionando para a página inicial...')
         setTimeout(() => {
-          console.log('Redirecionando para a homepage...')
-          router.push('/home-page')
-        }, 3000)
-      }, 2000)
+          setDialogMessage('Redirecionando para a página inicial...')
+          setTimeout(() => {
+            console.log('Redirecionando para a homepage...')
+            router.push('/home-page')
+          }, 3000)
+        }, 2000)
+      } else {
+        switch (response.status) {
+          case 409:
+            setDialogMessage(responseData.message)
+            break
+          default:
+            setDialogMessage(
+              'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
+            )
+        }
+        setDialogOpen(true)
+      }
     } catch (error) {
       console.error('Erro ao enviar o formulário:', error)
       setDialogMessage(
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
       )
-
       setDialogOpen(true)
     } finally {
       setSubmitting(false)
@@ -376,11 +374,6 @@ const RegisterForm: React.FC = () => {
           >
             Cadastrar
           </ButtonPrimary>
-          {/* <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#">Already have an account? Sign in</Link>
-            </Grid>
-          </Grid> */}
         </Box>
         {
           <Dialog open={dialogOpen} onClose={handleCloseDialog}>
