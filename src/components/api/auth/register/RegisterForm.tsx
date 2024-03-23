@@ -59,7 +59,7 @@ const RegisterForm: React.FC = () => {
     setShowRepeatPassword(!showRepeatPassword)
 
   const router = useRouter()
-  const API_URL = 'http://localhost:10000'
+  const API_URL = 'http://localhost:3333'
 
   useEffect(() => {
     const { password, repeatPassword } = formData
@@ -154,10 +154,9 @@ const RegisterForm: React.FC = () => {
           case 409:
             setDialogMessage(responseData.message)
             break
+
           default:
-            setDialogMessage(
-              'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
-            )
+            setDialogMessage(responseData.message)
         }
         setDialogOpen(true)
       }
