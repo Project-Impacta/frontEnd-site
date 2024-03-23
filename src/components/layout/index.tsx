@@ -1,4 +1,4 @@
-import Footer from './footer'
+// import Footer from './footer'
 import HeaderPage from './header'
 import ThemeProvider from '@/providers/theme-provider/theme-provider'
 import { Box } from '@/styles/display/display'
@@ -15,7 +15,7 @@ const Layout = ({ children }: LayoutProps) => {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <HeaderPage />
           <main>{children}</main>
-          <Footer />
+          {/* <Footer /> */}
         </ThemeProvider>
       </Box>
     </>

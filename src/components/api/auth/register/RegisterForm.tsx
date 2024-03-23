@@ -59,7 +59,7 @@ const RegisterForm: React.FC = () => {
     setShowRepeatPassword(!showRepeatPassword)
 
   const router = useRouter()
-  const API_URL = 'http://localhost:10000'
+  const API_URL = 'http://localhost:3333'
 
   useEffect(() => {
     const { password, repeatPassword } = formData
