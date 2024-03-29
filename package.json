@@ -1,6 +1,8 @@
 {
-  "name": "frontend-site",
+  "name": "store_impacta-front_end",
   "version": "4.5.0",
+  "author": "Jh0w",
+  "license": "MIT",
   "private": true,
   "release": {
     "branches": [
@@ -74,6 +76,7 @@
     "lint": "next lint",
     "format": "node format.js",
     "export": "next export",
-    "release:dryrun": "semantic-release --dry-run"
+    "release:dryrun": "semantic-release --dry-run",
+    "typecheck": "tsc --project tsconfig.json"
   }
 }
