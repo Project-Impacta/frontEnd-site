@@ -2,7 +2,10 @@
 const { execSync } = require('child_process')
 
 try {
-  execSync('npx prettier --write . && next lint', { stdio: 'inherit' })
+  execSync(
+    'npx prettier --write . && next lint && tsc --project tsconfig.json',
+    { stdio: 'inherit' },
+  )
   console.log('Prettier formatting completed.')
 } catch (error) {
   console.error('Error occurred during Prettier formatting:', error)
