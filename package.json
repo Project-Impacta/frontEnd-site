@@ -1,6 +1,9 @@
 {
-  "name": "frontend-site",
+  "name": "store_impacta-front_end",
   "version": "4.5.0",
+  "author": "Jh0w",
+  "main": "/pages/index.tsx",
+  "license": "MIT",
   "private": true,
   "release": {
     "branches": [
@@ -45,6 +48,8 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.0",
     "file-loader": "^6.2.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "read-package-up": "^11.0.0",
     "semantic-release": "^23.0.2",
@@ -74,6 +79,19 @@
     "lint": "next lint",
     "format": "node format.js",
     "export": "next export",
-    "release:dryrun": "semantic-release --dry-run"
+    "release:dryrun": "semantic-release --dry-run",
+    "prepare": "npx husky install",
+    "typecheck":"tsc --project tsconfig.json"
+  },
+  "husky":{
+    "hooks":{
+      "pre-commit":"lint-staged"
+    }
+
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "npm run lint"
+    ]
   }
 }
