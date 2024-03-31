@@ -1,8 +1,13 @@
 {
   "name": "store_impacta-front_end",
+  "description": "Este é um projeto acadêmico desenvolvido para fins de aprendizado na faculdade. Todos os processos, links e imagens são parte de um cenário simulado e podem não refletir uma aplicação comercial real.",
   "version": "4.5.0",
   "author": "Jh0w",
   "license": "MIT",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/Project-Impacta"
+  },
   "private": true,
   "release": {
     "branches": [
@@ -49,13 +54,13 @@
     "file-loader": "^6.2.0",
     "prettier": "^3.2.5",
     "read-package-up": "^11.0.0",
-    "semantic-release": "^23.0.2",
     "typescript": "^5"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.12",
+    "@telefonica/mistica": "^14.48.0",
     "autoprefixer": "^10.4.18",
     "dotenv": "^16.4.5",
     "next": "14.1.0",
@@ -78,5 +83,9 @@
     "export": "next export",
     "release:dryrun": "semantic-release --dry-run",
     "typecheck": "tsc --project tsconfig.json"
+  },
+  "engines": {
+    "node": ">=18.18.0",
+    "npm": ">=10.3.0"
   }
 }

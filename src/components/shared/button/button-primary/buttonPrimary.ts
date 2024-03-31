@@ -1,5 +1,6 @@
 import { styled } from '@/styles/display/display'
 import { Button } from '@/styles/icons/icons'
+import { CSSObject } from '@emotion/react'
 import { useTheme } from 'next-themes'
 
 const ButtonPrimary = styled(Button)(() => {
@@ -8,7 +9,7 @@ const ButtonPrimary = styled(Button)(() => {
     backgroundColor: theme === 'dark' ? '#0597F2' : '#0597F2',
     color: theme === 'dark' ? '#F2F2F2' : '#012340',
     boxShadow: 'none',
-    textTransform: 'none',
+    textTransform: 'none' as CSSObject['textTransform'],
     fontSize: 16,
     padding: '6px 12px',
     border: '1px solid',
@@ -17,7 +18,7 @@ const ButtonPrimary = styled(Button)(() => {
     borderColor: theme === 'dark' ? '#F2F2F2' : '#012340',
 
     '&:hover': {
-      backgroundColor: theme === 'dark' ? '#0597F2' : '#0597F2',
+      backgroundColor: theme === 'dark' ? '#0063cc' : '#0063cc',
       borderColor: theme === 'dark' ? '#F2F2F2' : '#012340',
       boxShadow: 'none',
     },
