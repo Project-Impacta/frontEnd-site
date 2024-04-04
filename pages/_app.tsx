@@ -1,8 +1,8 @@
-import { themeConfig } from '../src/providers/theme-config/theme'
 import '../src/styles/tailwind.css'
-import Layout from '@/components/layout'
-import { ThemeProvider } from '@/providers'
-import { ThemeContextProvider } from '@telefonica/mistica'
+import { ThemeContextProvider } from '@/mistica/material'
+import { themeConfig } from '@/providers'
+import { Layout } from '@/templates'
+import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import React from 'react'
 

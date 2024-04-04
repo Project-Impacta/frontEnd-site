@@ -1,4 +1,4 @@
-import { type ThemeConfig, getVivoNewSkin } from '@telefonica/mistica'
+import { ThemeConfig, getVivoNewSkin } from '@/mistica/material'
 import Link from 'next/link'
 
 export const themeConfig: ThemeConfig = {

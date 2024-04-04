@@ -7,6 +7,6 @@ import React from 'react'
 export default function ThemeProvider({
   children,
   ...props
-}: ThemeProviderProps) {
+}: Readonly<ThemeProviderProps>) {
   return <NextThemeProvider {...props}>{children}</NextThemeProvider>
 }

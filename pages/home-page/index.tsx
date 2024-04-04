@@ -1,4 +1,4 @@
-import { HomePage } from '@/components/landing-pages'
+import { HomePage } from '@/pages'
 import { AuthProvider } from '@/providers'
 import React from 'react'
 

@@ -1,6 +1,6 @@
-import { LoginPage } from '../../src/components/landing-pages'
+import { LoginPage } from '@/pages'
 import React from 'react'
 
-export default function Login(): JSX.Element {
+export default function Register(): JSX.Element {
   return <LoginPage />
 }
