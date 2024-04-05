@@ -67,11 +67,11 @@ export default function LoginForm() {
     const formDataForBackend = {
       ...formData,
       cpf: cpf.replace(/\D/g, ''),
-      body: JSON.stringify({ cpf, password }),
+      password: password,
     }
 
     const requestOptions = {
-      method: 'GET',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formDataForBackend),
     }
