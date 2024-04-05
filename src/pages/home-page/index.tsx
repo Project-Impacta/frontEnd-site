@@ -1,3 +1,4 @@
+import HomeLayout from '@/templates/layouts/home-layout'
 import Head from 'next/head'
 import React from 'react'
 
@@ -7,7 +8,9 @@ export default function HomePage(): JSX.Element {
       <Head>
         <title>Home</title>
       </Head>
-      <div>Home Page</div>
+      <HomeLayout>
+        <div>Home Page</div>
+      </HomeLayout>
     </>
   )
 }

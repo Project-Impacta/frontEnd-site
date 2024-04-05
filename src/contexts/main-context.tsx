@@ -1,48 +1,47 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { jwtDecode } from 'jwt-decode'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react'
 
-// Definição do tipo para os dados do usuário
-type User = {
+interface User {
   cpf: string
-  username: string
-  email: string
+  firstName: string
 }
 
-// Definição do tipo para o contexto
-type AuthContextType = {
+interface AuthContextType {
   user: User | null
-  login: (userData: User) => void
+  login: (token: string) => void
   logout: () => void
 }
 
-// Criação do contexto de autenticação
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// Hook para acessar o contexto de autenticação
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
-}
-
-// Props do AuthProvider
-type AuthProviderProps = {
-  children: ReactNode
-}
-
-// Componente de provedor de autenticação
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null)
 
-  // Função para realizar o login do usuário
-  const login = (userData: User) => {
-    setUser(userData)
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      const decodedToken: any = jwtDecode(token)
+      setUser(decodedToken.user)
+    }
+  }, [])
+
+  const login = (token: string) => {
+    const decodedToken: any = jwtDecode(token)
+    setUser(decodedToken.user)
+    localStorage.setItem('accessToken', token)
   }
 
-  // Função para realizar o logout do usuário
   const logout = () => {
     setUser(null)
+    localStorage.removeItem('accessToken')
   }
 
   return (
@@ -50,4 +49,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
 }

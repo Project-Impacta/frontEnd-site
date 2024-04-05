@@ -1,17 +1,15 @@
-import HeaderAuthentication from '@/templates/header/authentication-header'
+import HeaderHome from '@/templates/header/home-header'
 import { Box, Container } from '@mui/material'
 import React, { ReactNode } from 'react'
 
-interface AuthenticationLayoutProps {
+interface HomeLayoutProps {
   children: ReactNode
 }
 
-const AuthenticationLayout = (
-  props: AuthenticationLayoutProps,
-): JSX.Element => {
+const HomeLayout = (props: HomeLayoutProps): JSX.Element => {
   return (
     <>
-      <HeaderAuthentication />
+      <HeaderHome />
       <Container maxWidth="xs">
         <Box
           sx={{
@@ -37,4 +35,4 @@ const AuthenticationLayout = (
   )
 }
 
-export default AuthenticationLayout
+export default HomeLayout
