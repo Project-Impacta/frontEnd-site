@@ -1,32 +1,32 @@
 export const validateFormFields = (formData: { [x: string]: string }) => {
-  let valid = true
-  const newErrors: { [key: string]: string } = {} // Especificando o tipo de newErrors
+  let valid = true;
+  const newErrors: { [key: string]: string } = {}; // Especificando o tipo de newErrors
   Object.keys(formData).forEach((key) => {
     if (!formData[key].trim()) {
-      newErrors[key] = 'Este campo é obrigatório.'
-      valid = false
+      newErrors[key] = 'Este campo é obrigatório.';
+      valid = false;
     }
-  })
-  return { valid, newErrors }
-}
+  });
+  return { valid, newErrors };
+};
 
 export const validatePasswordsMatch = (password: any, repeatPassword: any) => {
   if (password && repeatPassword && password !== repeatPassword) {
-    return { match: false, message: 'As senhas não coincidem.' }
+    return { match: false, message: 'As senhas não coincidem.' };
   } else {
-    return { match: true, message: '' }
+    return { match: true, message: '' };
   }
-}
+};
 
 export const validateEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ? ''
-    : 'Insira um endereço de email válido.'
-}
+    : 'Insira um endereço de email válido.';
+};
 
 export const isValidCPF = (cpf: string) => {
-  return /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)
-}
+  return /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf);
+};
 
 export const formatCPF = (value: string) => {
   return value
@@ -34,11 +34,13 @@ export const formatCPF = (value: string) => {
     .slice(0, 11)
     .replace(/(\d{3})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d)/, '$1.$2')
-    .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-}
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+};
 
 export const formatPhone = (value: string) => {
   return value
     .replace(/\D/g, '')
     .replace(/(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3')
-}
+    ? ''
+    : 'Insira somente números';
+};

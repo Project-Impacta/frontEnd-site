@@ -1,7 +1,7 @@
-import styles from './styles.module.css'
-import { ThemeSwitcher } from '@/components/button'
-import { LogoImpactaStore } from '@/components/imagens'
-import React from 'react'
+import styles from './styles.module.css';
+import { ThemeSwitcher } from '@/components/button';
+import { LogoImpactaStore } from '@/components/imagens';
+import React from 'react';
 
 export default function HeaderAuthentication() {
   return (
@@ -26,5 +26,5 @@ export default function HeaderAuthentication() {
         <ThemeSwitcher />
       </div>
     </div>
-  )
+  );
 }

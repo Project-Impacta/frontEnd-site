@@ -1,6 +1,7 @@
-import { LoginForm } from '@/api/auth'
-import Head from 'next/head'
-import React from 'react'
+import { LoginForm } from '@/api/auth';
+import { Box } from '@mui/material';
+import Head from 'next/head';
+import React from 'react';
 
 const LoginPage = (): JSX.Element => {
   return (
@@ -8,11 +9,11 @@ const LoginPage = (): JSX.Element => {
       <Head>
         <title>Autentique-se</title>
       </Head>
-      <div>
+      <Box>
         <LoginForm />
-      </div>
+      </Box>
     </>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

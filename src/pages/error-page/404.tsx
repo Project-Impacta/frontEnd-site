@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function NotFound(): JSX.Element {
   return (
@@ -8,5 +8,5 @@ export default function NotFound(): JSX.Element {
         <p className="paragraph">Essa página não existe 🙁</p>
       </div>
     </div>
-  )
+  );
 }

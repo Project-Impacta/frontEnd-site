@@ -1,8 +1,8 @@
-import { TextField, styled } from '@/mui/material'
-import { useTheme } from 'next-themes'
+import { TextField, styled } from '@/mui/material';
+import { useTheme } from 'next-themes';
 
 const CssTextField = styled(TextField)(() => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return {
     '& label': {
@@ -29,7 +29,7 @@ const CssTextField = styled(TextField)(() => {
         color: theme === 'dark' ? '#F2F2F2' : '#012340',
       },
     },
-  }
-})
+  };
+});
 
-export default CssTextField
+export default CssTextField;

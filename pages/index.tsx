@@ -1,8 +1,8 @@
-import Register from './account-page'
-import React from 'react'
+import Register from './login';
+import React from 'react';
 
 const indexPage = (): JSX.Element => {
-  return <Register />
-}
+  return <Register />;
+};
 
-export default indexPage
+export default indexPage;

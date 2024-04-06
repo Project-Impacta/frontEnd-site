@@ -1,6 +1,6 @@
-import { RegisterForm } from '@/api/auth'
-import Head from 'next/head'
-import React from 'react'
+import { RegisterForm } from '@/api/auth';
+import Head from 'next/head';
+import React from 'react';
 
 const RegisterPage = (): JSX.Element => {
   return (
@@ -12,7 +12,7 @@ const RegisterPage = (): JSX.Element => {
         <RegisterForm />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

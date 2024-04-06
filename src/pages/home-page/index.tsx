@@ -1,6 +1,6 @@
-import HomeLayout from '@/templates/layouts/home-layout'
-import Head from 'next/head'
-import React from 'react'
+import HomeLayout from '@/templates/layouts/home-layout';
+import Head from 'next/head';
+import React from 'react';
 
 export default function HomePage(): JSX.Element {
   return (
@@ -12,5 +12,5 @@ export default function HomePage(): JSX.Element {
         <div>Home Page</div>
       </HomeLayout>
     </>
-  )
+  );
 }

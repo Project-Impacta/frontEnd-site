@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import logoImpacta from 'public/img/logoImpacta.png'
-import React from 'react'
+import Image from 'next/image';
+import logoImpacta from 'public/img/logoImpacta.png';
+import React from 'react';
 
 export default function LogoImpactaStore() {
   return (
@@ -10,5 +10,5 @@ export default function LogoImpactaStore() {
       width={50} // Substitua 500 pela largura máxima que a imagem pode ter
       height={50} // Substitua 300 pela altura máxima que a imagem pode ter
     />
-  )
+  );
 }

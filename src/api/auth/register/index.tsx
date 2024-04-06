@@ -1,5 +1,5 @@
-import { ButtonPrimary } from '@/components/button'
-import { LogoImpactaStore } from '@/components/imagens'
+import { ButtonPrimary } from '@/components/button';
+import { LogoImpactaStore } from '@/components/imagens';
 import {
   Alert,
   Box,
@@ -9,30 +9,30 @@ import {
   LinearProgress,
   VisibilityIcon,
   VisibilityOffIcon,
-} from '@/mui/material'
-import { AuthenticationLayout, CssTextField } from '@/templates'
+} from '@/mui/material';
+import { AuthenticationLayout, CssTextField } from '@/templates';
 import {
   formatCPF,
   formatPhone,
   isValidCPF,
   validateEmail,
   validatePasswordsMatch,
-} from '@/utils/form-utils'
-import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+} from '@/utils/form-utils';
+import { useTheme } from 'next-themes';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 type FormData = {
-  firstName: string
-  lastName: string
-  phone: string
-  cpf: string
-  email: string
-  password: string
-  repeatPassword: string
-}
+  firstName: string;
+  lastName: string;
+  phone: string;
+  cpf: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+};
 
-type FormErrors = Partial<FormData>
+type FormErrors = Partial<FormData>;
 
 const RegisterForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -43,60 +43,60 @@ const RegisterForm: React.FC = () => {
     email: '',
     password: '',
     repeatPassword: '',
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [showPassword, setShowPassword] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [dialogMessage, setDialogMessage] = useState('')
-  const [progress, setProgress] = useState(0)
-  const [submitting, setSubmitting] = useState(false)
-  const [redirecting, setRedirecting] = useState(false)
-  const [showRepeatPassword, setShowRepeatPassword] = useState(false)
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   const toggleShowRepeatPassword = () =>
-    setShowRepeatPassword(!showRepeatPassword)
+    setShowRepeatPassword(!showRepeatPassword);
 
-  const router = useRouter()
-  const API_URL = 'http://localhost:3333'
+  const router = useRouter();
+  const API_URL = 'http://localhost:3333';
 
   useEffect(() => {
-    const { password, repeatPassword } = formData
-    const matchResult = validatePasswordsMatch(password, repeatPassword)
+    const { password, repeatPassword } = formData;
+    const matchResult = validatePasswordsMatch(password, repeatPassword);
     setErrors((prevErrors) => ({
       ...prevErrors,
       repeatPassword: matchResult.message,
-    }))
-  }, [formData, formData.password, formData.repeatPassword])
+    }));
+  }, [formData, formData.password, formData.repeatPassword]);
 
-  const toggleShowPassword = () => setShowPassword(!showPassword)
-  const { theme } = useTheme()
+  const toggleShowPassword = () => setShowPassword(!showPassword);
+  const { theme } = useTheme();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    let newValue = value
+    const { name, value } = e.target;
+    let newValue = value;
 
     if (name === 'cpf') {
-      newValue = formatCPF(value)
+      newValue = formatCPF(value);
       setErrors((prevErrors) => ({
         ...prevErrors,
-        cpf: isValidCPF(newValue) ? '' : 'CPF inválido.',
-      }))
+        cpf: isValidCPF(newValue) ? '' : 'Insira somente números',
+      }));
     } else if (name === 'phone') {
-      newValue = formatPhone(value)
+      newValue = formatPhone(value);
     } else if (name === 'email') {
       setErrors((prevErrors) => ({
         ...prevErrors,
         email: validateEmail(value) || '',
-      }))
+      }));
     }
 
-    setFormData((prevState) => ({ ...prevState, [name]: newValue }))
-  }
+    setFormData((prevState) => ({ ...prevState, [name]: newValue }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setErrors({})
-    setProgress(100)
-    setSubmitting(true)
+    e.preventDefault();
+    setErrors({});
+    setProgress(100);
+    setSubmitting(true);
 
     const requiredFields = [
       'firstName',
@@ -106,16 +106,16 @@ const RegisterForm: React.FC = () => {
       'email',
       'password',
       'repeatPassword',
-    ]
+    ];
     const incompleteFields = requiredFields.filter(
       (field) => !formData[field as keyof FormData],
-    )
+    );
 
     if (incompleteFields.length > 0) {
-      setDialogMessage(`Preencha todos os campos.`)
-      setDialogOpen(true)
-      setSubmitting(false)
-      return
+      setDialogMessage(`Preencha todos os campos.`);
+      setDialogOpen(true);
+      setSubmitting(false);
+      return;
     }
 
     const formDataForBackend = {
@@ -123,53 +123,52 @@ const RegisterForm: React.FC = () => {
       cpf: formData.cpf.replace(/\D/g, ''),
       phone: formData.phone.replace(/\D/g, ''),
       email: formData.email.toLowerCase().trim(),
-    }
+    };
 
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formDataForBackend),
-    }
+    };
 
     try {
-      const response = await fetch(`${API_URL}/client`, requestOptions)
-      const responseData = await response.json()
+      const response = await fetch(`${API_URL}/client`, requestOptions);
+      const responseData = await response.json();
 
       if (response.ok) {
-        setDialogMessage('Cadastro realizado com sucesso!')
-        setDialogOpen(true)
-        setRedirecting(true)
+        setDialogMessage('Cadastro realizado com sucesso!');
+        setDialogOpen(true);
+        setRedirecting(true);
 
         setTimeout(() => {
-          setDialogMessage('Redirecionando para a página inicial...')
+          setDialogMessage('Redirecionando para a página de autenticação');
           setTimeout(() => {
-            console.log('Redirecionando para a homepage...')
-            router.push('/home-page')
-          }, 3000)
-        }, 2000)
+            router.push('/login');
+          }, 3000);
+        }, 2000);
       } else {
         switch (response.status) {
           case 409:
-            setDialogMessage(responseData.message)
-            break
+            setDialogMessage(responseData.message);
+            break;
 
           default:
-            setDialogMessage(responseData.message)
+            setDialogMessage(responseData.message);
         }
-        setDialogOpen(true)
+        setDialogOpen(true);
       }
     } catch (error) {
-      console.error('Erro ao enviar o formulário:', error)
+      console.error('Erro ao enviar o formulário:', error);
       setDialogMessage(
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
-      )
-      setDialogOpen(true)
+      );
+      setDialogOpen(true);
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
-  const handleCloseDialog = () => setDialogOpen(false)
+  const handleCloseDialog = () => setDialogOpen(false);
 
   return (
     <AuthenticationLayout>
@@ -238,7 +237,7 @@ const RegisterForm: React.FC = () => {
                 onChange={handleChange}
               />
               <Grid>
-                {errors.cpf && <Alert severity="error">{errors.cpf}</Alert>}
+                {errors.cpf && <Alert severity="info">{errors.cpf}</Alert>}
               </Grid>
             </Grid>
             <Grid item xs={6} sm={6}>
@@ -252,6 +251,7 @@ const RegisterForm: React.FC = () => {
                 value={formData.phone}
                 onChange={handleChange}
               />
+              {errors.phone && <Alert severity="info">{errors.phone}</Alert>}
             </Grid>
             <Grid item xs={12}>
               <CssTextField
@@ -390,7 +390,7 @@ const RegisterForm: React.FC = () => {
         </Box>
       </Box>
     </AuthenticationLayout>
-  )
-}
+  );
+};
 
-export default RegisterForm
+export default RegisterForm;

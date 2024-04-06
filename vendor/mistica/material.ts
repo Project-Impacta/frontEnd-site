@@ -5,7 +5,7 @@ import {
   FixedFooterLayout,
   ResponsiveLayout,
   useWindowSize,
-} from '@telefonica/mistica'
+} from '@telefonica/mistica';
 
 export {
   useWindowSize,
@@ -14,4 +14,4 @@ export {
   ThemeContextProvider,
   FixedFooterLayout,
   ResponsiveLayout,
-}
+};

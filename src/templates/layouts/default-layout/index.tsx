@@ -1,9 +1,9 @@
-import { Box } from '@/mui/material'
-import ThemeProvider from '@/providers/theme-provider/theme-provider'
-import React, { ReactNode } from 'react'
+import { Box } from '@/mui/material';
+import ThemeProvider from '@/providers/theme-provider/theme-provider';
+import React, { ReactNode } from 'react';
 
 interface LayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
@@ -13,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
         <main>{children}</main>
       </Box>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

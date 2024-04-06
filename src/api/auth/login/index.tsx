@@ -1,121 +1,127 @@
-import { FormErrors, type FormData } from '@/@types/userTypes'
-import { ButtonPrimary } from '@/components/button'
-import { LogoImpactaStore } from '@/components/imagens'
+import { FormErrors, type FormData } from '@/@types/userTypes';
+import { ButtonPrimary } from '@/components/button';
+import { LogoImpactaStore } from '@/components/imagens';
+import { AuthContext } from '@/contexts/auth/AuthContext';
 import {
   Alert,
   Dialog,
   DialogTitle,
   VisibilityIcon,
   VisibilityOffIcon,
-} from '@/mui/material'
-import { AuthenticationLayout, CssTextField } from '@/templates'
-import { formatCPF, isValidCPF } from '@/utils/form-utils'
-import { Box, Grid, LinearProgress } from '@mui/material'
-import { useTheme } from 'next-themes'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+} from '@/mui/material';
+import { AuthenticationLayout, CssTextField } from '@/templates';
+import { formatCPF, isValidCPF } from '@/utils/form-utils';
+import { Box, Grid, LinearProgress } from '@mui/material';
+import { useTheme } from 'next-themes';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+
+interface SignInData {
+  cpf: string;
+  password: string;
+}
 
 export default function LoginForm() {
-  const router = useRouter()
-  const API_URL = 'http://localhost:3333'
-  const [submitting, setSubmitting] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [dialogMessage, setDialogMessage] = useState('')
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [redirecting, setRedirecting] = useState(false)
-  const { theme } = useTheme()
+  const API_URL = 'http://localhost:3333';
+  const { singIn } = useContext(AuthContext);
+  const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [dialogMessage, setDialogMessage] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
+  const { theme } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     cpf: '',
     password: '',
-  })
-  const toggleShowPassword = () => setShowPassword(!showPassword)
-  const handleCloseDialog = () => setDialogOpen(false)
+  });
+  const toggleShowPassword = () => setShowPassword(!showPassword);
+  const handleCloseDialog = () => setDialogOpen(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    let newValue = value
+    const { name, value } = e.target;
+    let newValue = value;
 
     if (name === 'cpf') {
-      newValue = formatCPF(value)
+      newValue = formatCPF(value);
       setErrors((prevErrors) => ({
         ...prevErrors,
-        cpf: isValidCPF(newValue) ? '' : 'CPF inválido.',
-      }))
+        cpf: isValidCPF(newValue) ? '' : 'Insira somente números',
+      }));
     }
 
-    setFormData((prevState) => ({ ...prevState, [name]: newValue }))
-  }
+    setFormData((prevState) => ({ ...prevState, [name]: newValue }));
+  };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log('Submit do formulário foi acionado!')
-    setErrors({})
-    setProgress(100)
+  async function handleSignIn(data: SignInData) {
+    await singIn(data);
+    setErrors({});
+    setProgress(100);
 
-    const formData = new FormData(e.currentTarget)
-    const cpf = formData.get('cpf') as string
-    const password = formData.get('password') as string
+    const { cpf, password } = formData;
 
     if (!cpf || !password) {
-      setDialogMessage(`Preencha todos os campos.`)
-      setDialogOpen(true)
-      setSubmitting(false)
-      return
+      setDialogMessage(`Preencha todos os campos.`);
+      setDialogOpen(true);
+      setSubmitting(false);
+      return;
     }
 
     const formDataForBackend = {
       ...formData,
       cpf: cpf.replace(/\D/g, ''),
       password: password,
-    }
+    };
 
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formDataForBackend),
-    }
+    };
 
     try {
-      const response = await fetch(`${API_URL}/login/auth`, requestOptions)
-      console.log('Resposta do Server', response)
-      const responseData = await response.json()
+      const response = await fetch(`${API_URL}/login/auth`, requestOptions);
+      console.log('Resposta do Server', response);
+      const responseData = await response.json();
 
       if (response.ok) {
-        setDialogMessage('Autenticação realizada com sucesso!')
-        setDialogOpen(true)
-        setRedirecting(true)
+        setDialogMessage('Autenticação realizada com sucesso!');
+        setDialogOpen(true);
+        setRedirecting(true);
 
         setTimeout(() => {
-          setDialogMessage('Redirecionando para a página inicial...')
+          setDialogMessage('Redirecionando para a página inicial...');
           setTimeout(() => {
-            console.log('Redirecionando para a homepage...')
-            router.push('/home-page')
-          }, 3000)
-        }, 2000)
+            console.log('Redirecionando para a homepage...');
+            router.push('/home');
+          }, 3000);
+        }, 2000);
       } else {
         switch (response.status) {
           case 409:
-            setDialogMessage(responseData.message)
-            break
+            setDialogMessage(responseData.message);
+            break;
           case 404:
-            setDialogMessage(responseData.message)
-            break
+            setDialogMessage(responseData.message);
+            break;
           default:
-            setDialogMessage('Erro desconhecido.')
+            setDialogMessage('Erro desconhecido.');
         }
-        setDialogOpen(true)
+        setDialogOpen(true);
       }
     } catch (error) {
-      console.error('Erro ao enviar o formulário:', error)
+      console.error('Erro ao enviar o formulário:', error);
       setDialogMessage(
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
-      )
-      setDialogOpen(true)
+      );
+      setDialogOpen(true);
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
+  const { register, handleSubmit } = useForm<SignInData>();
 
   return (
     <AuthenticationLayout>
@@ -141,13 +147,14 @@ export default function LoginForm() {
         </Box>
         <Box
           component="form"
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={handleSubmit(handleSignIn)}
           noValidate
           sx={{ mt: 3, maxHeight: '300vh' }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={24}>
               <CssTextField
+                {...register('cpf')}
                 required
                 fullWidth
                 id="cpf"
@@ -158,11 +165,12 @@ export default function LoginForm() {
                 onChange={handleChange}
               />
               <Grid>
-                {errors.cpf && <Alert severity="error">{errors.cpf}</Alert>}
+                {errors.cpf && <Alert severity="info">{errors.cpf}</Alert>}
               </Grid>
             </Grid>
             <Grid item xs={12} sm={24}>
               <CssTextField
+                {...register('password')}
                 required
                 fullWidth
                 name="password"
@@ -225,5 +233,5 @@ export default function LoginForm() {
         }
       </Box>
     </AuthenticationLayout>
-  )
+  );
 }

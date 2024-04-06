@@ -1,9 +1,9 @@
-import { Button, styled } from '@/mui/material'
-import { CSSObject } from '@emotion/react'
-import { useTheme } from 'next-themes'
+import { Button, styled } from '@/mui/material';
+import { CSSObject } from '@emotion/react';
+import { useTheme } from 'next-themes';
 
 const ButtonPrimary = styled(Button)(() => {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   return {
     backgroundColor: theme === 'dark' ? '#0597F2' : '#0597F2',
     color: theme === 'dark' ? '#F2F2F2' : '#012340',
@@ -29,6 +29,6 @@ const ButtonPrimary = styled(Button)(() => {
     '&:focus': {
       boxShadow: theme === 'dark' ? '0 0 0 2px #F2F2F2' : '0 0 0 2px #012340',
     },
-  }
-})
-export default ButtonPrimary
+  };
+});
+export default ButtonPrimary;

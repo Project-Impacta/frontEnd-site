@@ -1,9 +1,9 @@
-import { Box } from '@/mui/material'
-import { FixedFooterLayout, ResponsiveLayout } from '@telefonica/mistica'
-import React, { ReactNode } from 'react'
+import { Box } from '@/mui/material';
+import { FixedFooterLayout, ResponsiveLayout } from '@telefonica/mistica';
+import React, { ReactNode } from 'react';
 
 interface FixedFooterProps {
-  children: ReactNode
+  children: ReactNode;
 }
 const FixedFooter = (props: FixedFooterProps): JSX.Element => {
   return (
@@ -18,7 +18,7 @@ const FixedFooter = (props: FixedFooterProps): JSX.Element => {
     >
       {props.children}
     </FixedFooterLayout>
-  )
-}
+  );
+};
 
-export default FixedFooter
+export default FixedFooter;

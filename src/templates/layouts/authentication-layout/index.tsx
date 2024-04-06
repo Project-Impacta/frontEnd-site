@@ -1,9 +1,9 @@
-import HeaderAuthentication from '@/templates/header/authentication-header'
-import { Box, Container } from '@mui/material'
-import React, { ReactNode } from 'react'
+import HeaderAuthentication from '@/templates/header/authentication-header';
+import { Box, Container } from '@mui/material';
+import React, { ReactNode } from 'react';
 
 interface AuthenticationLayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const AuthenticationLayout = (
@@ -34,7 +34,7 @@ const AuthenticationLayout = (
         </Box>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default AuthenticationLayout
+export default AuthenticationLayout;

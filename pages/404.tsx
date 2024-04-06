@@ -1,8 +1,8 @@
-import { Box } from '@/mui/material'
-import { NotFound } from '@/pages'
-import styles from '@/styles/global-styles/styles.module.css'
-import Link from 'next/link'
-import React from 'react'
+import { Box } from '@/mui/material';
+import { NotFound } from '@/pages';
+import styles from '@/styles/global-styles/styles.module.css';
+import Link from 'next/link';
+import React from 'react';
 
 const ServerError = (): JSX.Element => {
   return (
@@ -20,7 +20,7 @@ const ServerError = (): JSX.Element => {
         </Link>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default ServerError
+export default ServerError;

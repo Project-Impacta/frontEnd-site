@@ -1,9 +1,11 @@
-import HeaderHome from '@/templates/header/home-header'
-import { Box, Container } from '@mui/material'
-import React, { ReactNode } from 'react'
+import { AuthContext } from '@/contexts/auth/AuthContext';
+import { Avatar } from '@/mui/material';
+import HeaderHome from '@/templates/header/home-header';
+import { Box, Container } from '@mui/material';
+import React, { ReactNode, useContext } from 'react';
 
 interface HomeLayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const HomeLayout = (props: HomeLayoutProps): JSX.Element => {
@@ -32,7 +34,7 @@ const HomeLayout = (props: HomeLayoutProps): JSX.Element => {
         </Box>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default HomeLayout
+export default HomeLayout;

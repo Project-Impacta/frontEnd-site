@@ -1,1 +1,1 @@
-export { default as LogoImpactaStore } from './logo-impacta'
+export { default as LogoImpactaStore } from './logo-impacta';

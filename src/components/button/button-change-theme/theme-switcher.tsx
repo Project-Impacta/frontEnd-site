@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import styles from './styles.module.css'
-import { DarkModeIcon, IconButton, LightModeIcon } from '@/mui/material'
-import { useTheme } from 'next-themes'
-import React, { useEffect, useState } from 'react'
+import styles from './styles.module.css';
+import { DarkModeIcon, IconButton, LightModeIcon } from '@/mui/material';
+import { useTheme } from 'next-themes';
+import React, { useEffect, useState } from 'react';
 
 export default function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => setMounted(true), []);
 
   function isDark() {
-    return theme === 'dark'
+    return theme === 'dark';
   }
 
   if (!mounted || document.querySelectorAll('.theme-switcher').length > 1) {
-    return null
+    return null;
   }
 
   return (
@@ -38,5 +38,5 @@ export default function ThemeSwitcher() {
         {isDark() ? <LightModeIcon /> : <DarkModeIcon />}
       </IconButton>
     </div>
-  )
+  );
 }
