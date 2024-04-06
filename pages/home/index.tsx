@@ -10,6 +10,7 @@ export default function Home(): JSX.Element {
   useEffect(() => {
     api.get('/client');
   }, []);
+
   return (
     <AuthProvider>
       <HomePage />
@@ -30,6 +31,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       };
     }
   }
-  await apiCliente.get('/client');
+  apiCliente.get('/client');
   return { props: {} };
 };
