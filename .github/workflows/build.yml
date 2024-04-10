@@ -10,7 +10,6 @@ on:
 jobs:
   sonarcloud:
     name: SonarCloud
-    if: false  # Esta condição nunca será satisfeita, então o job nunca será executado
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,6 +17,8 @@ jobs:
           fetch-depth: 0  # Clonagens rasas devem ser desativadas para uma relevância melhor da análise
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+      - name: Install dependencies
+        run: npm install
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necessário para obter informações sobre PR, se houver
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
