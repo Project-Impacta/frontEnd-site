@@ -22,14 +22,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['nextauth.token']: token } = parseCookies(ctx);
 
   if (!token) {
-    {
-      return {
-        redirect: {
-          destination: '/introduction',
-          permanent: false,
-        },
-      };
-    }
+    return {
+      redirect: {
+        destination: '/introduction',
+        permanent: false,
+      },
+    };
   }
   apiCliente.get('/client');
   return { props: {} };
