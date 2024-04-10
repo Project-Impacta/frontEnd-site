@@ -43,7 +43,7 @@ export function AuthProvider(props: Readonly<AuthProviderProps>) {
   async function logout(): Promise<void> {
     setUser(null);
     setCookie(undefined, 'nextauth.token', '', { maxAge: -1 });
-    Router.push('/login');
+    Router.push('/introduction');
   }
 
   async function singIn({ cpf, password }: SingInData): Promise<void> {

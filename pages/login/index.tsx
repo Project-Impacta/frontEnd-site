@@ -1,6 +1,6 @@
 import { LoginPage } from '@/pages';
 import React from 'react';
 
-export default function Register(): JSX.Element {
+export default function Login(): JSX.Element {
   return <LoginPage />;
 }
