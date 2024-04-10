@@ -29,6 +29,10 @@ jobs:
       - name: Formatando Padrão Lint e Prettier
         run: npm run format
 
+      # Desabilitar a Análise Automática adicionando uma etapa vazia ou um comando que não faça nada
+      - name: Disable Automatic Analysis
+        run: echo "Automatic Analysis disabled"
+
       - name: Run Semantic Release
         run: npx semantic-release
         env:
