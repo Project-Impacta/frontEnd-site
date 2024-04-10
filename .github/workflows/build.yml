@@ -17,6 +17,8 @@ jobs:
           fetch-depth: 0  # Clonagens rasas devem ser desativadas para uma relevância melhor da análise
       - name: Install dependencies
         run: npm install
+      - name: Set up SonarCloud environment
+        run: echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_ENV
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
