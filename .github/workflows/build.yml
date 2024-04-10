@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Clonagens rasas devem ser desativadas para uma relevância melhor da análise
+          fetch-depth: 0 
       
       - name: Use Node.js 20.11.1
         uses: actions/setup-node@v2
