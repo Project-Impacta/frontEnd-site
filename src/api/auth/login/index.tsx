@@ -15,7 +15,7 @@ import { Box, Grid, LinearProgress } from '@mui/material';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 interface SignInData {
   cpf: string;
@@ -32,7 +32,7 @@ export default function LoginForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [dialogMessage, setDialogMessage] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
+  const [, setRedirecting] = useState(false);
   const { theme } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     cpf: '',
