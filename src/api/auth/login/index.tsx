@@ -32,7 +32,7 @@ export default function LoginForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [dialogMessage, setDialogMessage] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [, setRedirecting] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const { theme } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     cpf: '',
@@ -231,6 +231,15 @@ export default function LoginForm() {
             <DialogTitle>{dialogMessage}</DialogTitle>
           </Dialog>
         }
+        <Box>
+          {redirecting && (
+            <div className="redirecting">
+              <div className="loading-container">
+                <LinearProgress value={progress} />
+              </div>
+            </div>
+          )}
+        </Box>
       </Box>
     </AuthenticationLayout>
   );
