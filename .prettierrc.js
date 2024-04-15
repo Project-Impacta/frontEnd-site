@@ -1,5 +1,5 @@
 module.exports = {
-  semi: false,
+  semi: true,
   singleQuote: true,
   printWidth: 80,
   trailingComma: 'all',
@@ -24,16 +24,16 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       options: {
-        semi: false,
+        semi: true,
         singleQuote: true,
       },
     },
     {
       files: '*.js',
       options: {
-        semi: false,
+        semi: true,
         singleQuote: true,
       },
     },
   ],
-}
+};
