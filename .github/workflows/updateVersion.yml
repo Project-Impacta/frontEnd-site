@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+          token: ${{ secrets.GH_TOKEN }}
           persist-credentials: true
 
       - name: Use Node.js 20.11.1
