@@ -10,7 +10,7 @@ const nextConfig = {
   },
   output: 'standalone',
   experimental: {
-    optimizePackageImports: ['@mui/icons-material', '@telefonica/mistica'],
+    optimizePackageImports: ['@mui/icons-material'],
   },
   env: {
     version,

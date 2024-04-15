@@ -1,6 +1,6 @@
-export const validateFormFields = (formData: { [x: string]: string; }) => {
+export const validateFormFields = (formData: { [x: string]: string }) => {
   let valid = true;
-  const newErrors: { [key: string]: string; } = {}; // Especificando o tipo de newErrors
+  const newErrors: { [key: string]: string } = {}; // Especificando o tipo de newErrors
   Object.keys(formData).forEach((key) => {
     if (!formData[key].trim()) {
       newErrors[key] = 'Este campo é obrigatório.';
