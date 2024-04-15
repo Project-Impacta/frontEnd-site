@@ -6,7 +6,6 @@ import { parseCookies } from 'nookies';
 import React from 'react';
 
 const indexPage = (): JSX.Element => {
-
   return (
     <AuthProvider>
       <Home />;

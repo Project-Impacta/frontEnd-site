@@ -6,6 +6,7 @@ import {
   Alert,
   Dialog,
   DialogTitle,
+  Link,
   VisibilityIcon,
   VisibilityOffIcon,
 } from '@/mui/material';
@@ -141,7 +142,9 @@ export default function LoginForm() {
         )}
         <LogoImpactaStore />
         <Box
-          className={`title text-light-textPrimary dark:text-dark-textPrimary`}
+          position="relative"
+          top={'2vh'}
+          className={`title text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
         >
           Autentique-se
         </Box>
@@ -225,6 +228,15 @@ export default function LoginForm() {
           >
             Logar
           </ButtonPrimary>
+        </Box>
+        <Box>
+          <Link
+            href="/register"
+            underline="hover"
+            className={`link text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
+          >
+            {'Não possui um conta?'}
+          </Link>
         </Box>
         {
           <Dialog open={dialogOpen} onClose={handleCloseDialog}>

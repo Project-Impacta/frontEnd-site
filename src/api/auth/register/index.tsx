@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Grid,
   LinearProgress,
+  Link,
   VisibilityIcon,
   VisibilityOffIcon,
 } from '@/mui/material';
@@ -188,9 +189,13 @@ const RegisterForm: React.FC = () => {
         )}
         <LogoImpactaStore />
 
-        <div className="title text-light-textPrimary dark:text-dark-textPrimary">
+        <Box
+          position="relative"
+          top={'2vh'}
+          className="title text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
+        >
           Cadastre-se
-        </div>
+        </Box>
 
         <Box
           component="form"
@@ -373,6 +378,15 @@ const RegisterForm: React.FC = () => {
           >
             Cadastrar
           </ButtonPrimary>
+        </Box>
+        <Box>
+          <Link
+            href="/login"
+            underline="hover"
+            className={`link text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
+          >
+            {'Já possui um conta?'}
+          </Link>
         </Box>
         {
           <Dialog open={dialogOpen} onClose={handleCloseDialog}>

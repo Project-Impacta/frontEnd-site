@@ -1,8 +1,6 @@
-import { AuthContext } from '@/contexts/auth/AuthContext';
-import { Avatar } from '@/mui/material';
 import HeaderHome from '@/templates/header/home-header';
 import { Box, Container } from '@mui/material';
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 
 interface HomeLayoutProps {
   children: ReactNode;
