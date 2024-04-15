@@ -1,4 +1,4 @@
-name: SEMANTIC RELEASE
+name: Semantic Release
 
 on:
   push:
@@ -21,11 +21,7 @@ jobs:
           node-version: '20.11.1'
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Update Package Lock
-        run: npm update
-
+        run: npm ci
       - name: Run Semantic Release
         run: npx semantic-release
         env:

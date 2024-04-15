@@ -1,0 +1,33 @@
+# Define as configurações padrão para todos os arquivos
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = crlf
+
+trim_trailing_whitespace = true
+
+# Configurações específicas para arquivos TypeScript
+[*.ts]
+indent_size = 2
+
+# Configurações específicas para arquivos TypeScript-React
+[*.tsx]
+indent_size = 2
+
+# Configurações específicas para arquivos JavaScript
+[*.js]
+indent_size = 2
+
+# Configurações específicas para arquivos JSON
+[*.json]
+indent_size = 2
+
+# Configurações específicas para arquivos CSS
+[*.css]
+indent_size = 2
+
+# Configurações específicas para arquivos Markdown
+[*.md]
+indent_size = 2
+trim_trailing_whitespace = false

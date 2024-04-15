@@ -8,7 +8,7 @@
 /dist
 
 # Arquivos e diretórios específicos do VS Code
-.vscode/
+.vscode/settings.json
 
 # Arquivos específicos do Next.js
 /.next/

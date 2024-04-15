@@ -1,4 +1,4 @@
-const { version } = require('./package.json')
+const { version } = require('./package.json');
 
 /**
  * @type {import('next').NextConfig}
@@ -10,11 +10,11 @@ const nextConfig = {
   },
   output: 'standalone',
   experimental: {
-    optimizePackageImports: ['@mui/icons-material'],
+    optimizePackageImports: ['@mui/icons-material', '@telefonica/mistica'],
   },
   env: {
     version,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
