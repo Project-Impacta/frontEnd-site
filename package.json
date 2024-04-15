@@ -4,10 +4,6 @@
   "version": "4.5.0",
   "author": "Jh0w",
   "license": "MIT",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/Project-Impacta"
-  },
   "private": true,
   "release": {
     "branches": [
