@@ -270,7 +270,7 @@ const RegisterForm: React.FC = () => {
                 onChange={handleChange}
               />
               <Grid>
-                {errors.email && <Alert severity="error">{errors.email}</Alert>}
+                {errors.email && <Alert severity="info">{errors.email}</Alert>}
               </Grid>
             </Grid>
             <Grid item xs={5} sm={6}>
