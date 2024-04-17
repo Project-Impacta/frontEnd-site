@@ -1,6 +1,6 @@
 'use client';
 
-import { FormErrors, type FormData } from '@/@types/userTypes';
+import { FormErrors } from '@/@types/userTypes';
 import { ButtonPrimary } from '@/components/button';
 import { LogoImpactaStore } from '@/components/imagens';
 import {
@@ -12,7 +12,6 @@ import {
   VisibilityOffIcon,
 } from '@/mui/material';
 import { AuthenticationLayout, CssTextField } from '@/templates';
-import { formatCPF, isValidCPF } from '@/utils/form-utils';
 import { Box, Grid, LinearProgress } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useTheme } from 'next-themes';

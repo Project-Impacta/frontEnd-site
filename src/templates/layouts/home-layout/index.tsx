@@ -1,6 +1,4 @@
-import { Header } from '@/components/header/header';
-import HeaderHome from '@/templates/header/home-header';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { ReactNode } from 'react';
 
 interface HomeLayoutProps {
@@ -8,11 +6,7 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout = (props: HomeLayoutProps): JSX.Element => {
-  return (
-    <>
-      <Box>{props.children}</Box>
-    </>
-  );
+  return <Box>{props.children}</Box>;
 };
 
 export default HomeLayout;

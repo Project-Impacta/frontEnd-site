@@ -1,4 +1,4 @@
-import { Box, Container } from '@/mui/material';
+import { Container } from '@/mui/material';
 import ThemeProvider from '@/providers/theme-provider/theme-provider';
 import React, { ReactNode } from 'react';
 

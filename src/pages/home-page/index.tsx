@@ -1,6 +1,5 @@
 import { Header } from '@/components/header/header';
 import { Box, Typography } from '@/mui/material';
-import HomeLayout from '@/templates/layouts/home-layout';
 import Head from 'next/head';
 import React from 'react';
 
