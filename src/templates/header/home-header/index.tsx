@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import { LogoutButton, ThemeSwitcher } from '@/components/button';
+import { ThemeSwitcher } from '@/components/button';
 import { LogoImpactaStore } from '@/components/imagens';
 import React from 'react';
 
@@ -25,7 +25,6 @@ export default function HeaderHome() {
       >
         <ThemeSwitcher />
       </div>
-      <LogoutButton />
     </div>
   );
 }

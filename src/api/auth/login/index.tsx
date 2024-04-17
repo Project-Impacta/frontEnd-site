@@ -1,7 +1,8 @@
+'use client';
+
 import { FormErrors, type FormData } from '@/@types/userTypes';
 import { ButtonPrimary } from '@/components/button';
 import { LogoImpactaStore } from '@/components/imagens';
-import { AuthContext } from '@/contexts/auth/AuthContext';
 import {
   Alert,
   Dialog,
@@ -13,9 +14,10 @@ import {
 import { AuthenticationLayout, CssTextField } from '@/templates';
 import { formatCPF, isValidCPF } from '@/utils/form-utils';
 import { Box, Grid, LinearProgress } from '@mui/material';
+import { signIn } from 'next-auth/react';
 import { useTheme } from 'next-themes';
-import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface SignInData {
@@ -24,9 +26,9 @@ interface SignInData {
 }
 
 export default function LoginForm() {
-  const API_URL = 'http://localhost:3333';
-  const { singIn } = useContext(AuthContext);
   const router = useRouter();
+  const [cpf, setCpf] = useState('');
+  const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -35,33 +37,14 @@ export default function LoginForm() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const { theme } = useTheme();
-  const [formData, setFormData] = useState<FormData>({
-    cpf: '',
-    password: '',
-  });
+
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const handleCloseDialog = () => setDialogOpen(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    let newValue = value;
 
-    if (name === 'cpf') {
-      newValue = formatCPF(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        cpf: isValidCPF(newValue) ? '' : 'Insira somente números',
-      }));
-    }
-
-    setFormData((prevState) => ({ ...prevState, [name]: newValue }));
-  };
-
-  async function handleSignIn(data: SignInData) {
-    await singIn(data);
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
     setErrors({});
     setProgress(100);
-
-    const { cpf, password } = formData;
 
     if (!cpf || !password) {
       setDialogMessage(`Preencha todos os campos.`);
@@ -70,24 +53,23 @@ export default function LoginForm() {
       return;
     }
 
+    const unformattedCPF = cpf.replace(/\D/g, '');
+
     const formDataForBackend = {
-      ...formData,
-      cpf: cpf.replace(/\D/g, ''),
+      cpf: unformattedCPF,
       password: password,
     };
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formDataForBackend),
-    };
-
     try {
-      const response = await fetch(`${API_URL}/login/auth`, requestOptions);
-      console.log('Resposta do Server', response);
-      const responseData = await response.json();
+      const response = await signIn('credentials', {
+        redirect: false,
+        ...formDataForBackend,
+        cpf,
+        password,
+      });
+      console.log('[LOGIN_RESPONSE]:', response);
 
-      if (response.ok) {
+      if (!response?.error) {
         setDialogMessage('Autenticação realizada com sucesso!');
         setDialogOpen(true);
         setRedirecting(true);
@@ -95,21 +77,11 @@ export default function LoginForm() {
         setTimeout(() => {
           setDialogMessage('Redirecionando para a página inicial...');
           setTimeout(() => {
-            console.log('Redirecionando para a homepage...');
             router.push('/home');
           }, 3000);
         }, 2000);
       } else {
-        switch (response.status) {
-          case 409:
-            setDialogMessage(responseData.message);
-            break;
-          case 404:
-            setDialogMessage(responseData.message);
-            break;
-          default:
-            setDialogMessage('Erro desconhecido.');
-        }
+        setDialogMessage('CPF ou Senha invalidas...');
         setDialogOpen(true);
       }
     } catch (error) {
@@ -121,8 +93,8 @@ export default function LoginForm() {
     } finally {
       setSubmitting(false);
     }
-  }
-  const { register, handleSubmit } = useForm<SignInData>();
+  };
+  const { register } = useForm<SignInData>();
 
   return (
     <AuthenticationLayout>
@@ -150,7 +122,7 @@ export default function LoginForm() {
         </Box>
         <Box
           component="form"
-          onSubmit={handleSubmit(handleSignIn)}
+          onSubmit={(e) => handleSignIn(e)}
           noValidate
           sx={{ mt: 3, maxHeight: '300vh' }}
         >
@@ -164,8 +136,7 @@ export default function LoginForm() {
                 label="CPF"
                 name="cpf"
                 autoComplete="cpf"
-                value={formData.cpf}
-                onChange={handleChange}
+                onChange={(e) => setCpf(e.target.value)}
               />
               <Grid>
                 {errors.cpf && <Alert severity="info">{errors.cpf}</Alert>}
@@ -180,8 +151,7 @@ export default function LoginForm() {
                 label="Senha"
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="password"
-                value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <button

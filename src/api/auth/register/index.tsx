@@ -159,7 +159,6 @@ const RegisterForm: React.FC = () => {
         setDialogOpen(true);
       }
     } catch (error) {
-      console.error('Erro ao enviar o formulário:', error);
       setDialogMessage(
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
       );

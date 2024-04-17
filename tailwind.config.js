@@ -40,5 +40,5 @@ module.exports = {
       textColor: ['visited'],
     },
   },
-  plugins: [],
+  plugins: [require('@mui/icons-material')],
 };

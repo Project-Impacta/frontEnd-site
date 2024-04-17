@@ -19,7 +19,7 @@ const AuthenticationLayout = (
             maxHeight: '200vh',
             maxWidth: '100vw',
           }}
-          className={`border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 border-solid rounded-lg dark:border-dark-formFieldBorder bg-light-formFieldBackground dark:bg-dark-formFieldBackground
+          className={`border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 dark:border-dark-formFieldBorder bg-light-formFieldBackground dark:bg-dark-formFieldBackground
         `}
         >
           <Box
