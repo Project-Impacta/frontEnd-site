@@ -10,12 +10,17 @@ const middleware = (request: NextRequestWithAuth) => {
 
   const isPrivateRoutes = request.nextUrl.pathname.startsWith('/admin');
 
-  const isAdminUser = request.nextauth.token?.type === 'admin';
+  const isAdminUser = request.nextauth.token?.role === 'admin';
 
-  if (isPrivateRoutes && isAdminUser) {
-    return NextResponse.rewrite(new URL('denied', request.url));
+  if (isPrivateRoutes && !isAdminUser) {
+    // Se a rota é privada (começa com '/admin') e o usuário não é um administrador, redirecione para uma página de negação de acesso
+    return NextResponse.redirect(new URL('/denied', request.url).toString());
   }
+
+  // Se o usuário for um administrador ou se a rota não for privada, continue o fluxo normal
+  return NextResponse.next();
 };
+
 const callbackOptions: NextAuthMiddlewareOptions = {};
 
 export default withAuth(middleware, callbackOptions);

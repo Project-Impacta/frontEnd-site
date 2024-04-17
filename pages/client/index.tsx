@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 
 const ClientPage = () => {
   const { data: session } = useSession();
+  const role = session?.role;
   return (
     <>
       <Header />
@@ -27,6 +28,9 @@ const ClientPage = () => {
               {JSON.stringify(session, null, 2)}
             </pre>
           )}
+        </Typography>
+        <Typography variant="h6" sx={{ my: 1 }}>
+          {role === 'cliente' && <p>Você é um cliente</p>}
         </Typography>
       </Box>
     </>

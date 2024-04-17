@@ -14,12 +14,15 @@ export default NextAuth({
       async authorize(credentials) {
         const res = await fetch(`${API_URL}/login/auth`, {
           method: 'POST',
-          body: JSON.stringify(credentials),
+          body: JSON.stringify({
+            cpf: credentials?.cpf,
+            password: credentials?.password,
+          }),
           headers: { 'Content-Type': 'application/json' },
         });
         const user = await res.json();
         if (res.ok && user) {
-          return user;
+          return { ...user, role: user.profile.type };
         }
         return null;
       },
@@ -27,22 +30,21 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      const customUser = user as unknown as any;
       if (user) {
         return {
           ...token,
-          customUser,
+          ...user,
         };
       }
       return token;
     },
 
     async session({ session, token }) {
-      const customToken = token as unknown as any;
       if (token) {
         return {
           ...session,
-          customToken,
+          user: token,
+          maxAge: 60 * 60 * 1 /* NOTE: 1 hora */,
         };
       }
       return session;

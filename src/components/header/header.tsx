@@ -1,7 +1,9 @@
 import { SingOutButton } from '../button';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const Header = () => {
+  const { data: session } = useSession();
   return (
     <header
       className={
@@ -23,9 +25,11 @@ const Header = () => {
           <li>
             <Link href="/admin">Administrador</Link>
           </li>
-          <li>
-            <SingOutButton />
-          </li>
+          {session && (
+            <li>
+              <SingOutButton />
+            </li>
+          )}
         </ul>
       </nav>
     </header>

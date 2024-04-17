@@ -1,7 +1,10 @@
 import { Header } from '@/components/header/header';
 import { Box, Typography } from '@/mui/material';
+import { useSession } from 'next-auth/react';
 
 const AdminPage = () => {
+  const { data: session } = useSession();
+  const role = session?.role;
   return (
     <>
       <Header />
@@ -14,7 +17,15 @@ const AdminPage = () => {
           Página do Administrador
         </Typography>
         <Typography variant="h5" sx={{ my: 1 }}>
-          Esta é a página do administrador.
+          {session && (
+            <pre
+              className={
+                'border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 dark:border-dark-formFieldBorder bg-light-formFieldBackground dark:bg-dark-formFieldBackground p-10'
+              }
+            >
+              {JSON.stringify(session, null, 2)}
+            </pre>
+          )}
         </Typography>
       </Box>
     </>
