@@ -2,6 +2,10 @@ import { Session } from 'next-auth';
 
 declare module 'next-auth' {
   interface Session {
-    role: string;
+    user: {
+      role: string;
+      cpf: string;
+      token: string;
+    };
   }
 }

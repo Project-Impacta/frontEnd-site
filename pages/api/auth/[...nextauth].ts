@@ -18,7 +18,11 @@ export default NextAuth({
             cpf: credentials?.cpf,
             password: credentials?.password,
           }),
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            origin: `frontend-origin`,
+            token: `ad120r9j09ASJ0912ssSA9Sj1`,
+          },
         });
         const user = await res.json();
         if (res.ok && user) {

@@ -2,11 +2,15 @@
 
 import { Header } from '@/components/header/header';
 import { Box, Typography } from '@mui/material';
+import { jwtDecode } from 'jwt-decode';
 import { useSession } from 'next-auth/react';
 
 const ClientPage = () => {
   const { data: session } = useSession();
-  const role = session?.role;
+  const role = session?.user.role;
+  const token = session?.user.token;
+  const decoded = token ? jwtDecode(token) : null;
+  console.log(decoded);
   return (
     <>
       <Header />
@@ -19,13 +23,13 @@ const ClientPage = () => {
           Página do Cliente
         </Typography>
         <Typography variant="h5" sx={{ my: 3 }}>
-          {session && (
+          {role === 'cliente' && session && (
             <pre
               className={
-                'border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 dark:border-dark-formFieldBorder bg-light-formFieldBackground dark:bg-dark-formFieldBackground p-10'
+                'border-2 border-solid rounded-lg border-light-formFieldBorder dark:border-2 dark:border-dark-formFieldBorder bg-light-formFieldBackground dark:bg-dark-formFieldBackground p-10 '
               }
             >
-              {JSON.stringify(session, null, 2)}
+              {role === 'cliente' && session.user.token}
             </pre>
           )}
         </Typography>

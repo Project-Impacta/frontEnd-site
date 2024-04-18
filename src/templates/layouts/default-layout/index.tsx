@@ -1,4 +1,4 @@
-import { Container } from '@/mui/material';
+import { Box } from '@/mui/material';
 import ThemeProvider from '@/providers/theme-provider/theme-provider';
 import React, { ReactNode } from 'react';
 
@@ -9,9 +9,9 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <Container fixed>
+      <Box>
         <main>{children}</main>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 };
