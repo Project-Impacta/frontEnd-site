@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -20,8 +21,8 @@ export default NextAuth({
           }),
           headers: {
             'Content-Type': 'application/json',
-            origin: `frontend-origin`,
-            token: `ad120r9j09ASJ0912ssSA9Sj1`,
+            origin: `${process.env.FRONTEND_ORIGIN}`,
+            token: `${process.env.FRONTEND_TOKEN}`,
           },
         });
         const user = await res.json();
