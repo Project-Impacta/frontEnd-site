@@ -57,7 +57,9 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@hookform/resolvers": "^3.3.4",
     "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.15",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
@@ -71,11 +73,12 @@
     "postcss": "^8.4.38",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.51.2",
+    "react-hook-form": "^7.51.3",
     "sharp": "^0.33.3",
     "tailwindcss": "^3.4.3",
     "uuid": "^9.0.1",
-    "yarn": "^2.4.3"
+    "yarn": "^2.4.3",
+    "zod": "^3.22.5"
   },
   "scripts": {
     "dev": "next dev",
@@ -89,6 +92,7 @@
   },
   "engines": {
     "node": ">=18.18.0",
-    "npm": ">=10.3.0"
+    "npm": ">=10.3.0",
+    "pnpm": ">=3"
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { Header } from '@/components/header/header';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from '@/mui/material';
 import { jwtDecode } from 'jwt-decode';
 import { useSession } from 'next-auth/react';
 

@@ -27,7 +27,10 @@ export default NextAuth({
         });
         const user = await res.json();
         if (res.ok && user) {
-          return { ...user, role: user.profile.type };
+          return {
+            ...user,
+            role: user.profile.type,
+          };
         }
         return null;
       },

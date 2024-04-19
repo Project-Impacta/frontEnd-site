@@ -2,10 +2,7 @@
   // Configurações do editor
   "editor.fontSize": 14,
   "editor.lineHeight": 1.8,
-  "editor.rulers": [
-    80,
-    120
-  ],
+  "editor.rulers": [80, 120],
   "editor.parameterHints.enabled": false,
   "editor.renderLineHighlight": "gutter",
   "editor.suggestSelection": "first",
@@ -156,7 +153,6 @@
     ".monaco-list-row": "border-radius: 4px;",
     ".monaco-workbench .monaco-list:not(.element-focused):focus:before": "display: none;"
   },
-  "cSpell.words": [
-    "nextauth"
-  ]
+  "cSpell.words": ["nextauth"],
+  "cSpell.language": "en,pt-BR,pt"
 }

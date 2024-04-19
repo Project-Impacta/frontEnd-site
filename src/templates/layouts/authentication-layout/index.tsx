@@ -1,5 +1,5 @@
+import { Box, Container } from '@/mui/material';
 import HeaderAuthentication from '@/templates/header/authentication-header';
-import { Box, Container } from '@mui/material';
 import React, { ReactNode } from 'react';
 
 interface AuthenticationLayoutProps {

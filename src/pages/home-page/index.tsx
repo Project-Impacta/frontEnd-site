@@ -1,5 +1,5 @@
 import { Header } from '@/components/header/header';
-import { Box, Typography } from '@/mui/material';
+import { Box, Container, Typography } from '@/mui/material';
 import Head from 'next/head';
 import React from 'react';
 
@@ -9,18 +9,18 @@ export default function HomePage(): JSX.Element {
       <Head>
         <title>Home</title>
       </Head>
-
-      <Header />
-
-      <Box
-        className={
-          'w-full max-w-screen-xl h-screen flex justify-center items-center'
-        }
-      >
-        <Typography variant="h4" sx={{ my: 3 }}>
-          Página Home
-        </Typography>
-      </Box>
+      <Container maxWidth="xs">
+        <Header />
+        <Box
+          className={
+            'w-full max-w-screen-xl h-screen flex justify-center items-center'
+          }
+        >
+          <Typography variant="h4" sx={{ my: 3 }}>
+            Página Home
+          </Typography>
+        </Box>
+      </Container>
     </>
   );
 }
