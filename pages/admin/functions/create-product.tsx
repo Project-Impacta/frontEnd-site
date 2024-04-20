@@ -22,26 +22,26 @@ export function CreateProductDialog() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    price: '',
-    category: '',
+    price: 0,
+    category: 0,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === 'price' ? parseFloat(value) : value,
     }));
   };
 
   const handleCreateProduct = async () => {
     try {
-      const token = 'ad120r9j09ASJ0912ssSA9Sj1';
       const response = await fetch(`${API_URL}/product`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          origin: `frontend-origin`,
+          token: `ad120r9j09ASJ0912ssSA9Sj1`,
         },
         body: JSON.stringify(formData),
       });
@@ -62,8 +62,8 @@ export function CreateProductDialog() {
     setFormData({
       name: '',
       description: '',
-      price: '',
-      category: '',
+      price: 0,
+      category: 0,
     });
     setOpen(false);
   };
@@ -131,6 +131,7 @@ export function CreateProductDialog() {
               name={'category'}
               label={'Categoria'}
               style={{ gridColumn: 'span 3' }}
+              type="number"
               value={formData.category}
               onChange={handleInputChange}
             />
