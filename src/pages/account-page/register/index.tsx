@@ -21,12 +21,12 @@ import {
   validateEmail,
   validatePasswordsMatch,
 } from '@/utils/form-utils';
+import 'dotenv/config';
 import { useTheme } from 'next-themes';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-require('dotenv').config();
 type FormData = {
   firstName: string;
   lastName: string;
@@ -136,7 +136,15 @@ const RegisterPage = (): JSX.Element => {
         origin: `${process.env.FRONTEND_ORIGIN}`,
         token: `${process.env.FRONTEND_TOKEN}`,
       },
-      body: JSON.stringify(formDataForBackend),
+      body: JSON.stringify({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone.replace(/\D/g, ''),
+        cpf: formData.cpf.replace(/\D/g, ''),
+        email: formData.email,
+        password: formData?.password,
+        formDataForBackend,
+      }),
     };
 
     try {

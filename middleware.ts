@@ -5,6 +5,11 @@ import {
 } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
+// Definindo um tipo personalizado que inclui a propriedade 'authorize'
+interface CustomNextAuthMiddlewareOptions extends NextAuthMiddlewareOptions {
+  authorize: (req: NextRequestWithAuth, res: any) => Promise<boolean>;
+}
+
 const middleware = (request: NextRequestWithAuth) => {
   console.log('[MIDDLEWARE_NEXT_AUTH_TOKEN]:', request.nextauth.token);
 
@@ -21,8 +26,23 @@ const middleware = (request: NextRequestWithAuth) => {
   return NextResponse.next();
 };
 
-const callbackOptions: NextAuthMiddlewareOptions = {};
+// Definindo as opções de middleware personalizado
+const callbackOptions: CustomNextAuthMiddlewareOptions = {
+  authorize: async (req, res) => {
+    // Aqui você pode acessar as informações do usuário através de req.nextauth.token
+    // Verifique se o token contém as informações necessárias
+    const userRole = req.nextauth.token?.role;
 
+    // Verifique se o usuário tem a permissão necessária
+    if (userRole === 'admin') {
+      return true; // Permita o acesso
+    } else {
+      return false; // Negue o acesso
+    }
+  },
+};
+
+// Aplicando o middleware personalizado
 export default withAuth(middleware, callbackOptions);
 
 export const config = { matcher: ['/admin'] };
