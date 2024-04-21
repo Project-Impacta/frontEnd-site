@@ -21,7 +21,7 @@ export default NextAuth({
           }),
           headers: {
             'Content-Type': 'application/json',
-            origin: `${process.env.FRONTEND_ORIGIN}`,
+            secret_origin: `${process.env.FRONTEND_ORIGIN}`,
             token: `${process.env.FRONTEND_TOKEN}`,
           },
         });

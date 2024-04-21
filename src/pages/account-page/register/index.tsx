@@ -133,8 +133,8 @@ const RegisterPage = (): JSX.Element => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        origin: `${process.env.FRONTEND_ORIGIN}`,
-        token: `${process.env.FRONTEND_TOKEN}`,
+        secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+        token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
       },
       body: JSON.stringify({
         firstName: formData.firstName,

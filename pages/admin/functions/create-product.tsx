@@ -40,8 +40,8 @@ export function CreateProductDialog() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          origin: `frontend-origin`,
-          token: `ad120r9j09ASJ0912ssSA9Sj1`,
+          secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+          token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
         },
         body: JSON.stringify(formData),
       });
