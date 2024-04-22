@@ -1,3 +1,4 @@
+import { ProductsSchema } from '@/@types/productTypes';
 import {
   AttachMoneyOutlined as AttachMoneyOutlinedIcon,
   CategoryOutlined as CategoryOutlinedIcon,
@@ -19,7 +20,7 @@ const API_URL = 'http://localhost:3333';
 
 export function CreateProductDialog() {
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductsSchema>({
     name: '',
     description: '',
     price: 0,
@@ -46,15 +47,14 @@ export function CreateProductDialog() {
         body: JSON.stringify(formData),
       });
 
+      const responseData = await response.json();
       if (!response.ok) {
-        throw new Error('Erro ao criar produto');
+        throw new Error('Erro ao criar produto: ' + responseData);
       }
 
-      const responseData = await response.json();
-      console.log(responseData);
       resetFormData();
     } catch (error) {
-      console.error('Erro ao criar produto:', error);
+      throw new Error('Erro ao criar produto' + error);
     }
   };
 
@@ -119,7 +119,7 @@ export function CreateProductDialog() {
               name={'price'}
               label={'Preço'}
               style={{ gridColumn: 'span 3' }}
-              type="number"
+              type="string"
               value={formData.price}
               onChange={handleInputChange}
             />
