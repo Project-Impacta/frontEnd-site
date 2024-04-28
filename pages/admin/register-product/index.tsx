@@ -1,6 +1,6 @@
-import { CreateProductDialog } from '../functions/create-product';
-import { ProductsFilter } from '../functions/products-filters';
 import { ButtonPrimary } from '@/components/button';
+import { CreateProductDialog } from '@/components/functions/create-product';
+import { ProductsFilter } from '@/components/functions/products-filters';
 import { Box, Container } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';

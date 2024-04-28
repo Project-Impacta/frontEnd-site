@@ -1,27 +1,19 @@
-import styles from './styles.module.css';
 import { ThemeSwitcher } from '@/components/button';
 import { LogoImpactaStore } from '@/components/imagens';
 import React from 'react';
 
 export default function HeaderHome() {
   return (
-    <div
-      className={`bg-light-background dark:bg-dark-background text-light-textPrimary dark:text-dark-textPrimary ${styles.headerBg}`}
-    >
-      <div
-        className="title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
-        style={{ position: 'relative', top: '20px', paddingLeft: '25px' }}
-      >
+    <div className="flex justify-between">
+      <div className="title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl flex p-2 my-2 gap-2 items-center">
         <LogoImpactaStore />
+        <h1 className="text-light-textPrimary dark:text-dark-textPrimary">
+          Store Impacta
+        </h1>
       </div>
-      <h1
-        className="title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
-        style={{ position: 'relative', bottom: '35px', paddingLeft: '80px' }}
-      >
-        Store Impacta
-      </h1>
+
       <div
-        className={`title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${styles.themeIcon}`}
+        className={`title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl  items-center p-2 my-4`}
       >
         <ThemeSwitcher />
       </div>

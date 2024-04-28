@@ -20,13 +20,13 @@ body {
 /* Definindo uma fonte padrão para toda a página */
 body {
   font-family: 'Roboto', sans-serif;
-  @apply bg-light-backgroundColor bg-dark-backgroundColor;
 }
 
 /* Estilos para o tema claro */
 .theme-light {
   --bg-primary: #f2f2f2;
-  --bg-secondary: #f2f2f2;
+  --bg-secondary: #f9f9f9;
+  --button-primary: #1f85c5;
   --text-primary: #012340;
   --text-secondary: #262626;
   --formFieldBorder: #012340;
@@ -36,6 +36,7 @@ body {
 .theme-dark {
   --bg-primary: #011826;
   --bg-secondary: #0f172a;
+  --bg-button-primary: #1f85c5;
   --text-primary: #f2f2f2;
   --text-secondary: #cccccc;
   --formFieldBorder: #26221f;
@@ -46,7 +47,6 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
 }
-
 /* Estilos de contêiner */
 .container {
   max-width: 1280px;

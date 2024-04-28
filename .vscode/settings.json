@@ -43,7 +43,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "package.json": "vite*, pnpm-lock*, bun.lockb, nest*, .prettierrc*, prettierrc*, .eslintrc*, eslintrc*, tsconfig.*",
-    "tailwind.config.js": "tailwind.config*, postcss.config*",
+    "tailwind.config*": "tailwind.config*, postcss.config*",
     ".env.local": ".env*",
     ".env": ".env*"
   },
@@ -80,6 +80,7 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+
   // Configurações de exclusão de arquivos
   "files.exclude": {
     "**/CVS": true,
@@ -91,7 +92,7 @@
   "files.associations": {
     ".env.*": "dotenv",
     ".prettierrc": "json",
-    "*.css": "css, tailwindcss"
+    "*.css": "tailwindcss"
   },
   // Configurações de plugins e temas adicionais
   "extensions.ignoreRecommendations": true,
@@ -154,5 +155,5 @@
     ".monaco-workbench .monaco-list:not(.element-focused):focus:before": "display: none;"
   },
   "cSpell.words": ["nextauth"],
-  "cSpell.language": "en,pt-BR,pt"
+  "cSpell.language": "en,pt,pt-BR"
 }

@@ -28,7 +28,7 @@ const middleware = (request: NextRequestWithAuth) => {
 
 // Definindo as opções de middleware personalizado
 const callbackOptions: CustomNextAuthMiddlewareOptions = {
-  authorize: async (req, res) => {
+  authorize: async (req) => {
     // Aqui você pode acessar as informações do usuário através de req.nextauth.token
     // Verifique se o token contém as informações necessárias
     const userRole = req.nextauth.token?.role;

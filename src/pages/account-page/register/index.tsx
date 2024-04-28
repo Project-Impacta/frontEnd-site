@@ -1,176 +1,131 @@
 'use client ';
 
-import { ButtonPrimary } from '@/components/button';
+import { ButtonLoading } from '@/components/button/button-loading/loadingBtn';
 import { LogoImpactaStore } from '@/components/imagens';
+import { AlertDescription } from '@/components/ui/alert';
 import {
-  Alert,
-  Box,
-  Dialog,
-  DialogTitle,
-  Grid,
-  LinearProgress,
-  Link,
-  VisibilityIcon,
-  VisibilityOffIcon,
-} from '@/mui/material';
-import { AuthenticationLayout, CssTextField } from '@/templates';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   formatCPF,
   formatPhone,
   isValidCPF,
   validateEmail,
-  validatePasswordsMatch,
-} from '@/utils/form-utils';
+} from '@/lib/utils/form-utils';
+import { FormData, FormDataSchema } from '@/types/userTypes';
+import { zodResolver } from '@hookform/resolvers/zod';
 import 'dotenv/config';
-import { useTheme } from 'next-themes';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  cpf: string;
-  email: string;
-  password: string;
-  repeatPassword: string;
-};
+const API_URL = 'http://localhost:3333';
 
-type FormErrors = Partial<FormData>;
 const RegisterPage = (): JSX.Element => {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    cpf: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { isSubmitting, errors },
+  } = useForm<FormDataSchema>({
+    resolver: zodResolver(FormData),
   });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [showPassword, setShowPassword] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState('');
-  const [progress, setProgress] = useState(0);
-  const [submitting, setSubmitting] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
-  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [dialogMessage, setDialogMessage] = React.useState('');
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const handleCloseDialog = () => setDialogOpen(false);
 
-  const toggleShowRepeatPassword = () =>
-    setShowRepeatPassword(!showRepeatPassword);
-
-  const router = useRouter();
-  const API_URL = 'http://localhost:3333';
-
-  useEffect(() => {
-    const { password, repeatPassword } = formData;
-    const matchResult = validatePasswordsMatch(password, repeatPassword);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      repeatPassword: matchResult.message,
-    }));
-  }, [formData, formData.password, formData.repeatPassword]);
-
-  const toggleShowPassword = () => setShowPassword(!showPassword);
-  const { theme } = useTheme();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    let newValue = value;
-
+    let error = '';
     if (name === 'cpf') {
-      newValue = formatCPF(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        cpf: isValidCPF(newValue) ? '' : 'Insira somente números',
-      }));
+      const formattedCPF = formatCPF(value);
+      error = isValidCPF(formattedCPF) ? '' : 'Insira somente números';
+      setError(
+        name as keyof FormDataSchema,
+        { message: error },
+        { shouldFocus: false },
+      );
     } else if (name === 'phone') {
-      newValue = formatPhone(value);
+      setError(
+        name as keyof FormDataSchema,
+        { message: error },
+        { shouldFocus: false },
+      );
     } else if (name === 'email') {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: validateEmail(value) || '',
-      }));
+      error = validateEmail(value) || '';
+      setError(
+        name as keyof FormDataSchema,
+        { message: error },
+        { shouldFocus: false },
+      );
     }
 
-    setFormData((prevState) => ({ ...prevState, [name]: newValue }));
+    setValue(name as keyof FormDataSchema, value);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors({});
-    setProgress(100);
-    setSubmitting(true);
-
-    const requiredFields = [
-      'firstName',
-      'lastName',
-      'phone',
-      'cpf',
-      'email',
-      'password',
-      'repeatPassword',
-    ];
+  async function onSubmit(data: FormDataSchema) {
+    const requiredFields = [data];
     const incompleteFields = requiredFields.filter(
-      (field) => !formData[field as keyof FormData],
+      (field) => !data[field as unknown as keyof FormDataSchema],
     );
 
     if (incompleteFields.length > 0) {
       setDialogMessage(`Preencha todos os campos.`);
       setDialogOpen(true);
-      setSubmitting(false);
-      return;
     }
 
     const formDataForBackend = {
-      ...formData,
-      cpf: formData.cpf.replace(/\D/g, ''),
-      phone: formData.phone.replace(/\D/g, ''),
-      email: formData.email.toLowerCase().trim(),
+      ...data,
+      cpf: data.cpf.replace(/\D/g, ''),
+      phone: data.phone.replace(/\D/g, ''),
+      email: data.email.toLowerCase().trim(),
     };
-
     const requestOptions = {
       method: 'POST',
+      body: JSON.stringify({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone.replace(/\D/g, ''),
+        cpf: data.cpf.replace(/\D/g, ''),
+        email: data.email,
+        password: data?.password,
+        formDataForBackend,
+      }),
       headers: {
         'Content-Type': 'application/json',
         secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
         token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
       },
-      body: JSON.stringify({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone.replace(/\D/g, ''),
-        cpf: formData.cpf.replace(/\D/g, ''),
-        email: formData.email,
-        password: formData?.password,
-        formDataForBackend,
-      }),
     };
 
     try {
       const response = await fetch(`${API_URL}/client`, requestOptions);
-      const responseData = await response.json();
 
       if (response.ok) {
         setDialogMessage('Cadastro realizado com sucesso!');
         setDialogOpen(true);
-        setRedirecting(true);
-
-        setTimeout(() => {
-          setDialogMessage('Redirecionando para a página de autenticação');
-          setTimeout(() => {
-            router.push('/login');
-          }, 3000);
-        }, 2000);
       } else {
-        switch (response.status) {
-          case 409:
-            setDialogMessage(responseData.message);
-            break;
+        setDialogMessage(
+          'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
+        );
 
-          default:
-            setDialogMessage(responseData.message);
-        }
         setDialogOpen(true);
       }
     } catch (error) {
@@ -178,252 +133,149 @@ const RegisterPage = (): JSX.Element => {
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
       );
       setDialogOpen(true);
-    } finally {
-      setSubmitting(false);
     }
-  };
-
-  const handleCloseDialog = () => setDialogOpen(false);
+  }
 
   return (
     <>
       <Head>
         <title>Cadastre-se</title>
       </Head>
-      <AuthenticationLayout>
-        <Box
-          sx={{
-            mt: 2,
-            mb: 2,
-            ml: 2,
-            mr: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {submitting && (
-            <LinearProgress variant="determinate" value={progress} />
-          )}
-          <LogoImpactaStore />
-
-          <Box
-            position="relative"
-            top={'2vh'}
-            className="title text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
-          >
-            Cadastre-se
-          </Box>
-
-          <Box
-            component="form"
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
-            noValidate
-            sx={{ mt: 3, maxHeight: '300vh' }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={6} sm={6}>
-                <CssTextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="Nome"
-                  autoFocus
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={6} sm={6}>
-                <CssTextField
-                  autoComplete="given-name"
-                  name="lastName"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Sobrenome"
-                  autoFocus
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={6} sm={6}>
-                <CssTextField
-                  required
-                  fullWidth
-                  id="cpf"
-                  label="CPF"
-                  name="cpf"
-                  autoComplete="cpf"
-                  value={formData.cpf}
-                  onChange={handleChange}
-                />
-                <Grid>
-                  {errors.cpf && <Alert severity="info">{errors.cpf}</Alert>}
-                </Grid>
-              </Grid>
-              <Grid item xs={6} sm={6}>
-                <CssTextField
-                  required
-                  fullWidth
-                  id="phone"
-                  label="Celular"
-                  name="phone"
-                  autoComplete="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
-                {errors.phone && <Alert severity="info">{errors.phone}</Alert>}
-              </Grid>
-              <Grid item xs={12}>
-                <CssTextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="E-mail"
-                  name="email"
-                  autoComplete="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                <Grid>
-                  {errors.email && (
-                    <Alert severity="info">{errors.email}</Alert>
+      <div className="flex mx-auto justify-center items-center">
+        <Card>
+          <CardHeader className="items-center gap-1">
+            <CardTitle className="relative lg:text-xl xl:text-2xl">
+              <LogoImpactaStore />
+            </CardTitle>
+            <CardDescription className="text-center title text-light-textPrimary dark:text-dark-textPrimary lg:text-xl xl:text-2xl">
+              Cadastre-se
+            </CardDescription>
+          </CardHeader>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                <div>
+                  <Label htmlFor="firstName">Nome</Label>
+                  <Input
+                    {...register('firstName', { required: true })}
+                    id="firstName"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lastName">Último Nome</Label>
+                  <Input
+                    {...register('lastName', { required: true })}
+                    id="lastName"
+                    type="text"
+                    onChange={handleChange}
+                    name="lastName"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="cpf">CPF</Label>
+                  <Input
+                    {...register('cpf', {
+                      required: true,
+                      pattern: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+                      onChange: (e) => {
+                        e.target.value = formatCPF(e.target.value);
+                      },
+                    })}
+                    id="cpf"
+                    type="text"
+                    name="cpf"
+                  />
+                  {errors.cpf && (
+                    <AlertDescription>{errors.cpf.message}</AlertDescription>
                   )}
-                </Grid>
-              </Grid>
-              <Grid item xs={5} sm={6}>
-                <CssTextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Senha"
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="new-password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  InputProps={{
-                    endAdornment: (
-                      <button
-                        type="button"
-                        onClick={toggleShowPassword}
-                        aria-label={
-                          showPassword ? 'Ocultar senha' : 'Mostrar senha'
-                        }
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {showPassword ? (
-                          <VisibilityOffIcon
-                            sx={{
-                              color: theme === 'dark' ? '#F2F2F2' : '#012340',
-                            }}
-                            fontSize="small"
-                          />
-                        ) : (
-                          <VisibilityIcon
-                            sx={{
-                              color: theme === 'dark' ? '#F2F2F2' : '#012340',
-                            }}
-                            fontSize="small"
-                          />
-                        )}
-                      </button>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={7} sm={6}>
-                <CssTextField
-                  required
-                  fullWidth
-                  name="repeatPassword"
-                  label="Repita a Senha"
-                  type={showRepeatPassword ? 'text' : 'password'}
-                  autoComplete="new-password"
-                  value={formData.repeatPassword}
-                  onChange={handleChange}
-                  InputProps={{
-                    endAdornment: (
-                      <button
-                        type="button"
-                        onClick={toggleShowRepeatPassword}
-                        aria-label={
-                          showRepeatPassword ? 'Ocultar senha' : 'Mostrar senha'
-                        }
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {showRepeatPassword ? (
-                          <VisibilityOffIcon
-                            sx={{
-                              color: theme === 'dark' ? '#F2F2F2' : '#012340',
-                            }}
-                            fontSize="small"
-                          />
-                        ) : (
-                          <VisibilityIcon
-                            sx={{
-                              color: theme === 'dark' ? '#F2F2F2' : '#012340',
-                            }}
-                            fontSize="small"
-                          />
-                        )}
-                      </button>
-                    ),
-                  }}
-                />
-              </Grid>
-            </Grid>
-            <Grid item>
-              {errors.repeatPassword && (
-                <Alert severity="error">{errors.repeatPassword}</Alert>
-              )}
-            </Grid>
-            <ButtonPrimary
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 3,
-                mb: 1,
-              }}
-            >
-              Cadastrar
-            </ButtonPrimary>
-          </Box>
-          <Box>
-            <Link
-              href="/login"
-              underline="hover"
-              className={`link text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
-            >
-              {'Já possui um conta?'}
-            </Link>
-          </Box>
-          {
-            <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-              <DialogTitle>{dialogMessage}</DialogTitle>
-            </Dialog>
-          }
-          <Box>
-            {redirecting && (
-              <div className="redirecting">
-                <div className="loading-container">
-                  <LinearProgress value={progress} />
+                </div>
+                <div>
+                  <Label htmlFor="phone">Telefone Celular</Label>
+                  <Input
+                    {...register('phone', {
+                      required: true,
+                      onChange: (e) => {
+                        e.target.value = formatPhone(e.target.value);
+                      },
+                    })}
+                    id="phone"
+                    type="text"
+                    name="phone"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Label htmlFor="email">E-mail</Label>
+                  <Input
+                    {...register('email', {
+                      required: true,
+                      validate: {
+                        validateEmail,
+                      },
+                    })}
+                    id="email"
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                  />
+                  {errors.email && (
+                    <AlertDescription className="py-2">
+                      {errors.email.message}
+                    </AlertDescription>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="password">Senha</Label>
+                  <Input
+                    {...register('password', {
+                      required: true,
+                      minLength: {
+                        value: 8,
+                        message: 'A senha deve ter no mínimo 8 caracteres',
+                      },
+                    })}
+                    id="password"
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="repeatPassword">Repita sua Senha</Label>
+                  <Input
+                    {...register('repeatPassword', { required: true })}
+                    id="repeatPassword"
+                    type="password"
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
-            )}
-          </Box>
-        </Box>
-      </AuthenticationLayout>
+              <CardFooter className="items-center justify-center relative top-4">
+                <Button disabled={isSubmitting} type="submit">
+                  {isSubmitting ? <ButtonLoading /> : 'Cadastrar'}
+                </Button>
+              </CardFooter>
+            </CardContent>
+          </form>
+          {
+            <AlertDialog open={dialogOpen}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="title text-light-textPrimary dark:text-dark-textPrimary text-center">
+                    {dialogMessage}
+                  </AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction onClick={handleCloseDialog}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          }
+        </Card>
+      </div>
     </>
   );
 };

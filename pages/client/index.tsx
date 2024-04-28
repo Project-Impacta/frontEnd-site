@@ -1,16 +1,12 @@
 'use client';
 
 import { Header } from '@/components/header/header';
-import { Box, Typography } from '@/mui/material';
-import { jwtDecode } from 'jwt-decode';
+import { Box, Typography } from '@mui/material';
 import { useSession } from 'next-auth/react';
 
 const ClientPage = () => {
   const { data: session } = useSession();
   const role = session?.user.role;
-  const token = session?.user.token;
-  const decoded = token ? jwtDecode(token) : null;
-  console.log(decoded);
   return (
     <>
       <Header />

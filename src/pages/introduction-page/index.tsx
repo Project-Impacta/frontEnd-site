@@ -1,28 +1,25 @@
-import { ButtonPrimary } from '@/components/button';
 import { IntroductionCard } from '@/components/card';
-import { Box } from '@/mui/material';
-import { IntroductionLayout } from '@/templates';
-import { ThemeProvider } from 'next-themes';
+import { Button } from '@/components/ui/button';
+import { ThemeProvider } from '@/providers';
+import Link from 'next/link';
 import React from 'react';
 
 export default function IntroductionPage(): JSX.Element {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <IntroductionLayout>
-        <IntroductionCard>
-          <Box display="flex" alignItems="center" paddingBottom={'20px'}>
-            <ButtonPrimary type="button" href="/login">
-              Logar
-            </ButtonPrimary>
-          </Box>
+    <ThemeProvider attribute="class">
+      <IntroductionCard>
+        <div>
+          <Link href="/login">
+            <Button type="button">Logar</Button>
+          </Link>
+        </div>
 
-          <Box display="flex" alignItems="center" paddingBottom={'20px'}>
-            <ButtonPrimary type="button" href="/register">
-              Cadastrar
-            </ButtonPrimary>
-          </Box>
-        </IntroductionCard>
-      </IntroductionLayout>
+        <div>
+          <Link href="/register">
+            <Button type="button">Registrar</Button>
+          </Link>
+        </div>
+      </IntroductionCard>
     </ThemeProvider>
   );
 }

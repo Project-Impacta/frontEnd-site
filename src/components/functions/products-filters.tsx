@@ -1,7 +1,6 @@
-import Input from '../inputs/input';
-import { ButtonPrimary } from '@/components/button';
-import { SearchIcon } from '@/mui/material';
+import Input from '../../../pages/admin/inputs/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { SearchIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -26,9 +25,7 @@ export function ProductsFilter() {
     >
       <Input label={'ID do pedido'} {...register('id')} />
       <Input label={'Nome do produto'} {...register('name')} />
-      <ButtonPrimary type="submit">
-        <SearchIcon />
-      </ButtonPrimary>
+      <button type="submit">`${<SearchIcon />}`</button>
     </form>
   );
 }

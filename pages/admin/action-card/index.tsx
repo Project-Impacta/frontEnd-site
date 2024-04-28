@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, Typography } from '@/mui/material';
+import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 

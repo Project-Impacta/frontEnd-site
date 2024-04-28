@@ -1,4 +1,4 @@
-import { Alert, Box, Link, Typography } from '@/mui/material';
+import { Alert, Box, Link, Typography } from '@mui/material';
 
 export default function DeniedPage() {
   return (

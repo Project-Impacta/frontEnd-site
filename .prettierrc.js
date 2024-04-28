@@ -29,7 +29,7 @@ module.exports = {
       },
     },
     {
-      files: '*.js',
+      files: ['*.js', '*.jsx'],
       options: {
         semi: true,
         singleQuote: true,

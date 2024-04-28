@@ -1,7 +1,6 @@
 import '../src/styles/tailwind.css';
-import { AuthProvider } from '@/providers';
+import { AuthProvider, ThemeProvider } from '@/providers';
 import { Layout } from '@/templates';
-import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
 import React from 'react';
 

@@ -1,19 +1,4 @@
-import { ProductsSchema } from '@/@types/productTypes';
-import {
-  AttachMoneyOutlined as AttachMoneyOutlinedIcon,
-  CategoryOutlined as CategoryOutlinedIcon,
-  DescriptionOutlined as DescriptionOutlinedIcon,
-  LabelOutlined as LabelOutlinedIcon,
-} from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from '@mui/material';
+import { ProductsSchema } from '@/types/productTypes';
 import React, { useState } from 'react';
 
 const API_URL = 'http://localhost:3333';
@@ -78,9 +63,7 @@ export function CreateProductDialog() {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Novo Produto
-      </Button>
+      <button onClick={handleClickOpen}>Novo Produto</button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle className={'title flex justify-center items-center'}>
           Produto
@@ -89,7 +72,7 @@ export function CreateProductDialog() {
           Adicionar novo produto
         </DialogContent>
         <DialogContent>
-          <Box className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
+          <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
             <LabelOutlinedIcon />
             <TextField
               id={'name'}
@@ -99,8 +82,8 @@ export function CreateProductDialog() {
               value={formData.name}
               onChange={handleInputChange}
             />
-          </Box>
-          <Box className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
+          </div>
+          <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
             <DescriptionOutlinedIcon />
             <TextField
               id={'description'}
@@ -111,8 +94,8 @@ export function CreateProductDialog() {
               value={formData.description}
               onChange={handleInputChange}
             />
-          </Box>
-          <Box className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
+          </div>
+          <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
             <AttachMoneyOutlinedIcon />
             <TextField
               id={'price'}
@@ -123,8 +106,8 @@ export function CreateProductDialog() {
               value={formData.price}
               onChange={handleInputChange}
             />
-          </Box>
-          <Box className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
+          </div>
+          <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
             <CategoryOutlinedIcon />
             <TextField
               id={'category'}
@@ -135,7 +118,7 @@ export function CreateProductDialog() {
               value={formData.category}
               onChange={handleInputChange}
             />
-          </Box>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
