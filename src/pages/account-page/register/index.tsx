@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 import {
   formatCPF,
   formatPhone,
@@ -49,6 +50,8 @@ const RegisterPage = (): JSX.Element => {
   });
   const [dialogMessage, setDialogMessage] = React.useState('');
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const [submitting, setSubmitting] = React.useState(false);
   const handleCloseDialog = () => setDialogOpen(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +84,14 @@ const RegisterPage = (): JSX.Element => {
   };
 
   async function onSubmit(data: FormDataSchema) {
+    setSubmitting(true);
+    setProgress(100);
+    {
+      /* 
+      FIXME  -  Ajustar a quando aparecer o alerta de erro.
+      BUG - Ajustar função de validação dos campos. 
+      */
+    }
     const requiredFields = [data];
     const incompleteFields = requiredFields.filter(
       (field) => !data[field as unknown as keyof FormDataSchema],
@@ -89,14 +100,9 @@ const RegisterPage = (): JSX.Element => {
     if (incompleteFields.length > 0) {
       setDialogMessage(`Preencha todos os campos.`);
       setDialogOpen(true);
+      setSubmitting(false);
     }
 
-    const formDataForBackend = {
-      ...data,
-      cpf: data.cpf.replace(/\D/g, ''),
-      phone: data.phone.replace(/\D/g, ''),
-      email: data.email.toLowerCase().trim(),
-    };
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify({
@@ -104,9 +110,8 @@ const RegisterPage = (): JSX.Element => {
         lastName: data.lastName,
         phone: data.phone.replace(/\D/g, ''),
         cpf: data.cpf.replace(/\D/g, ''),
-        email: data.email,
+        email: data.email.toLowerCase().trim(),
         password: data?.password,
-        formDataForBackend,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -117,15 +122,20 @@ const RegisterPage = (): JSX.Element => {
 
     try {
       const response = await fetch(`${API_URL}/client`, requestOptions);
+      const responseData = await response.json();
 
-      if (response.ok) {
-        setDialogMessage('Cadastro realizado com sucesso!');
-        setDialogOpen(true);
+      if (response.ok && responseData.status === 201) {
+        setTimeout(() => {
+          setDialogMessage('Cadastro realizado com sucesso!');
+          setTimeout(() => {
+            setDialogMessage('Faça login para acessar mais funcionalidades.');
+          }, 3000);
+        }, 3000);
       } else {
-        setDialogMessage(
-          'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
-        );
-
+        if (response.status === 409 || response.status === 400) {
+          setDialogMessage(responseData.message);
+        }
+        console.log('Mensagem server', responseData.message);
         setDialogOpen(true);
       }
     } catch (error) {
@@ -133,6 +143,8 @@ const RegisterPage = (): JSX.Element => {
         'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
       );
       setDialogOpen(true);
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -143,6 +155,7 @@ const RegisterPage = (): JSX.Element => {
       </Head>
       <div className="flex mx-auto justify-center items-center">
         <Card>
+          {submitting && <Progress value={progress} />}
           <CardHeader className="items-center gap-1">
             <CardTitle className="relative lg:text-xl xl:text-2xl">
               <LogoImpactaStore />

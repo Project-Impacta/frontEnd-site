@@ -59,7 +59,7 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: '/login',
-    newUser: '/register',
+    signIn: '/account-page',
+    newUser: '/account-page',
   },
 });

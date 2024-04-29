@@ -1,10 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children }: React.PropsWithChildren) => {
   return (
     <div className="container">
       <main>{children}</main>
