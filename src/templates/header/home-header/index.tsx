@@ -1,8 +1,8 @@
 import { ThemeSwitcher } from '@/components/button';
 import { LogoImpactaStore } from '@/components/imagens';
-import React from 'react';
+import React, { memo } from 'react';
 
-export default function HeaderHome() {
+function HeaderHome() {
   return (
     <div className="flex justify-between">
       <div className="title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl flex p-2 my-2 gap-2 items-center">
@@ -20,3 +20,4 @@ export default function HeaderHome() {
     </div>
   );
 }
+export default memo(HeaderHome);

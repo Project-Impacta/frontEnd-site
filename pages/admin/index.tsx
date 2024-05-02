@@ -1,6 +1,7 @@
 import ActionAreaCard from './action-card';
-import { Header } from '@/components/header/header';
-import { Box, Container, Typography } from '@mui/material';
+import { NavBar } from '@/components/header/navBar';
+import HeaderHome from '@/templates/header/home-header';
+import { Box, Typography } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import DeniedPage from 'pages/denied';
@@ -28,20 +29,17 @@ export default function Admin() {
 
   // Se o usuário estiver autenticado e for um administrador, renderize a página de administração
   return (
-    <Container maxWidth="xs">
-      <Header />
-      <Box
-        className={
-          'w-full max-w-screen-xl h-screen flex justify-center items-center flex-col '
-        }
-      >
+    <div className="justify-center items-center">
+      <HeaderHome />
+      <NavBar />
+      <div className="grid gap-4 max-w-lg mx-auto justify-center items-center">
         <Typography variant="h4" sx={{ my: 3 }}>
           Página do Administrador
         </Typography>
         <Box>
           <ActionAreaCard />
         </Box>
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 }

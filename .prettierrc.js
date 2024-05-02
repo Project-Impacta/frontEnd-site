@@ -22,14 +22,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.ts', '*.tsx'],
-      options: {
-        semi: true,
-        singleQuote: true,
-      },
-    },
-    {
-      files: ['*.js', '*.jsx'],
+      files: ['*.ts', '*.tsx', '*.js'],
       options: {
         semi: true,
         singleQuote: true,

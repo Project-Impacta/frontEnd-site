@@ -1,7 +1,8 @@
 'use client';
 
-import { Header } from '@/components/header/header';
-import { Box, Typography } from '@mui/material';
+import { NavBar } from '@/components/header/navBar';
+import HeaderHome from '@/templates/header/home-header';
+import { Typography } from '@mui/material';
 import { useSession } from 'next-auth/react';
 
 const ClientPage = () => {
@@ -9,10 +10,11 @@ const ClientPage = () => {
   const role = session?.user.role;
   return (
     <>
-      <Header />
-      <Box
+      <HeaderHome />
+      <NavBar />
+      <div
         className={
-          'w-full max-w-screen-xl h-screen flex justify-center items-center flex-col'
+          'w-full max-w-screen-xl flex justify-center items-center flex-col'
         }
       >
         <Typography variant="h4" sx={{ my: 3 }}>
@@ -32,7 +34,7 @@ const ClientPage = () => {
         <Typography variant="h6" sx={{ my: 1 }}>
           {role === 'cliente' && <p>Você é um cliente</p>}
         </Typography>
-      </Box>
+      </div>
     </>
   );
 };

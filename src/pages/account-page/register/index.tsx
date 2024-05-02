@@ -87,9 +87,9 @@ const RegisterPage = (): JSX.Element => {
     setSubmitting(true);
     setProgress(100);
     {
-      /* 
+      /*
       FIXME  -  Ajustar a quando aparecer o alerta de erro.
-      BUG - Ajustar função de validação dos campos. 
+      BUG - Ajustar função de validação dos campos.
       */
     }
     const requiredFields = [data];

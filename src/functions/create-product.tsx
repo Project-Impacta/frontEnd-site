@@ -1,4 +1,15 @@
+'use client';
+
 import { ProductsSchema } from '@/types/productTypes';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
+import { CaseSensitive, DollarSign, PackageSearch, Tag } from 'lucide-react';
 import React, { useState } from 'react';
 
 const API_URL = 'http://localhost:3333';
@@ -73,7 +84,7 @@ export function CreateProductDialog() {
         </DialogContent>
         <DialogContent>
           <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
-            <LabelOutlinedIcon />
+            <Tag />
             <TextField
               id={'name'}
               name={'name'}
@@ -84,7 +95,7 @@ export function CreateProductDialog() {
             />
           </div>
           <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
-            <DescriptionOutlinedIcon />
+            <CaseSensitive />
             <TextField
               id={'description'}
               name={'description'}
@@ -96,7 +107,7 @@ export function CreateProductDialog() {
             />
           </div>
           <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
-            <AttachMoneyOutlinedIcon />
+            <DollarSign />
             <TextField
               id={'price'}
               name={'price'}
@@ -108,7 +119,7 @@ export function CreateProductDialog() {
             />
           </div>
           <div className={'grid grid-cols-4 items-center text-right gap-3 p-1'}>
-            <CategoryOutlinedIcon />
+            <PackageSearch />
             <TextField
               id={'category'}
               name={'category'}

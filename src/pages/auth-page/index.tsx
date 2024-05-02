@@ -15,10 +15,7 @@ export default function AuthPage(): JSX.Element {
       </Head>
       <HeaderHome />
       <div className="grid mx-auto justify-center items-center">
-        <Tabs
-          defaultValue="login"
-          className="w-[340px] sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[500px] 2xl:w-[550px] md:py-8 lg:py-10 xl:py-5 2xl:py-14"
-        >
+        <Tabs defaultValue="login" className="w-[500px] py-5">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Entrar</TabsTrigger>
             <TabsTrigger value="register">Cadastrar</TabsTrigger>

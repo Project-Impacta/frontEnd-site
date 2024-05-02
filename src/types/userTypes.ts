@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 export const FormData = z.object({
-  firstName: z.coerce.string(),
-  lastName: z.coerce.string(),
-  phone: z.coerce.string(),
-  cpf: z.coerce.string(),
-  email: z.coerce.string(),
-  password: z.coerce.string(),
-  repeatPassword: z.coerce.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  phone: z.string(),
+  cpf: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+  repeatPassword: z.string(),
 });
 
 export type FormDataSchema = z.infer<typeof FormData>;

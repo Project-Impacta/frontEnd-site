@@ -1,4 +1,6 @@
-import { Header } from '@/components/header/header';
+import { NavBar } from '@/components/header/navBar';
+import ProductsPage from '@/pages/products-page';
+import HeaderHome from '@/templates/header/home-header';
 import Head from 'next/head';
 import React from 'react';
 
@@ -9,13 +11,14 @@ export default function Home(): JSX.Element {
         <title>Home</title>
       </Head>
       <div>
-        <Header />
+        <HeaderHome />
+        <NavBar />
         <div
           className={
-            'w-full max-w-screen-xl h-screen flex justify-center items-center'
+            'w-full max-w-screen-xl py-10 flex justify-center items-center'
           }
         >
-          Página Home
+          <ProductsPage />
         </div>
       </div>
     </>

@@ -139,7 +139,7 @@
     }
   },
   "sonarlint.connectedMode.project": {
-    "connectionId": "StoreImpacta",
+    "connectionId": "-project-impacta",
     "projectKey": "Project-Impacta_frontEnd-site"
   },
   // Configurações do plugin APC

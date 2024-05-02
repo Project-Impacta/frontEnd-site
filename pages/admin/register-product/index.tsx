@@ -1,7 +1,7 @@
-import { ButtonPrimary } from '@/components/button';
-import { CreateProductDialog } from '@/components/functions/create-product';
-import { ProductsFilter } from '@/components/functions/products-filters';
-import { Box, Container } from '@mui/material';
+import Demo from '@/components/card/products/CardProducts';
+import { Button } from '@/components/ui/button';
+import { CreateProductDialog } from '@/functions/create-product';
+import HeaderHome from '@/templates/header/home-header';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -27,31 +27,28 @@ const RegisterProductPage = () => {
     return <DeniedPage />; // Redireciona para uma página de acesso negado
   }
   return (
-    <Container maxWidth="sm">
+    <div className="justify-center items-center">
+      <HeaderHome />
       <div>
         <h1>Register Product Page</h1>
       </div>
-      <ButtonPrimary>
+      <Button>
         <Link href="/admin">Voltar</Link>
-      </ButtonPrimary>
+      </Button>
 
-      <Box className={'mt-20 flex flex-col'}>
-        <Box
-          className={
-            'fixed top-36 w-full p-10 bg-formFieldBackground rounded-lg'
-          }
+      <div className={'mt-20 flex flex-col'}>
+        <div
+          className={'grid gap-4 max-w-lg mx-auto justify-center items-center'}
         >
-          <ProductsFilter />
-        </Box>
-        <Box
-          className={
-            'fixed bottom-36 w-full p-10 bg-formFieldBackground rounded-lg'
-          }
+          <Demo />
+        </div>
+        <div
+          className={'grid gap-4 max-w-lg mx-auto justify-center items-center'}
         >
           <CreateProductDialog />
-        </Box>
-      </Box>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 
