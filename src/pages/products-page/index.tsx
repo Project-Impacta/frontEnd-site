@@ -1,5 +1,5 @@
 import { LoadingDisplay } from '@/components/display';
-import ProductItem from '@/components/list/product-list/ProductsList';
+import ProductItem from '@/functions/product-list/ProductsListCard';
 import { fetchProducts } from '@/hooks/fetchProducts';
 import { ProductsSchema } from '@/types/productTypes';
 import React, { useState, useEffect } from 'react';
@@ -32,9 +32,9 @@ const ProductsList = () => {
   }
 
   return (
-    <div>
-      <h1>Produtos</h1>
-      <ul>
+    <div className="items-center justify-center container">
+      <h1 className="title text-center">Produtos</h1>
+      <div className="grid grid-cols-4 gap-4">
         {Array.isArray(products) ? (
           products.map((product) => (
             <ProductItem key={product._id} product={product} />
@@ -42,7 +42,7 @@ const ProductsList = () => {
         ) : (
           <p>Nenhum produto encontrado</p>
         )}
-      </ul>
+      </div>
     </div>
   );
 };

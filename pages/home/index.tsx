@@ -15,7 +15,7 @@ export default function Home(): JSX.Element {
         <NavBar />
         <div
           className={
-            'w-full max-w-screen-xl py-10 flex justify-center items-center'
+            'w-full max-w-screen flex py-10 justify-center items-center'
           }
         >
           <ProductsPage />

@@ -10,7 +10,7 @@ export const fetchProducts = async () => {
     };
 
     const response = await fetch(
-      'url da api',
+      'http://localhost:3333/product',
       requestOptions,
     );
     if (!response.ok) {
