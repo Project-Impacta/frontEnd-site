@@ -1,4 +1,4 @@
-import Demo from '@/components/card/products/CardProducts';
+import ProductsList from '@/components/products/ListProducst';
 import { Button } from '@/components/ui/button';
 import { CreateProductDialog } from '@/functions/create-product';
 import HeaderHome from '@/templates/header/home-header';
@@ -29,23 +29,16 @@ const RegisterProductPage = () => {
   return (
     <div className="justify-center items-center">
       <HeaderHome />
-      <div>
-        <h1>Register Product Page</h1>
-      </div>
       <Button>
         <Link href="/admin">Voltar</Link>
       </Button>
 
-      <div className={'mt-20 flex flex-col'}>
-        <div
-          className={'grid gap-4 max-w-lg mx-auto justify-center items-center'}
-        >
-          <Demo />
-        </div>
-        <div
-          className={'grid gap-4 max-w-lg mx-auto justify-center items-center'}
-        >
+      <div className={'mt-20'}>
+        <div className={'text-right py-2'}>
           <CreateProductDialog />
+        </div>
+        <div className={'grid'}>
+          <ProductsList />
         </div>
       </div>
     </div>

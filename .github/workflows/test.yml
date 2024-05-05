@@ -1,0 +1,31 @@
+name: Pull Request Intregation
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+      - feature/*
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          CI: false
+
+      - name: Run tests
+        run: npm run test:ci
+        env:
+          CI: false
