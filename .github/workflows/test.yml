@@ -31,6 +31,6 @@ jobs:
           CI: false
 
       - name: Run tests
-        run: npm run test:ci
+        run: npm run test
         env:
           CI: false
