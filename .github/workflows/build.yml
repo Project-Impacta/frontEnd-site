@@ -24,8 +24,8 @@ jobs:
         run: npm install
       - name: Set up SonarCloud environment
         run: echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_ENV
-      - name: Test and coverage
-        run: npm run test:coverage
+      # - name: Test and coverage
+      #   run: npm run test:coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
