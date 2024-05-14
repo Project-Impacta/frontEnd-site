@@ -52,6 +52,7 @@ export default NextAuth({
         return {
           ...session,
           user: token,
+          /*BUG - TOKEN NÃO ESTÁ ESPIRANDO*/
           maxAge: 60 * 60 * 1 /* NOTE: 1 hora */,
         };
       }
