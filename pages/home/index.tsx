@@ -1,34 +1,26 @@
-import { AuthProvider } from '@/contexts/auth/AuthContext';
-import { HomePage } from '@/pages';
-import { api } from '@/services/api';
-import { getAPIClient } from '@/services/axios';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
-import React, { useEffect } from 'react';
+import { NavBar } from '@/components/header/navBar';
+import ProductsPage from '@/pages/products-page';
+import HeaderHome from '@/templates/header/home-header';
+import Head from 'next/head';
+import React from 'react';
 
 export default function Home(): JSX.Element {
-  useEffect(() => {
-    api.get('/client');
-  }, []);
-
   return (
-    <AuthProvider>
-      <HomePage />
-    </AuthProvider>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+      <div>
+        <HeaderHome />
+        <NavBar />
+        <div
+          className={
+            'w-full max-w-screen flex py-10 justify-center items-center'
+          }
+        >
+          <ProductsPage />
+        </div>
+      </div>
+    </>
   );
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apiCliente = getAPIClient(ctx);
-  const { ['nextauth.token']: token } = parseCookies(ctx);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/introduction',
-        permanent: false,
-      },
-    };
-  }
-  apiCliente.get('/client');
-  return { props: {} };
-};

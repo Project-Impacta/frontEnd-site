@@ -7,9 +7,6 @@
 # Código compilado
 /dist
 
-# Arquivos e diretórios específicos do VS Code
-.vscode/settings.json
-
 # Arquivos específicos do Next.js
 /.next/
 /out/
@@ -38,5 +35,8 @@ yarn-debug.log*
 yarn-error.log*
 .env*.local
 .env
+pnpm-lock.yaml
+.vs
+.vscode
 
 
