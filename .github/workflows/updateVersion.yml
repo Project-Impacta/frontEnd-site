@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
 
       - name: Commit updated package.json
