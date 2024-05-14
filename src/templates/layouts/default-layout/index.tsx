@@ -1,18 +1,10 @@
-import { Box } from '@/mui/material';
-import ThemeProvider from '@/providers/theme-provider/theme-provider';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children }: React.PropsWithChildren) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <Box>
-        <main>{children}</main>
-      </Box>
-    </ThemeProvider>
+    <div className="container">
+      <main>{children}</main>
+    </div>
   );
 };
 

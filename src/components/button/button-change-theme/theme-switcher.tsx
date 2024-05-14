@@ -1,42 +1,29 @@
-'use client';
-
-import styles from './styles.module.css';
-import { DarkModeIcon, IconButton, LightModeIcon } from '@/mui/material';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-  useEffect(() => setMounted(true), []);
+  React.useEffect(() => {
+    setMounted(true); // Indica que o componente foi montado
+  }, []);
 
   function isDark() {
     return theme === 'dark';
   }
 
-  if (!mounted || document.querySelectorAll('.theme-switcher').length > 1) {
-    return null;
-  }
-
   return (
-    <div>
-      <IconButton
-        className={`${styles.iconButtonTransition} theme-switcher focus:outline-none bg-light-background-primary dark:bg-dark-background-primary text-light-textPrimary dark:text-dark-textPrimary`}
-        onClick={() => setTheme(isDark() ? 'light' : 'dark')}
-        aria-label="Toggle theme"
-        style={{
-          transition: 'transform 0.3s ease',
-          border: '2px solid currentColor',
-          borderRadius: '50%',
-          padding: '5px',
-          display: 'inline-flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {isDark() ? <LightModeIcon /> : <DarkModeIcon />}
-      </IconButton>
-    </div>
+    <button onClick={() => setTheme(isDark() ? 'light' : 'dark')}>
+      {mounted && ( // Renderiza o botão somente após o componente ser montado
+        <>
+          {isDark() ? <Sun /> : <Moon />}
+          <span className="sr-only">
+            {isDark() ? 'Switch to light theme' : 'Switch to dark theme'}
+          </span>
+        </>
+      )}
+    </button>
   );
 }

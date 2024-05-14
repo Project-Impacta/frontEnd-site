@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "plugins": [
       {
@@ -7,22 +8,34 @@
       }
     ],
     "paths": {
-      "@/*": ["src/*", "vendor/*"]
+      "@/*": ["./src/*"]
     },
-    "lib": ["dom", "es6", "dom.iterable", "scripthost"],
-    "target": "es6",
-    "allowJs": true,
+    "lib": ["DOM", "ES7", "DOM.Iterable", "ScriptHost"],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ES2020",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

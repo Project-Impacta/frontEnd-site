@@ -1,22 +1,22 @@
 import '../src/styles/tailwind.css';
-import { AuthProvider } from '@/contexts/auth/AuthContext';
-import { ThemeContextProvider } from '@/mistica/material';
-import { themeConfig } from '@/providers';
+import { AuthProvider, ThemeProvider } from '@/providers';
 import { Layout } from '@/templates';
-import { ThemeProvider } from 'next-themes';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
 import React from 'react';
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute="class">
-      <ThemeContextProvider theme={themeConfig}>
-        <AuthProvider>
-          <Layout>
+      <AuthProvider>
+        <Layout>
+          <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
-      </ThemeContextProvider>
+          </QueryClientProvider>
+        </Layout>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
