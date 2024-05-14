@@ -1,0 +1,34 @@
+name: SonarCloud - Lint
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - feature/*
+      - bugfix/*
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Use Node.js 20.11.1
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.11.1'
+          fetch-depth: 0
+      - name: Install dependencies
+        run: npm install
+      - name: Set up SonarCloud environment
+        run: echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_ENV
+      # - name: Test and coverage
+      #   run: npm run test:coverage
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Necessário para obter informações sobre PR, se houver
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

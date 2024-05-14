@@ -9,3 +9,9 @@ export const Products = z.object({
 });
 
 export type ProductsSchema = z.infer<typeof Products>;
+
+export const categoryMapping = {
+  1: 'Notebook',
+  2: 'Celular',
+  3: 'Computador',
+};

@@ -154,7 +154,7 @@ export function CreateProductDialog() {
           </DialogTrigger>
           <div>
             <DialogContent>
-              <Card>
+              <Card className="border-none">
                 <CardHeader className="items-center text-light-textPrimary dark:text-dark-textPrimary">
                   <CardTitle className="title">
                     Cadastrar Novo Produto
@@ -217,7 +217,7 @@ export function CreateProductDialog() {
                       <Input
                         {...register('price', {
                           required: true,
-                          pattern: /^d{1,2}(?:.d{3})*(,d{1,2})?$/,
+                          pattern: /^\d{1,3}(?:\.\d{3})*(,\d{1,2})?$/,
                         })}
                         id="price"
                         name="price"
