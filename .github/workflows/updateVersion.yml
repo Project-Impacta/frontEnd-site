@@ -15,17 +15,18 @@ jobs:
           token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
           persist-credentials: true
 
-      - name: Use Node.js 20.11.1
+      - name: Use Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '20.11.1'
 
       - name: Install dependencies
         run: npm ci
+
       - name: Run Semantic Release
-        run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+        run: npx semantic-release
 
       - name: Commit updated package.json
         run: |
