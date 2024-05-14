@@ -80,7 +80,7 @@ export function CreateProductDialog() {
         ? parseFloat(numericValue) / 100
         : 0;
       // Converta para um valor em ponto flutuante
-
+      // BUG - AJUSTAR INPUT DO VALOR
       // Verifica se o valor está dentro do intervalo permitido
       if (floatValue < 10 || floatValue > 10000 || isNaN(floatValue)) {
         error =
