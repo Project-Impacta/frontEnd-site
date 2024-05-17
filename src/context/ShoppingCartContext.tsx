@@ -1,11 +1,5 @@
 import { ShopCartSchema } from '@/types/shopCartTypes';
-import React, {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface ShoppingCartContextProps {
   shoppingCart: ShopCartSchema[];
@@ -13,6 +7,10 @@ interface ShoppingCartContextProps {
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
+}
+
+interface ShoppingCartContextChildrenProps {
+  children: React.ReactNode;
 }
 
 const ShoppingCartContext = createContext<ShoppingCartContextProps | undefined>(
@@ -31,10 +29,10 @@ export const useShoppingCart = () => {
 
 const SHOPPING_CART_STORAGE_KEY = 'shoppingCart';
 
-export const ShoppingCartProvider: React.FC = ({
+export const ShoppingCartProvider = ({
   // NOTE: Ajustar para pegar com base do token
   children,
-}: PropsWithChildren) => {
+}: ShoppingCartContextChildrenProps) => {
   const [shoppingCart, setShoppingCart] = useState<ShopCartSchema[]>(() => {
     if (typeof window !== 'undefined') {
       const storedCart = localStorage.getItem(SHOPPING_CART_STORAGE_KEY);
