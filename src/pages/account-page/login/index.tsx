@@ -111,14 +111,14 @@ export default function LoginPage(): JSX.Element {
         <title>Autentique-se</title>
       </Head>
       <div className="flex mx-auto justify-center items-center">
-        <Card>
+        <Card className="w-[500px]">
           {submitting && <Progress value={progress} />}
           <CardHeader className="items-center gap-1">
             <CardTitle className="relative lg:text-xl xl:text-2xl">
               <LogoImpactaStore />
             </CardTitle>
             <CardDescription className="text-center title text-light-textPrimary dark:text-dark-textPrimary lg:text-xl xl:text-2xl">
-              Cadastre-se
+              Autentique-se
             </CardDescription>
           </CardHeader>
           <form
@@ -126,7 +126,7 @@ export default function LoginPage(): JSX.Element {
             noValidate
           >
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
+              <div className="grid grid-cols-1 gap-4 max-w-lg mx-auto">
                 <div>
                   <Label htmlFor="cpf">CPF</Label>
                   <Input

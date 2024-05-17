@@ -1,6 +1,8 @@
 import { SignInButton, SignOutButton } from '../button';
+import ShopCartDialog from '@/functions/shop-cart/DialogShopCart';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import React from 'react';
 
 const NavBar = () => {
   const { data: session } = useSession();
@@ -16,6 +18,15 @@ const NavBar = () => {
         className={'flex items-center m-auto max-w-screen-xl justify-between '}
       >
         <ul className={'flex items-center justify-between gap-10'}>
+          <li>
+            {session ? (
+              <div className="title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl relative p-2 my-4">
+                <ShopCartDialog />
+              </div>
+            ) : (
+              ''
+            )}
+          </li>
           <li>
             <Link href="/">Home</Link>
           </li>

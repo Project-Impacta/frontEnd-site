@@ -154,7 +154,7 @@ const RegisterPage = (): JSX.Element => {
         <title>Cadastre-se</title>
       </Head>
       <div className="flex mx-auto justify-center items-center">
-        <Card>
+        <Card className="w-[500px]">
           {submitting && <Progress value={progress} />}
           <CardHeader className="items-center gap-1">
             <CardTitle className="relative lg:text-xl xl:text-2xl">

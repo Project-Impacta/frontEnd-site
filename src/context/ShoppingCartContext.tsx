@@ -1,0 +1,97 @@
+import { ShopCartSchema } from '@/types/shopCartTypes';
+import React, {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+
+interface ShoppingCartContextProps {
+  shoppingCart: ShopCartSchema[];
+  addToCart: (item: ShopCartSchema) => void;
+  removeFromCart: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void;
+}
+
+const ShoppingCartContext = createContext<ShoppingCartContextProps | undefined>(
+  undefined,
+);
+
+export const useShoppingCart = () => {
+  const context = useContext(ShoppingCartContext);
+  if (!context) {
+    throw new Error(
+      'useShoppingCart must be used within a ShoppingCartProvider',
+    );
+  }
+  return context;
+};
+
+const SHOPPING_CART_STORAGE_KEY = 'shoppingCart';
+
+export const ShoppingCartProvider: React.FC = ({
+  // NOTE: Ajustar para pegar com base do token
+  children,
+}: PropsWithChildren) => {
+  const [shoppingCart, setShoppingCart] = useState<ShopCartSchema[]>(() => {
+    if (typeof window !== 'undefined') {
+      const storedCart = localStorage.getItem(SHOPPING_CART_STORAGE_KEY);
+      return storedCart ? JSON.parse(storedCart) : [];
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(
+        SHOPPING_CART_STORAGE_KEY,
+        JSON.stringify(shoppingCart),
+      );
+    }
+  }, [shoppingCart]);
+
+  const addToCart = (item: ShopCartSchema) => {
+    setShoppingCart((prev) => {
+      const existingItem = prev.find((cartItem) => cartItem._id === item._id);
+      if (existingItem) {
+        return prev.map((cartItem) =>
+          cartItem._id === item._id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem,
+        );
+      } else {
+        return [...prev, item];
+      }
+    });
+  };
+
+  const removeFromCart = (id: string) => {
+    setShoppingCart((prev) => prev.filter((item) => item._id !== id));
+  };
+
+  const updateQuantity = (id: string, quantity: number) => {
+    setShoppingCart((prev) =>
+      prev.map((item) => (item._id === id ? { ...item, quantity } : item)),
+    );
+  };
+
+  const clearCart = () => {
+    setShoppingCart([]);
+  };
+
+  return (
+    <ShoppingCartContext.Provider
+      value={{
+        shoppingCart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+      }}
+    >
+      {children}
+    </ShoppingCartContext.Provider>
+  );
+};

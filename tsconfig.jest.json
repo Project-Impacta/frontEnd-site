@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "module": "commonjs",
-    "outDir": "./.next/test/",
-    "target": "ES6"
-  }
-}

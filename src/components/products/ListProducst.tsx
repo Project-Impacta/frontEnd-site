@@ -1,4 +1,5 @@
 import { ErrorDisplay, LoadingDisplay } from '@/components/display';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -8,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { fetchProducts } from '@/hooks/fetchProducts';
-import { ProductsSchema } from '@/types/productTypes';
+import { categoryMapping, ProductsSchema } from '@/types/productTypes';
 import React from 'react';
 
 const ProductsList: React.FC = () => {
@@ -77,20 +78,27 @@ const ProductsList: React.FC = () => {
           {Array.isArray(products) ? (
             products.map((product) => (
               <TableRow key={product._id}>
-                <TableCell className="font-medium text-light-textPrimary dark:text-dark-textPrimary">
+                <TableCell className="font-medium body text-light-textPrimary dark:text-dark-textPrimary">
                   {product._id}
                 </TableCell>
-                <TableCell className=" text-light-textPrimary dark:text-dark-textPrimary">
+                <TableCell className=" body text-light-textPrimary dark:text-dark-textPrimary">
                   {product.name}
                 </TableCell>
-                <TableCell className="text-light-textPrimary dark:text-dark-textPrimary">
-                  {product.description}
+                <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                  <ScrollArea className="h-[60px]  p-1">
+                    {product.description}
+                  </ScrollArea>
                 </TableCell>
-                <TableCell className="text-light-textPrimary dark:text-dark-textPrimary">
-                  {product.category}
+                <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                  {
+                    categoryMapping[
+                      product.category as keyof typeof categoryMapping
+                    ]
+                  }
                 </TableCell>
-                <TableCell className="text-right text-light-textPrimary dark:text-dark-textPrimary">
-                  R$ {product.price}
+                <TableCell className="text-right body text-light-textPrimary dark:text-dark-textPrimary flex space-x-1 items-center justify-center py-16">
+                  <div>R$</div>
+                  <div>{product.price}</div>
                 </TableCell>
               </TableRow>
             ))

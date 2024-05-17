@@ -39,7 +39,7 @@ const config: Config = {
           primaryButton: '#0597F8',
           secondaryButton: '#0C87F8',
           textPrimary: '#F2F2F2',
-          textSecondary: '#262630',
+          textSecondary: '#f8f8ff',
           formFieldBackground: '#011826',
           formFieldBorder: '#F2F2F2',
           detailAccent: '#012340',
