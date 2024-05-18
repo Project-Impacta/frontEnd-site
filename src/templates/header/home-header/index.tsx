@@ -18,9 +18,8 @@ function HeaderHome() {
           Store Impacta
         </h1>
       </div>
-
       <div
-        className={`title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl  items-center p-2 my-4`}
+        className={`title text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl items-center p-2 my-4`}
       >
         <ThemeSwitcher />
       </div>
