@@ -9,7 +9,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { fetchProducts } from '@/hooks/fetchProducts';
-import { categoryMapping, ProductsSchema } from '@/types/productTypes';
+import {
+  categoryMapping,
+  formatPriceBR,
+  ProductsSchema,
+} from '@/types/productTypes';
 import React from 'react';
 
 const ProductsList: React.FC = () => {
@@ -97,8 +101,7 @@ const ProductsList: React.FC = () => {
                   }
                 </TableCell>
                 <TableCell className="text-right body text-light-textPrimary dark:text-dark-textPrimary flex space-x-1 items-center justify-center py-16">
-                  <div>R$</div>
-                  <div>{product.price}</div>
+                  <div>{formatPriceBR(product.price)}</div>
                 </TableCell>
               </TableRow>
             ))

@@ -1,7 +1,6 @@
 import ActionAreaCard from './action-card';
 import { NavBar } from '@/components/header/navBar';
 import HeaderHome from '@/templates/header/home-header';
-import { Box, Typography } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import DeniedPage from 'pages/denied';
@@ -32,13 +31,11 @@ export default function Admin() {
     <div className="justify-center items-center">
       <HeaderHome />
       <NavBar />
-      <div className="grid gap-4 max-w-lg mx-auto justify-center items-center">
-        <Typography variant="h4" sx={{ my: 3 }}>
-          Página do Administrador
-        </Typography>
-        <Box>
+      <div className="grid gap-4 justify-center items-center">
+        <div className="title text-center">Página do Administrador</div>
+        <div>
           <ActionAreaCard />
-        </Box>
+        </div>
       </div>
     </div>
   );
