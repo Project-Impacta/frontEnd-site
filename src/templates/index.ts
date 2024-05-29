@@ -1,1 +1,2 @@
-export { default as Layout } from './layouts/default-layout/index';
+export * from './header/home-header/index';
+export * from './layouts/default-layout/index';

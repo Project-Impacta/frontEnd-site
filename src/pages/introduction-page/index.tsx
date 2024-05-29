@@ -1,6 +1,6 @@
-import { IntroductionCard } from '@/components/card';
+import IntroductionCard from '@/components/card/introduction-card/card-introduction';
 import { Button } from '@/components/ui/button';
-import { ThemeProvider } from '@/providers';
+import ThemeProvider from '@/providers/theme-provider/theme-provider';
 import Link from 'next/link';
 import React from 'react';
 

@@ -1,5 +1,5 @@
-import { ThemeSwitcher } from '@/components/button';
-import { LogoImpactaStore } from '@/components/imagens';
+import ThemeSwitcher from '@/components/button/button-change-theme/theme-switcher';
+import LogoImpactaStore from '@/components/imagens/logo-impacta';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React, { memo } from 'react';
