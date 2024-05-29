@@ -1,7 +1,8 @@
 import '../src/styles/tailwind.css';
 import { ShoppingCartProvider } from '@/context/ShoppingCartContext';
-import { AuthProvider, ThemeProvider } from '@/providers';
-import { Layout } from '@/templates';
+import { AuthProvider } from '@/providers';
+import ThemeProvider from '@/providers/theme-provider/theme-provider';
+import Layout from '@/templates/layouts/default-layout';
 import type { AppProps } from 'next/app';
 import React from 'react';
 

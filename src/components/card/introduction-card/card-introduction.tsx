@@ -5,7 +5,6 @@ import {
   CardDescription,
   CardFooter,
 } from '@/components/ui/card';
-import HeaderHome from '@/templates/header/home-header';
 import Head from 'next/head';
 import React from 'react';
 
@@ -17,7 +16,6 @@ const IntroductionCard = ({
       <Head>
         <title>Bem-vindo(a)</title>
       </Head>
-      <HeaderHome />
       <div className="container mx-auto px-12 py-4 mt-16 text-center">
         <Card className="py-8">
           <CardHeader className="justify-center items-center">
