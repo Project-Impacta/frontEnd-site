@@ -1,11 +1,13 @@
 import axios from 'axios';
+
 import Image from 'next/image';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 
-interface Imagem {
-  id: string;
-  nome: string;
-  dados?: string;
+export interface Imagem {
+  _id: string
+  productId: string
+  hash: string
+  mimetype: string
 }
 
 const ImageGallery: React.FC = () => {
@@ -18,10 +20,17 @@ const ImageGallery: React.FC = () => {
 
   const fetchImagens = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/imagens');
-      const imagens = response.data.imagens.map((imagem: Imagem) => ({
-        ...imagem,
-        dados: imagem.dados ?? '', // Garante que 'dados' não seja indefinido
+      const response = await axios.get('http://localhost:3333/productImage',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+            token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+          }
+        }
+      );
+      const imagens = response.data.data.map((imagem: Imagem) => ({
+        ...imagem
       }));
       setImagens(imagens);
     } catch (error) {
@@ -43,13 +52,18 @@ const ImageGallery: React.FC = () => {
 
     try {
       const formData = new FormData();
-      formData.append('imagem', novaImagem);
+      // Implementar logica pegando o id do produto que o admin selecionar
+      const productId = '6643aec65b8c2cd43e65dcab';
+      formData.append('productId', productId);
+      formData.append('image', novaImagem);
       const response = await axios.post(
-        'http://localhost:5000/imagens',
+        'http://localhost:3333/productImage',
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+            token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
           },
         },
       );
@@ -61,8 +75,16 @@ const ImageGallery: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/imagens/${id}`);
-      setImagens(imagens.filter((imagem) => imagem.id !== id));
+      await axios.delete(`http://localhost:3333/productImage/${id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+          token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+        }
+      }
+      );
+      setImagens(imagens.filter((imagem) => imagem._id !== id));
     } catch (error) {
       console.error('Erro ao excluir imagem:', error);
     }
@@ -75,19 +97,19 @@ const ImageGallery: React.FC = () => {
       <button onClick={handleUpload}>Enviar Imagem</button>
       <ul>
         {imagens.map((imagem) => (
-          <li key={imagem.id}>
-            {imagem.dados ? (
+          <li key={imagem._id}>
+            {imagem.hash ? (
               <Image
-                src={`data:image/jpeg;base64,${imagem.dados}`}
-                alt={imagem.nome}
+                src={`data:image/jpeg;base64,${imagem.hash}`}
+                alt={imagem.productId}
                 width={150}
                 height={150}
               />
             ) : (
               <p>Imagem não disponível</p>
             )}
-            <p>{imagem.nome}</p>
-            <button onClick={() => handleDelete(imagem.id)}>Excluir</button>
+            <p>{imagem.productId}</p>
+            <button onClick={() => handleDelete(imagem.productId)}>Excluir</button>
           </li>
         ))}
       </ul>
