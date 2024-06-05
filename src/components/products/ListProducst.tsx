@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { CreateProductDialog } from '@/functions';
+import ImageGallery from '@/functions/UploadImage';
 import { fetchProducts } from '@/hooks/fetchProducts';
 import {
   categoryMapping,
@@ -79,6 +80,7 @@ const ProductsList: React.FC = () => {
         </div>
       </div>
       <Table className="mt-2 items-center">
+        <ImageGallery />
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px] text-center text-light-textPrimary dark:text-dark-textPrimary">

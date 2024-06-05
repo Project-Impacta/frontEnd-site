@@ -107,7 +107,7 @@ export default function ProductsCard() {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 z-10">
+      <div className="fixed bottom-8 right-8 xl:top-24 xl:right-40 z-10">
         {searchOpen ? (
           <Input
             type="search"
