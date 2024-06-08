@@ -10,8 +10,8 @@ import React, { useEffect, useState } from 'react';
 
 const MyProfile: React.FC = () => {
   const { data: session } = useSession();
-  const token = session?.user.token;
-
+  const token = session?.user.accessToken;
+  console.log(token);
   const [userProfile, setUserProfile] = useState<ProfileDataSchema[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [dialogMessage, setDialogMessage] = useState<string>('');
@@ -93,14 +93,6 @@ const MyProfile: React.FC = () => {
                   </Label>
                   <p className="mt-1 text-gray-800 dark:text-gray-200">
                     {myUserProfile.cpf}
-                  </p>
-                </div>
-                <div className="mt-4 flex space-x-2 items-center">
-                  <Label className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                    Endereço:
-                  </Label>
-                  <p className="mt-1 text-gray-800 dark:text-gray-200">
-                    {/* Inserir dados do endereço aqui */}
                   </p>
                 </div>
               </CardContent>
