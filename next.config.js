@@ -9,9 +9,6 @@ const nextConfig = {
     unoptimized: true,
   },
   output: 'standalone',
-  experimental: {
-    optimizePackageImports: ['@mui/icons-material'],
-  },
   env: {
     version,
   },
