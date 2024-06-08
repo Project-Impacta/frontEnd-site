@@ -1,6 +1,6 @@
 import ErrorDisplay from '../display/ErrorDisplay';
 import LoadingDisplay from '../display/LoadingDisplay';
-import { Input } from '../ui';
+import { Button, Input } from '../ui';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { CreateProductDialog } from '@/functions';
+import ImageGallery from '@/functions/UploadImage';
 import { fetchProducts } from '@/hooks/fetchProducts';
 import {
   categoryMapping,
@@ -25,6 +26,9 @@ const ProductsList: React.FC = () => {
   const [dialogMessage, setDialogMessage] = useState<string>('');
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [search, setSearch] = useState('');
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null,
+  );
 
   const productFilter = products.filter((product) =>
     product.name.toLowerCase().startsWith(search.toLowerCase()),
@@ -96,38 +100,58 @@ const ProductsList: React.FC = () => {
             <TableHead className="text-right text-light-textPrimary dark:text-dark-textPrimary">
               Preço
             </TableHead>
+            <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
+              Ações
+            </TableHead>
+            <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
+              Imagens
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="text-center">
           {Array.isArray(products) ? (
             productFilter.map((product) => (
-              <TableRow key={product._id}>
-                <TableCell className="font-medium body text-light-textPrimary dark:text-dark-textPrimary">
-                  {product._id}
-                </TableCell>
-                <TableCell className=" body text-light-textPrimary dark:text-dark-textPrimary">
-                  {product.name}
-                </TableCell>
-                <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
-                  <ScrollArea className="h-[60px]  p-1">
-                    {product.description}
-                  </ScrollArea>
-                </TableCell>
-                <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
-                  {
-                    categoryMapping[
-                      product.category as unknown as keyof typeof categoryMapping
-                    ]
-                  }
-                </TableCell>
-                <TableCell className="text-right body text-light-textPrimary dark:text-dark-textPrimary flex space-x-1 items-center justify-center py-16">
-                  <div>{formatPriceBR(product.price)}</div>
-                </TableCell>
-              </TableRow>
+              <React.Fragment key={product._id}>
+                <TableRow>
+                  <TableCell className="font-medium body text-light-textPrimary dark:text-dark-textPrimary">
+                    {product._id}
+                  </TableCell>
+                  <TableCell className=" body text-light-textPrimary dark:text-dark-textPrimary">
+                    {product.name}
+                  </TableCell>
+                  <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                    <ScrollArea className="h-[60px]  p-1">
+                      {product.description}
+                    </ScrollArea>
+                  </TableCell>
+                  <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                    {
+                      categoryMapping[
+                        product.category as unknown as keyof typeof categoryMapping
+                      ]
+                    }
+                  </TableCell>
+                  <TableCell className="text-right body text-light-textPrimary dark:text-dark-textPrimary flex space-x-1 items-center justify-center py-16">
+                    <div>{formatPriceBR(product.price)}</div>
+                  </TableCell>
+                  <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                    <Button
+                      onClick={() => setSelectedProductId(product._id ?? '')}
+                    >
+                      Mostrar Imagens
+                    </Button>
+                  </TableCell>
+                  <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                    {selectedProductId === product._id && (
+                      <ImageGallery productId={product._id} />
+                    )}
+                  </TableCell>
+                </TableRow>
+              </React.Fragment>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={5}>
+              <TableCell colSpan={7}>
                 <ErrorDisplay
                   dialogOpen={dialogOpen}
                   dialogMessage={dialogMessage}

@@ -1,4 +1,5 @@
 import LoadingDisplay from '@/components/display/LoadingDisplay';
+import ProductImageGallery from '@/components/imagens/ProductImageGallery';
 import { Input } from '@/components/ui';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -107,7 +108,7 @@ export default function ProductsCard() {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 z-10">
+      <div className="fixed bottom-8 right-8  xl:top-24 xl:right-40 z-10">
         {searchOpen ? (
           <Input
             type="search"
@@ -125,7 +126,6 @@ export default function ProductsCard() {
             <Search className="text-gray-600" />
           </button>
         )}
-        {/* Botão de fechar para quando o campo de pesquisa está aberto */}
         {searchOpen && (
           <button
             className="absolute top-0 right-0 m-2 p-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none transition-all duration-300"
@@ -162,9 +162,10 @@ export default function ProductsCard() {
                 {categoryProducts.map((product) => (
                   <Card
                     key={product._id}
-                    className="mt-2 p-4 rounded-lg shadow-md"
+                    className="mt-2 p-1 rounded-lg shadow-md"
                   >
                     <CardHeader>
+                      <ProductImageGallery productId={product._id ?? ''} />
                       <CardTitle className="text-lg font-semibold text-light-textPrimary dark:text-dark-textPrimary">
                         {product.name}
                       </CardTitle>
