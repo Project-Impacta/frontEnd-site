@@ -1,7 +1,13 @@
 import { ShopCartSchema } from '@/types/shopCartTypes';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { useSession } from 'next-auth/react';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 interface ShoppingCartContextProps {
   shoppingCart: ShopCartSchema[];
@@ -90,16 +96,19 @@ export const ShoppingCartProvider = ({
     setShoppingCart([]);
   };
 
+  const shoppingCartMemo = useMemo(
+    () => ({
+      shoppingCart,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+    }),
+    [shoppingCart],
+  );
+
   return (
-    <ShoppingCartContext.Provider
-      value={{
-        shoppingCart,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-      }}
-    >
+    <ShoppingCartContext.Provider value={shoppingCartMemo}>
       {children}
     </ShoppingCartContext.Provider>
   );
