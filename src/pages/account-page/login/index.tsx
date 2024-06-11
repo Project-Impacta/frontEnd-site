@@ -1,7 +1,7 @@
 'use client';
 
 import { ButtonLoading } from '@/components/button/button-loading/loadingBtn';
-import { LogoImpactaStore } from '@/components/imagens';
+import LogoImpactaStore from '@/components/imagens/logo-impacta';
 import { AlertDescription } from '@/components/ui/alert';
 import {
   AlertDialog,

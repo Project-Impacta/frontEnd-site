@@ -1,48 +1,5 @@
-import ProductsList from '@/components/products/ListProducst';
-import { Button } from '@/components/ui/button';
-import { CreateProductDialog } from '@/functions/create-product';
-import HeaderHome from '@/templates/header/home-header';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import DeniedPage from 'pages/denied';
+import RegisterProduct from '@/pages/register-product';
 
-const RegisterProductPage = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  // Verifica se a sessão está carregando
-  if (status === 'loading') {
-    return <div>Carregando...</div>;
-  }
-
-  // Se não houver sessão, redirecione para a página de login
-  if (!session) {
-    router.push('/login');
-    return null; // Evita o flash de conteúdo não protegido
-  }
-
-  // Se o usuário estiver autenticado, verifica se é um administrador
-  if (session.user.role !== 'admin') {
-    return <DeniedPage />; // Redireciona para uma página de acesso negado
-  }
-  return (
-    <div className="justify-center items-center">
-      <HeaderHome />
-      <Button>
-        <Link href="/admin">Voltar</Link>
-      </Button>
-
-      <div className={'mt-20'}>
-        <div className={'text-right py-2'}>
-          <CreateProductDialog />
-        </div>
-        <div className={'grid'}>
-          <ProductsList />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default RegisterProductPage;
+export default function RegisterProductPage(): JSX.Element {
+  return <RegisterProduct />;
+}

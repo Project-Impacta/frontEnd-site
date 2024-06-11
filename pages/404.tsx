@@ -1,4 +1,4 @@
-import { NotFound } from '@/pages';
+import NotFound from '@/pages/error-page/404';
 import Link from 'next/link';
 import React from 'react';
 import { JSX } from 'react/jsx-runtime';

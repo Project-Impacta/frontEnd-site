@@ -1,37 +1,35 @@
-import { Alert, Box, Link, Typography } from '@mui/material';
+import { CircleAlert, TriangleAlert } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DeniedPage() {
   return (
-    <Box className={'h-screen flex flex-col items-center justify-center'}>
-      <Typography
-        variant="h1"
-        sx={{ my: 3 }}
+    <div className={'h-screen flex flex-col items-center justify-center'}>
+      <div
         className={
-          'title text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl'
+          'title flex justify-center items-center space-x-2 text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl'
         }
       >
-        <Alert severity="error">Acesso restrito</Alert>
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ my: 3 }}
+        <CircleAlert />
+        <div>Acesso restrito</div>
+        <CircleAlert />
+      </div>
+      <div
         className={
-          'body text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl'
+          'body flex justify-center items-center space-x-2 text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl'
         }
       >
-        <Alert severity="info">
-          Você não possui permissão para prosseguir!
-        </Alert>
-      </Typography>
-      <Box>
+        <TriangleAlert />
+        <div>Você não possui permissão para prosseguir!</div>
+        <TriangleAlert />
+      </div>
+      <div className="mt-10">
         <Link
           href="/"
-          underline="hover"
           className={`link text-light-textPrimary dark:text-dark-textPrimary text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
         >
           {'Voltar'}
         </Link>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
-export { default as NotFound } from './error-page/404';
-export { default as RegisterPage } from './account-page/register';
-export { default as LoginPage } from './auth-page';
-export { default as IntroductionPage } from './introduction-page';
-export { default as RegisterForm } from './account-page/register';
-export { default as LoginForm } from './auth-page';
+export * from './account-page/login/index';
+export * from './account-page/register/index';
+export * from './auth-page/index';
+export * from './error-page/404';
+export * from './home-page/index';
+export * from './introduction-page/index';
+export * from './products-page/index';

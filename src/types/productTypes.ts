@@ -10,10 +10,15 @@ export const Products = z.object({
 
 export type ProductsSchema = z.infer<typeof Products>;
 
-export const categoryMapping = {
-  1: 'Notebook',
-  2: 'Celular',
-  3: 'Computador',
+interface CategoryMapping {
+  [key: string]: string;
+}
+
+export const categoryMapping: CategoryMapping = {
+  '1': 'Notebook',
+  '2': 'Celular',
+  '3': 'Computador',
+  // Adicione outras categorias conforme necessário
 };
 export const formatPriceBR = (price: number): string => {
   return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });

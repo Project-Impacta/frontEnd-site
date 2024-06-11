@@ -1,2 +1,2 @@
-export { default as LoadingDisplay } from './LoadingDisplay';
-export { default as ErrorDisplay } from './ErrorDisplay';
+export * from './ErrorDisplay';
+export * from './LoadingDisplay';

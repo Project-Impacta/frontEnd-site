@@ -7,8 +7,9 @@ export default function LogoImpactaStore() {
     <Image
       src={logoImpacta}
       alt="Símbolo Impacta Store"
-      width={50} // Substitua 500 pela largura máxima que a imagem pode ter
-      height={50} // Substitua 300 pela altura máxima que a imagem pode ter
+      width={50}
+      height={50}
+      fetchPriority="low"
     />
   );
 }
