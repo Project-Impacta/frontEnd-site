@@ -1,3 +1,5 @@
+'use client';
+
 import { Alert, Button } from '@/components/ui';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
@@ -56,8 +58,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setNovaImagem(e.target.files[0]);
+    const file = e.target.files?.[0];
+    if (file) {
+      setNovaImagem(file);
     }
   };
 
@@ -75,7 +78,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
       const formData = new FormData();
       const originalFileName = novaImagem.name;
       const fileExtension = originalFileName.split('.').pop();
-      const modifiedFileName = `${originalFileName.replace(`.${fileExtension}`, '')}_${productId}.${fileExtension}`;
+      const baseFileName = originalFileName.replace(`.${fileExtension}`, '');
+      const modifiedFileName =
+        baseFileName + '_' + productId + '.' + fileExtension;
       const modifiedFile = new File([novaImagem], modifiedFileName, {
         type: novaImagem.type,
       });
@@ -131,6 +136,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
     (imagem) => imagem && imagem.productId === productId,
   );
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div>
       {imagensFiltradas.length > 0 ? (
@@ -147,13 +160,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
               <Alert>Imagem não disponível</Alert>
             )}
             <div className="flex items-center justify-center mt-2">
-              <Button onClick={() => handleDelete(imagem._id)}>
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin box " />
-                ) : (
-                  'Excluir'
-                )}
-              </Button>
+              <Button onClick={() => handleDelete(imagem._id)}>Excluir</Button>
             </div>
           </div>
         ))
@@ -168,11 +175,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
             onChange={handleFileChange}
           />
           <Button onClick={handleUpload} className="mt-2">
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin box" />
-            ) : (
-              'Enviar Imagem'
-            )}
+            Enviar Imagem
           </Button>
         </div>
       )}
