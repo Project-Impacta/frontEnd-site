@@ -1,7 +1,7 @@
 'use client';
 
 import { ButtonLoading } from '@/components/button/button-loading/loadingBtn';
-import { ErrorDisplay } from '@/components/display';
+import ErrorDisplay from '@/components/display/ErrorDisplay';
 import { AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,7 +26,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { ProductsSchema, Products } from '@/types/productTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CaseSensitive, DollarSign, PackageSearch, Tag } from 'lucide-react';
-import Head from 'next/head';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -141,10 +140,6 @@ export function CreateProductDialog() {
 
   return (
     <>
-      <Head>
-        <title>Novo Produto</title>
-        <meta name="description" content="Novo Produto" />
-      </Head>
       {mounted && (
         <Dialog>
           <DialogTrigger asChild>
@@ -152,8 +147,8 @@ export function CreateProductDialog() {
               Cadastrar Novo Produto
             </Button>
           </DialogTrigger>
-          <div>
-            <DialogContent>
+          <div className="flex justify-center">
+            <DialogContent className="w-full">
               <Card className="border-none">
                 <CardHeader className="items-center text-light-textPrimary dark:text-dark-textPrimary">
                   <CardTitle className="title">
@@ -165,7 +160,7 @@ export function CreateProductDialog() {
                 </CardHeader>
                 <form noValidate onSubmit={handleSubmit(onSubmit)}>
                   <CardContent>
-                    <div>
+                    <div className="mb-4">
                       <Label htmlFor="name" className="flex items-center py-1">
                         Nome do produto
                         <Tag className="ml-2" />
@@ -178,12 +173,12 @@ export function CreateProductDialog() {
                         onChange={handleInputChange}
                       />
                       {errors.name && (
-                        <AlertDescription className="text-center py-2">
+                        <AlertDescription className="text-red-500 py-2">
                           {errors.name.message}
                         </AlertDescription>
                       )}
                     </div>
-                    <div>
+                    <div className="mb-4">
                       <Label
                         htmlFor="description"
                         className="flex items-center py-1"
@@ -196,21 +191,18 @@ export function CreateProductDialog() {
                         id="description"
                         name="description"
                         onChange={handleInputChange}
-                        className="max-h-2 resize-none"
+                        className="max-h-32 resize-none"
                         maxLength={1024}
                         minLength={10}
                       />
                       {errors.description && (
-                        <AlertDescription className="text-center py-2">
+                        <AlertDescription className="text-red-500 py-2">
                           {errors.description.message}
                         </AlertDescription>
                       )}
                     </div>
-                    <div>
-                      <Label
-                        htmlFor="price"
-                        className=" flex items-center py-1"
-                      >
+                    <div className="mb-4">
+                      <Label htmlFor="price" className="flex items-center py-1">
                         Preço do produto
                         <DollarSign className="ml-2" />
                       </Label>
@@ -226,7 +218,7 @@ export function CreateProductDialog() {
                         type="number"
                       />
                       {errors.price && (
-                        <AlertDescription className="py-2 text-center">
+                        <AlertDescription className="text-red-500 py-2">
                           {errors.price.message}
                         </AlertDescription>
                       )}
@@ -234,7 +226,7 @@ export function CreateProductDialog() {
                     <div>
                       <Label
                         htmlFor="category"
-                        className=" flex items-center py-1"
+                        className="flex items-center py-1"
                       >
                         Categoria do produto
                         <PackageSearch className="ml-2" />
@@ -255,7 +247,7 @@ export function CreateProductDialog() {
                         </SelectContent>
                       </Select>
                       {errors.category && (
-                        <AlertDescription className="text-center py-2">
+                        <AlertDescription className="text-red-500 py-2">
                           {errors.category.message}
                         </AlertDescription>
                       )}

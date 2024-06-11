@@ -1,5 +1,13 @@
 import { ShopCartSchema } from '@/types/shopCartTypes';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { useSession } from 'next-auth/react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 interface ShoppingCartContextProps {
   shoppingCart: ShopCartSchema[];
@@ -30,25 +38,35 @@ export const useShoppingCart = () => {
 const SHOPPING_CART_STORAGE_KEY = 'shoppingCart';
 
 export const ShoppingCartProvider = ({
-  // NOTE: Ajustar para pegar com base do token
   children,
 }: ShoppingCartContextChildrenProps) => {
+  const { data: session } = useSession();
+  const token = session?.user.accessToken;
+  console.log(token);
+  const decoded = token
+    ? jwtDecode<JwtPayload & { profile: { user: { cpf: string } } }>(token)
+    : null;
+
+  const userId = decoded?.profile?.user?.cpf;
+
   const [shoppingCart, setShoppingCart] = useState<ShopCartSchema[]>(() => {
-    if (typeof window !== 'undefined') {
-      const storedCart = localStorage.getItem(SHOPPING_CART_STORAGE_KEY);
+    if (typeof window !== 'undefined' && userId) {
+      const storedCart = localStorage.getItem(
+        `${SHOPPING_CART_STORAGE_KEY}_${userId}`,
+      );
       return storedCart ? JSON.parse(storedCart) : [];
     }
     return [];
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && userId) {
       localStorage.setItem(
-        SHOPPING_CART_STORAGE_KEY,
+        `${SHOPPING_CART_STORAGE_KEY}_${userId}`,
         JSON.stringify(shoppingCart),
       );
     }
-  }, [shoppingCart]);
+  }, [shoppingCart, userId]);
 
   const addToCart = (item: ShopCartSchema) => {
     setShoppingCart((prev) => {
@@ -79,16 +97,19 @@ export const ShoppingCartProvider = ({
     setShoppingCart([]);
   };
 
+  const shoppingCartMemo = useMemo(
+    () => ({
+      shoppingCart,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+    }),
+    [shoppingCart],
+  );
+
   return (
-    <ShoppingCartContext.Provider
-      value={{
-        shoppingCart,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-      }}
-    >
+    <ShoppingCartContext.Provider value={shoppingCartMemo}>
       {children}
     </ShoppingCartContext.Provider>
   );

@@ -1,6 +1,6 @@
-'use client';
-
-import { LoadingDisplay } from '@/components/display';
+import LoadingDisplay from '@/components/display/LoadingDisplay';
+import ProductImageGallery from '@/components/imagens/ProductImageGallery';
+import { Input } from '@/components/ui';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,17 +27,19 @@ import {
   ProductsSchema,
 } from '@/types/productTypes';
 import { ShopCartSchema } from '@/types/shopCartTypes';
-import { ShieldX, ShoppingCart } from 'lucide-react';
+import { Search, ShieldX, ShoppingCart } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ProductsCard() {
   const { data: session } = useSession();
-  const [products, setProducts] = React.useState<ProductsSchema[] | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [authDialogOpen, setAuthDialogOpen] = React.useState(false);
+  const [products, setProducts] = useState<ProductsSchema[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [authDialogOpen, setAuthDialogOpen] = useState<boolean>(false);
   const { addToCart } = useShoppingCart();
+  const [search, setSearch] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const handleAddToCart = (id: string) => {
     if (!session) {
@@ -45,7 +47,7 @@ export default function ProductsCard() {
       return;
     }
 
-    const product = products?.find((product) => product._id === id);
+    const product = products.find((product) => product._id === id);
     if (!product?._id) {
       console.error('Produto não encontrado ou ID inválido');
       return;
@@ -61,7 +63,7 @@ export default function ProductsCard() {
     addToCart(newItem);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const loadProducts = async () => {
       try {
         const data = await fetchProducts();
@@ -84,51 +86,116 @@ export default function ProductsCard() {
     return <LoadingDisplay dialogOpen={true} />;
   }
 
+  const productsByCategory: Record<string, ProductsSchema[]> = {};
+  products.forEach((product) => {
+    if (!productsByCategory[product.category]) {
+      productsByCategory[product.category] = [];
+    }
+    productsByCategory[product.category].push(product);
+  });
+
+  const filteredProductsByCategory: Record<string, ProductsSchema[]> = {};
+  Object.keys(productsByCategory).forEach((category) => {
+    const filteredProducts = productsByCategory[category].filter(
+      (product) =>
+        product.name.toLowerCase().startsWith(search.toLowerCase()) ||
+        product.description.toLowerCase().startsWith(search.toLowerCase()),
+    );
+    if (filteredProducts.length > 0) {
+      filteredProductsByCategory[category] = filteredProducts;
+    }
+  });
+
   return (
-    <div className="items-center justify-center">
-      <h1 className="title text-light-textPrimary dark:text-dark-textPrimary text-center">
-        Produtos
-      </h1>
-      <div className="grid grid-cols-3 gap-4">
-        {Array.isArray(products) ? (
-          products.map((product) => (
-            <Card key={product._id} className="mt-2 items-center grid ">
-              <CardHeader>
-                <CardTitle className="title text-light-textPrimary dark:text-dark-textPrimary">
-                  {product.name}
-                </CardTitle>
-                <CardDescription className="body text-light-textSecondary dark:text-dark-textSecondary">
-                  <ScrollArea className="h-[150px] w-[350px] p-1">
-                    {product.description}
-                  </ScrollArea>
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="body text-light-textSecondary dark:text-dark-textSecondary">
-                {formatPriceBR(product.price)}
-              </CardContent>
-              <CardFooter className="justify-between body text-light-textPrimary dark:text-dark-textPrimary px-6">
-                <Button
-                  onClick={() => product._id && handleAddToCart(product._id)}
-                >
-                  <ShoppingCart />
-                </Button>
-                {categoryMapping[product.category]}
-              </CardFooter>
-            </Card>
-          ))
+    <>
+      <div className="fixed bottom-8 right-8  xl:top-24 xl:right-40 z-10">
+        {searchOpen ? (
+          <Input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Procurar Produto"
+            className="bg-white h-10 px-5 pr-4 rounded-full text-sm focus:outline-none shadow-md transition-all duration-300"
+          />
         ) : (
-          <div className="fixed">
-            <Alert className="border-none">
-              <ShieldX className="h-4 w-4" />
-              <AlertTitle>Produtos não encontrados</AlertTitle>
-              <AlertDescription>
-                Ocorreu um problema na listagem de produtos
-              </AlertDescription>
-            </Alert>
-          </div>
+          <button
+            className="bg-white h-10 w-10 rounded-full flex justify-center items-center focus:outline-none shadow-md transition-all duration-300 transform hover:scale-110"
+            onClick={() => setSearchOpen(true)}
+            title="Abrir campo de pesquisa"
+          >
+            <Search className="text-gray-600" />
+          </button>
+        )}
+        {searchOpen && (
+          <button
+            className="absolute top-0 right-0 m-2 p-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none transition-all duration-300"
+            onClick={() => setSearchOpen(false)}
+            title="Fechar campo de pesquisa"
+          >
+            <svg
+              className="w-4 h-4 text-gray-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         )}
       </div>
-
+      <div className="items-center justify-center">
+        <div className="title text-light-textPrimary dark:text-dark-textPrimary text-center">
+          Produtos
+        </div>
+        {Object.entries(filteredProductsByCategory).map(
+          ([categoryId, categoryProducts]) => (
+            <div key={categoryId}>
+              <h2 className="text-lg font-semibold mb-2 mt-4">
+                {categoryMapping[String(categoryId)]}
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+                {categoryProducts.map((product) => (
+                  <Card
+                    key={product._id}
+                    className="mt-2 p-1 rounded-lg shadow-md"
+                  >
+                    <CardHeader>
+                      <ProductImageGallery productId={product._id ?? ''} />
+                      <CardTitle className="text-lg font-semibold text-light-textPrimary dark:text-dark-textPrimary">
+                        {product.name}
+                      </CardTitle>
+                      <CardDescription className="text-sm text-light-textSecondary dark:text-dark-textSecondary">
+                        <ScrollArea className="h-[150px] p-1">
+                          {product.description}
+                        </ScrollArea>
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-base text-light-textSecondary dark:text-dark-textSecondary">
+                      {formatPriceBR(product.price)}
+                    </CardContent>
+                    <CardFooter className="flex justify-between items-center text-sm text-light-textPrimary dark:text-dark-textPrimary">
+                      <Button
+                        className="text-lg text-green-500 hover:text-green-600"
+                        onClick={() =>
+                          product._id && handleAddToCart(product._id)
+                        }
+                      >
+                        <ShoppingCart className="h-6 w-6" />
+                      </Button>
+                      <span>{categoryMapping[product.category]}</span>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ),
+        )}
+      </div>
       <Dialog open={authDialogOpen} onOpenChange={setAuthDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -148,6 +215,6 @@ export default function ProductsCard() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }

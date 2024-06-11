@@ -15,10 +15,10 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableRow,
 } from '@/components/ui/table';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
 import { categoryMapping, formatPriceBR } from '@/types/productTypes';
-import { TableRow } from '@mui/material';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { CircleMinus, CirclePlus, ShoppingCart } from 'lucide-react';
 import React from 'react';
