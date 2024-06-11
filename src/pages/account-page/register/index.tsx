@@ -1,4 +1,4 @@
-'use client ';
+'use client';
 
 import { ButtonLoading } from '@/components/button/button-loading/loadingBtn';
 import LogoImpactaStore from '@/components/imagens/logo-impacta';
@@ -36,7 +36,7 @@ import Head from 'next/head';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const API_URL = 'http://localhost:3333';
+const API_URL = process.env.API_URL;
 
 const RegisterPage = (): JSX.Element => {
   const {
@@ -48,6 +48,7 @@ const RegisterPage = (): JSX.Element => {
   } = useForm<FormDataSchema>({
     resolver: zodResolver(FormData),
   });
+
   const [dialogMessage, setDialogMessage] = React.useState('');
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
@@ -59,7 +60,7 @@ const RegisterPage = (): JSX.Element => {
     let error = '';
     if (name === 'cpf') {
       const formattedCPF = formatCPF(value);
-      error = isValidCPF(formattedCPF) ? '' : 'Insira somente números';
+      error = isValidCPF(formattedCPF) ? '' : 'CPF inválido';
       setError(
         name as keyof FormDataSchema,
         { message: error },
@@ -72,7 +73,7 @@ const RegisterPage = (): JSX.Element => {
         { shouldFocus: false },
       );
     } else if (name === 'email') {
-      error = validateEmail(value) || '';
+      error = validateEmail(value) ? '' : 'Email inválido';
       setError(
         name as keyof FormDataSchema,
         { message: error },
@@ -86,21 +87,34 @@ const RegisterPage = (): JSX.Element => {
   async function onSubmit(data: FormDataSchema) {
     setSubmitting(true);
     setProgress(100);
-    {
-      /*
-      FIXME  -  Ajustar a quando aparecer o alerta de erro.
-      BUG - Ajustar função de validação dos campos.
-      */
-    }
-    const requiredFields = [data];
+
+    // Verifica se todos os campos obrigatórios estão preenchidos
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'cpf',
+      'phone',
+      'email',
+      'password',
+      'repeatPassword',
+    ];
     const incompleteFields = requiredFields.filter(
-      (field) => !data[field as unknown as keyof FormDataSchema],
+      (field) => !data[field as keyof FormDataSchema],
     );
 
     if (incompleteFields.length > 0) {
-      setDialogMessage(`Preencha todos os campos.`);
+      setDialogMessage('Preencha todos os campos.');
       setDialogOpen(true);
       setSubmitting(false);
+      return;
+    }
+
+    // Verifica se a senha e a repetição da senha são iguais
+    if (data.password !== data.repeatPassword) {
+      setDialogMessage('As senhas não coincidem.');
+      setDialogOpen(true);
+      setSubmitting(false);
+      return;
     }
 
     const requestOptions = {
@@ -111,7 +125,7 @@ const RegisterPage = (): JSX.Element => {
         phone: data.phone.replace(/\D/g, ''),
         cpf: data.cpf.replace(/\D/g, ''),
         email: data.email.toLowerCase().trim(),
-        password: data?.password,
+        password: data.password,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -125,23 +139,25 @@ const RegisterPage = (): JSX.Element => {
       const responseData = await response.json();
 
       if (response.ok && responseData.status === 201) {
-        setTimeout(() => {
-          setDialogMessage('Cadastro realizado com sucesso!');
-          setTimeout(() => {
-            setDialogMessage('Faça login para acessar mais funcionalidades.');
-          }, 3000);
-        }, 3000);
+        setDialogMessage('Cadastro realizado com sucesso!');
+        setDialogOpen(true);
       } else {
-        if (response.status === 409 || response.status === 400) {
-          setDialogMessage(responseData.message);
-        }
-        console.log('Mensagem server', responseData.message);
+        setDialogMessage(
+          responseData.message || 'Ocorreu um erro ao enviar o formulário.',
+        );
         setDialogOpen(true);
       }
     } catch (error) {
-      setDialogMessage(
-        'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
-      );
+      if (error instanceof Response) {
+        const responseData = await error.json();
+        setDialogMessage(
+          responseData.message || 'Ocorreu um erro ao enviar o formulário.',
+        );
+      } else {
+        setDialogMessage(
+          'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.',
+        );
+      }
       setDialogOpen(true);
     } finally {
       setSubmitting(false);
@@ -175,6 +191,11 @@ const RegisterPage = (): JSX.Element => {
                     type="text"
                     onChange={handleChange}
                   />
+                  {errors.firstName && (
+                    <AlertDescription>
+                      {errors.firstName.message}
+                    </AlertDescription>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="lastName">Último Nome</Label>
@@ -185,6 +206,11 @@ const RegisterPage = (): JSX.Element => {
                     onChange={handleChange}
                     name="lastName"
                   />
+                  {errors.lastName && (
+                    <AlertDescription>
+                      {errors.lastName.message}
+                    </AlertDescription>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="cpf">CPF</Label>
@@ -217,15 +243,16 @@ const RegisterPage = (): JSX.Element => {
                     type="text"
                     name="phone"
                   />
+                  {errors.phone && (
+                    <AlertDescription>{errors.phone.message}</AlertDescription>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <Label htmlFor="email">E-mail</Label>
                   <Input
                     {...register('email', {
                       required: true,
-                      validate: {
-                        validateEmail,
-                      },
+                      validate: validateEmail,
                     })}
                     id="email"
                     type="email"
@@ -253,6 +280,11 @@ const RegisterPage = (): JSX.Element => {
                     name="password"
                     onChange={handleChange}
                   />
+                  {errors.password && (
+                    <AlertDescription>
+                      {errors.password.message}
+                    </AlertDescription>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="repeatPassword">Repita sua Senha</Label>
@@ -262,6 +294,11 @@ const RegisterPage = (): JSX.Element => {
                     type="password"
                     onChange={handleChange}
                   />
+                  {errors.repeatPassword && (
+                    <AlertDescription>
+                      {errors.repeatPassword.message}
+                    </AlertDescription>
+                  )}
                 </div>
               </div>
               <CardFooter className="items-center justify-center relative top-4">

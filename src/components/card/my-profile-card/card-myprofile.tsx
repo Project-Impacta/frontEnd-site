@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 
 const MyProfile: React.FC = () => {
   const { data: session } = useSession();
-  const token = session?.user.accessToken;
+  const token = session?.user.token;
   console.log(token);
   const [userProfile, setUserProfile] = useState<ProfileDataSchema[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

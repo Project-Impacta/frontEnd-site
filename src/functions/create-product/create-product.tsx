@@ -23,24 +23,43 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { ProductsSchema, Products } from '@/types/productTypes';
+import { ProductsSchema } from '@/types/productTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CaseSensitive, DollarSign, PackageSearch, Tag } from 'lucide-react';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
+import { z } from 'zod';
 
 const API_URL = 'http://localhost:3333';
+
+const formSchema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório'),
+  description: z
+    .string()
+    .min(10, 'Descrição deve ter no mínimo 10 caracteres')
+    .max(1024, 'Descrição deve ter no máximo 1024 caracteres'),
+  price: z
+    .string()
+    .transform((val) => Number(val.replace(/[^\d,.-]/g, '').replace(',', '.')))
+    .refine((val) => val >= 10 && val <= 10000, {
+      message:
+        'Formato de preço inválido. Mínimo: R$ 10,00 - Máximo: R$ 10.000,00',
+    }),
+  category: z.string().min(1, 'Categoria é obrigatória'),
+});
 
 export function CreateProductDialog() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { isSubmitting, errors },
+    setValue,
     setError,
     reset,
-    setValue,
   } = useForm<ProductsSchema>({
-    resolver: zodResolver(Products),
+    resolver: zodResolver(formSchema),
   });
 
   const [mounted, setMounted] = React.useState(false);
@@ -53,8 +72,8 @@ export function CreateProductDialog() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleCloseDialog = () => setDialogOpen(false);
+
   const handleSelectChange = (value: string) => {
-    // Create a synthetic event to mimic the structure of a ChangeEvent
     const event = {
       target: {
         name: 'category',
@@ -64,6 +83,7 @@ export function CreateProductDialog() {
 
     handleInputChange(event);
   };
+
   const handleInputChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -73,28 +93,11 @@ export function CreateProductDialog() {
     const { name, value } = e.target;
     let error = '';
 
-    if (name === 'price') {
-      const numericValue = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-      const floatValue = !isNaN(parseFloat(numericValue))
-        ? parseFloat(numericValue) / 100
-        : 0;
-      // Converta para um valor em ponto flutuante
-      // BUG - AJUSTAR INPUT DO VALOR
-      // Verifica se o valor está dentro do intervalo permitido
-      if (floatValue < 10 || floatValue > 10000 || isNaN(floatValue)) {
-        error =
-          'Formato de preço inválido. Mínimo: R$ 10,00 - Máximo R$ 10.000,00';
-      }
-    } else if (name === 'description') {
-      const formattedDescription = value;
-      if (
-        formattedDescription.length < 10 ||
-        formattedDescription.length > 1024
-      ) {
-        error = 'Mínimo: 10 caracteres - Máximo 1024 caracteres';
+    if (name === 'description') {
+      if (value.length < 10 || value.length > 1024) {
+        error = 'Mínimo: 10 caracteres - Máximo: 1024 caracteres';
       }
     } else if (name === 'category') {
-      console.log('Setting category value:', value);
       setValue(name as keyof ProductsSchema, value);
       return;
     }
@@ -105,8 +108,8 @@ export function CreateProductDialog() {
       { shouldFocus: false },
     );
   };
+
   const onSubmit = async (data: ProductsSchema) => {
-    console.log(onSubmit);
     try {
       const response = await fetch(`${API_URL}/product`, {
         method: 'POST',
@@ -127,13 +130,16 @@ export function CreateProductDialog() {
       if (!response.ok) {
         setDialogMessage(responseData.message);
         setDialogOpen(true);
+        return;
       }
-      setDialogMessage(responseData.message);
+      setDialogMessage('Produto cadastrado com sucesso!');
       setDialogOpen(true);
 
       reset();
     } catch (error) {
-      setDialogMessage(`${error}`);
+      setDialogMessage(
+        'Erro ao cadastrar produto. Por favor, tente novamente mais tarde.',
+      );
       setDialogOpen(true);
     }
   };
@@ -206,16 +212,21 @@ export function CreateProductDialog() {
                         Preço do produto
                         <DollarSign className="ml-2" />
                       </Label>
-                      <Input
-                        {...register('price', {
-                          required: true,
-                          pattern: /^\d{1,3}(?:\.\d{3})*(,\d{1,2})?$/,
-                        })}
-                        id="price"
+                      <Controller
                         name="price"
-                        onChange={handleInputChange}
-                        maxLength={9}
-                        type="number"
+                        control={control}
+                        render={({ field }) => (
+                          <NumericFormat
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            prefix="R$ "
+                            decimalScale={2}
+                            fixedDecimalScale
+                            allowNegative={false}
+                            customInput={Input}
+                            {...field}
+                          />
+                        )}
                       />
                       {errors.price && (
                         <AlertDescription className="text-red-500 py-2">
