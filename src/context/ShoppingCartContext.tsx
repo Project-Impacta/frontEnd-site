@@ -41,7 +41,7 @@ export const ShoppingCartProvider = ({
   children,
 }: ShoppingCartContextChildrenProps) => {
   const { data: session } = useSession();
-  const token = session?.user.accessToken;
+  const token = session?.user.token;
   console.log(token);
   const decoded = token
     ? jwtDecode<JwtPayload & { profile: { user: { cpf: string } } }>(token)
