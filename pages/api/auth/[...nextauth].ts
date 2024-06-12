@@ -1,8 +1,7 @@
-import 'dotenv/config';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const API_URL = process.env.API_URL ?? 'http://localhost:3333';
+const API_URL = process.env.API_URL;
 
 export default NextAuth({
   providers: [
@@ -13,56 +12,67 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        try {
-          const res = await fetch(`${API_URL}/login/auth`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              secret_origin: `${process.env.FRONTEND_ORIGIN}`,
-              token: `${process.env.FRONTEND_TOKEN}`,
-            },
-            body: JSON.stringify({
-              cpf: credentials?.cpf,
-              password: credentials?.password,
-            }),
-          });
+        const secret_origin = process.env.FRONTEND_ORIGIN ?? '';
+        const token = process.env.FRONTEND_TOKEN ?? '';
 
-          if (!res.ok) {
-            throw new Error('Failed to authenticate');
-          }
+        console.log('Sending request to API with credentials:', {
+          cpf: credentials?.cpf,
+          password: credentials?.password,
+        });
+        console.log('Headers:', {
+          'Content-Type': 'application/json',
+          secret_origin,
+          token,
+        });
 
-          const user = await res.json();
+        const res = await fetch(`${API_URL}/login/auth`, {
+          method: 'POST',
+          body: JSON.stringify({
+            cpf: credentials?.cpf,
+            password: credentials?.password,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            secret_origin,
+            token,
+          },
+        });
 
-          if (user) {
-            return {
-              ...user,
-              role: user.profile.type,
-              accessToken: user.accessToken,
-            };
-          }
-
-          return null;
-        } catch (error) {
-          console.error('Error during authorization:', error);
+        if (!res.ok) {
+          console.error('Error from API:', res.status, res.statusText);
           return null;
         }
+
+        const user = await res.json();
+
+        console.log('User received from API:', user);
+
+        if (user) {
+          return {
+            ...user,
+            role: user.profile.type,
+            token: user.token,
+          };
+        }
+        return null;
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.accessToken;
         token.role = user.role;
+        token.cpf = user.cpf;
+        token.token = user.token;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token.accessToken) {
-        session.user.accessToken = token.accessToken;
-      }
-      if (token.role) {
-        session.user.role = token.role;
+      if (token) {
+        session.user.role = token.role as string;
+        session.user.cpf = token.cpf as string;
+        session.user.token = token.token as string;
       }
       return session;
     },
@@ -70,8 +80,5 @@ export default NextAuth({
   pages: {
     signIn: '/account-page',
     newUser: '/account-page',
-  },
-  session: {
-    maxAge: 60 * 60, // 1 hora
   },
 });
