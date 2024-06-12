@@ -2,6 +2,11 @@
 
 import { Alert, Button } from '@/components/ui';
 import axios from 'axios';
+import {
+  API_URL,
+  NEXT_PUBLIC_FRONTEND_ORIGIN,
+  NEXT_PUBLIC_FRONTEND_TOKEN,
+} from 'environment';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState, useEffect, ChangeEvent } from 'react';
@@ -36,12 +41,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
     setError(null);
     try {
       const response = await axios.get(
-        `http://localhost:3333/productImage?productId=${productId}`,
+        `${API_URL}/productImage?productId=${productId}`,
         {
           headers: {
             'Content-Type': 'application/json',
-            secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-            token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+            secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+            token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
           },
         },
       );
@@ -88,17 +93,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
       formData.append('productId', productId);
       formData.append('image', modifiedFile);
 
-      const response = await axios.post(
-        'http://localhost:3333/productImage',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-            token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
-          },
+      const response = await axios.post(`${API_URL}/productImage`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+          token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
         },
-      );
+      });
       setImagens([...imagens, response.data.imagem]);
       setSuccess('Imagem enviada com sucesso');
     } catch (error) {
@@ -115,11 +116,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
     setSuccess(null);
 
     try {
-      await axios.delete(`http://localhost:3333/productImage/${id}`, {
+      await axios.delete(`${API_URL}/productImage/${id}`, {
         headers: {
           'Content-Type': 'application/json',
-          secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-          token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+          secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+          token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
         },
       });
       setImagens(imagens.filter((imagem) => imagem._id !== id));
@@ -151,7 +152,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
           <div key={imagem._id} className="grid items-center justify-center">
             {imagem.hash ? (
               <Image
-                src={`data:image/jpeg;base64,${imagem.hash}`}
+                src={`data:image/webp;base64,${imagem.hash}`}
                 alt={imagem.productId}
                 width={150}
                 height={150}

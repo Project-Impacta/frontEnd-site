@@ -25,11 +25,14 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { ProductsSchema, Products } from '@/types/productTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  API_URL,
+  NEXT_PUBLIC_FRONTEND_ORIGIN,
+  NEXT_PUBLIC_FRONTEND_TOKEN,
+} from 'environment';
 import { CaseSensitive, DollarSign, PackageSearch, Tag } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-const API_URL = 'http://localhost:3333';
 
 export function CreateProductDialog() {
   const {
@@ -112,8 +115,8 @@ export function CreateProductDialog() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-          token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+          secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+          token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
         },
         body: JSON.stringify({
           name: data.name,

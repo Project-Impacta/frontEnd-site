@@ -1,5 +1,10 @@
 import { Alert } from '../ui';
 import axios from 'axios';
+import {
+  API_URL,
+  NEXT_PUBLIC_FRONTEND_ORIGIN,
+  NEXT_PUBLIC_FRONTEND_TOKEN,
+} from 'environment';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
@@ -29,12 +34,12 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   const fetchImagens = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3333/productImage?productId=${productId}`,
+        `${API_URL}/productImage?productId=${productId}`,
         {
           headers: {
             'Content-Type': 'application/json',
-            secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-            token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+            secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+            token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
           },
         },
       );
@@ -58,7 +63,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           <div key={imagem._id} style={{ marginBottom: '20px' }}>
             {imagem.hash ? (
               <Image
-                src={`data:image/jpeg;base64,${imagem.hash}`}
+                src={`data:image/webp;base64,${imagem.hash}`}
                 alt={imagem.productId}
                 width={200}
                 height={200}

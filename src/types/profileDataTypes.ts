@@ -9,3 +9,8 @@ export const ProfileData = z.object({
   phone: z.string(),
 });
 export type ProfileDataSchema = z.infer<typeof ProfileData>;
+
+export const ClientResponseSchema = z.object({
+  clients: z.array(ProfileData),
+});
+export type ClientResponseSchemaType = z.infer<typeof ClientResponseSchema>;

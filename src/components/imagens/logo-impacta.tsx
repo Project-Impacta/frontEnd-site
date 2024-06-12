@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logoImpacta from 'public/img/logoImpacta.png';
+import logoImpacta from 'public/img/logoImpacta.webp';
 import React from 'react';
 
 export default function LogoImpactaStore() {

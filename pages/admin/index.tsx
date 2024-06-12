@@ -28,9 +28,23 @@ export default function Admin() {
   return (
     <div className="justify-center items-center">
       <div className="grid gap-4 justify-center items-center">
-        <div className="title text-center">Página do Administrador</div>
         <div>
-          <ActionAreaCard />
+          <ActionAreaCard
+            href={'/admin/register-product'}
+            title={'Área de Produtos'}
+          />
+        </div>
+        <div>
+          <ActionAreaCard
+            href={'/admin/admin-list'}
+            title={'Área de Administradores'}
+          />
+        </div>
+        <div>
+          <ActionAreaCard
+            href={'/admin/client-list'}
+            title={'Área de Clientes'}
+          />
         </div>
       </div>
     </div>

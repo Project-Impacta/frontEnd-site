@@ -2,10 +2,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import React from 'react';
 
-export default function ActionAreaCard() {
+interface ActionAreaCardProps {
+  href: string;
+  title: string;
+}
+export default function ActionAreaCard(props: ActionAreaCardProps) {
   return (
     <div className="py-2">
-      <Link href={'/admin/register-product'}>
+      <Link href={props.href}>
         <Card className="width: 345, height: 172.5">
           <CardContent
             className={
@@ -17,7 +21,7 @@ export default function ActionAreaCard() {
                 'title text-center text-light-textPrimary dark:text-dark-textPrimary '
               }
             >
-              Cadastrar novo Produto
+              {props.title}
             </div>
           </CardContent>
         </Card>
