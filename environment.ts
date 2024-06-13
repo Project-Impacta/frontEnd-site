@@ -12,3 +12,4 @@ export const NEXT_PUBLIC_FRONTEND_TOKEN =
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 
 export const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
+export const API_URL_NEXTAUTH = process.env.API_URL_NEXTAUTH;

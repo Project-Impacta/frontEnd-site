@@ -1,5 +1,5 @@
 import {
-  API_URL,
+  API_URL_NEXTAUTH,
   FRONTEND_ORIGIN,
   FRONTEND_TOKEN,
   NEXTAUTH_SECRET,
@@ -29,7 +29,7 @@ export default NextAuth({
           token,
         });
 
-        const res = await fetch(`${API_URL}/login/auth`, {
+        const res = await fetch(`${API_URL_NEXTAUTH}/login/auth`, {
           method: 'POST',
           body: JSON.stringify({
             cpf: credentials?.cpf,
