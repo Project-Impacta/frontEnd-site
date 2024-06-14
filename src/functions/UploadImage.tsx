@@ -65,7 +65,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setNovaImagem(file);
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      if (fileExtension !== 'webp') {
+        setError('Somente imagens no formato WEBP são permitidas');
+        setNovaImagem(null);
+      } else {
+        setError(null);
+        setNovaImagem(file);
+      }
     }
   };
 
@@ -173,6 +180,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
           <input
             className="justify-center items-center "
             type="file"
+            accept=".webp"
             onChange={handleFileChange}
           />
           <Button onClick={handleUpload} className="mt-2">
