@@ -1,7 +1,11 @@
+import {
+  API_URL_NEXTAUTH,
+  FRONTEND_ORIGIN,
+  FRONTEND_TOKEN,
+  NEXTAUTH_SECRET,
+} from 'environment';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-const API_URL = process.env.API_URL;
 
 export default NextAuth({
   providers: [
@@ -12,8 +16,8 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const secret_origin = process.env.FRONTEND_ORIGIN ?? '';
-        const token = process.env.FRONTEND_TOKEN ?? '';
+        const secret_origin = FRONTEND_ORIGIN ?? '';
+        const token = FRONTEND_TOKEN ?? '';
 
         console.log('Sending request to API with credentials:', {
           cpf: credentials?.cpf,
@@ -25,7 +29,7 @@ export default NextAuth({
           token,
         });
 
-        const res = await fetch(`${API_URL}/login/auth`, {
+        const res = await fetch(`${API_URL_NEXTAUTH}/login/auth`, {
           method: 'POST',
           body: JSON.stringify({
             cpf: credentials?.cpf,
@@ -58,7 +62,7 @@ export default NextAuth({
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

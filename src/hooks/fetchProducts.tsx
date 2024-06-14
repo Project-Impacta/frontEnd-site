@@ -1,18 +1,21 @@
+import {
+  API_URL,
+  NEXT_PUBLIC_FRONTEND_ORIGIN,
+  NEXT_PUBLIC_FRONTEND_TOKEN,
+} from 'environment';
+
 export const fetchProducts = async () => {
   try {
     const requestOptions = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-        token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
+        secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+        token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
       },
     };
 
-    const response = await fetch(
-      'http://localhost:3333/product',
-      requestOptions,
-    );
+    const response = await fetch(`${API_URL}/product`, requestOptions);
     if (!response.ok) {
       throw new Error('Erro ao buscar produtos');
     }
