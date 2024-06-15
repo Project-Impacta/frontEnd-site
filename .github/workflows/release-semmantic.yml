@@ -57,7 +57,7 @@ jobs:
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         run: echo "Tag event detected, proceeding with versioning"
       - name: Exit if not tag event
-        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags/')
+        if: github.event_name == 'push' && ! contains(github.ref, 'refs/tags/')
         run: |
           echo "No tag event detected, skipping versioning"
           exit 0
@@ -91,25 +91,6 @@ jobs:
         run: |
           if git pull --rebase; then
             git push --follow-tags
-          else
-            git rebase --abort
-            echo "Rebase failed due to conflicts, aborting."
-            exit 1
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Create new branch
-        run: |
-          echo "Getting current version..."
-          current_version=$(git describe --tags)
-          echo "Current version: $current_version"
-          branch_name="release/$current_version"
-          echo "Creating new branch: $branch_name"
-          git checkout -b $branch_name
-          git branch --set-upstream-to=origin/main $branch_name
-          if git pull --rebase; then
-            git push -u origin $branch_name
-            echo "New branch $branch_name created and pushed successfully."
           else
             git rebase --abort
             echo "Rebase failed due to conflicts, aborting."
