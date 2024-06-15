@@ -45,8 +45,7 @@ jobs:
           fi
       - name: Bump version
         if: steps.check_changes.outputs.changes == 'true'
-        run: |
-          npm version patch -m "chore(release): %s"
+        run: npm version patch -m "chore(release):%s"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Push tags

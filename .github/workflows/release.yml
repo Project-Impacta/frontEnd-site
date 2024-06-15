@@ -29,25 +29,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
         run: npx semantic-release
-      - name: Commit updated package.json
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          if git diff --quiet; then
-            echo "No changes to commit, skipping."
-          else
-            git add package.json
-            git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
-            git stash
-            if git pull --rebase; then
-              git stash pop
-              git push
-            else
-              git rebase --abort
-              git stash pop
-              echo "Rebase failed due to conflicts, aborting."
-              exit 1
-            fi
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
