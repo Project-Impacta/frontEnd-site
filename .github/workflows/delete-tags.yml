@@ -18,7 +18,7 @@ jobs:
       - name: Run tag cleanup script
         run: |
           START_TAG=12
-          END_TAG=33
+          END_TAG=34
           git fetch --prune --prune-tags
           function delete_tag() {
             local tag=$1
