@@ -1,15 +1,16 @@
 import { SignInButton, SignOutButton } from '../button';
 import NextLink from '../ui/NextLink';
 import ShopCartDialog from '@/functions/shop-cart/DialogShopCart';
+import useStore from '@/zustand/store';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const NavBar = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const role = session?.user.role;
-  const [currentRoute, setCurrentRoute] = useState<string>('');
+  const { currentRoute, setCurrentRoute } = useStore();
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
@@ -23,7 +24,7 @@ const NavBar = () => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, [router.events]);
+  }, [router.events, setCurrentRoute]);
 
   useEffect(() => {
     const storedRoute = localStorage.getItem('currentRoute');
@@ -31,7 +32,7 @@ const NavBar = () => {
       setCurrentRoute(storedRoute);
       console.log('Rota armazenada:', storedRoute);
     }
-  }, []);
+  }, [setCurrentRoute]);
 
   const isActiveRoute = (route: string) => {
     return currentRoute === route;

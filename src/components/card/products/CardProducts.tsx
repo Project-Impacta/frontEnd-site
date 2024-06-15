@@ -1,6 +1,6 @@
+import SearchButton from '@/components/button/button-search/SearchButton';
 import LoadingDisplay from '@/components/display/LoadingDisplay';
 import ProductImageGallery from '@/components/imagens/ProductImageGallery';
-import { Input } from '@/components/ui';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,19 +27,20 @@ import {
   ProductsSchema,
 } from '@/types/productTypes';
 import { ShopCartSchema } from '@/types/shopCartTypes';
-import { Search, ShieldX, ShoppingCart } from 'lucide-react';
+import useStore from '@/zustand/store';
+import axios from 'axios';
+import { ShieldX, ShoppingCart } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 export default function ProductsCard() {
   const { data: session } = useSession();
-  const [products, setProducts] = useState<ProductsSchema[]>([]);
+  const { products, setProducts } = useStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [authDialogOpen, setAuthDialogOpen] = useState<boolean>(false);
   const { addToCart } = useShoppingCart();
   const [search, setSearch] = useState('');
-  const [searchOpen, setSearchOpen] = useState(false);
 
   const handleAddToCart = (id: string) => {
     if (!session) {
@@ -64,9 +65,11 @@ export default function ProductsCard() {
   };
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
     const loadProducts = async () => {
       try {
-        const data = await fetchProducts();
+        const data = await fetchProducts(source.token);
         if (Array.isArray(data.product)) {
           setProducts(data.product);
         } else {
@@ -74,13 +77,21 @@ export default function ProductsCard() {
         }
         setLoading(false);
       } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-        setLoading(false);
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Erro ao buscar produtos:', error);
+          setLoading(false);
+        }
       }
     };
 
     loadProducts();
-  }, []);
+
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, [setProducts]);
 
   if (loading) {
     return <LoadingDisplay dialogOpen={true} />;
@@ -108,45 +119,8 @@ export default function ProductsCard() {
 
   return (
     <>
-      <div className="fixed bottom-8 right-8  xl:top-24 xl:right-40 z-10">
-        {searchOpen ? (
-          <Input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Procurar Produto"
-            className="bg-white h-10 px-5 pr-4 rounded-full text-sm focus:outline-none shadow-md transition-all duration-300"
-          />
-        ) : (
-          <button
-            className="bg-white h-10 w-10 rounded-full flex justify-center items-center focus:outline-none shadow-md transition-all duration-300 transform hover:scale-110"
-            onClick={() => setSearchOpen(true)}
-            title="Abrir campo de pesquisa"
-          >
-            <Search className="text-gray-600" />
-          </button>
-        )}
-        {searchOpen && (
-          <button
-            className="absolute top-0 right-0 m-2 p-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none transition-all duration-300"
-            onClick={() => setSearchOpen(false)}
-            title="Fechar campo de pesquisa"
-          >
-            <svg
-              className="w-4 h-4 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        )}
+      <div className="fixed bottom-8 right-8 xl:top-24 xl:right-40 z-10">
+        <SearchButton value={search} onChange={setSearch} />
       </div>
       <div className="items-center justify-center">
         <div className="title text-light-textPrimary dark:text-dark-textPrimary text-center">

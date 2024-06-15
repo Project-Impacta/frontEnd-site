@@ -1,3 +1,4 @@
+import { CreateAdminDialog } from '@/components/dialog/CreateAdminDialog';
 import {
   Table,
   TableBody,
@@ -6,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useAdminsList } from '@/functions/admins-list/AdminsLits';
+import { useAdminsList } from '@/functions/admins/AdminsLits';
 import { formatCPF } from '@/utils/form-utils';
 import React from 'react';
 
@@ -17,6 +18,7 @@ const ListAdminComponent: React.FC = () => {
     <div>
       <div className="title flex justify-between items-center text-light-textPrimary dark:text-dark-textPrimary">
         Lista de Administradores
+        <CreateAdminDialog />
       </div>
       {error && <p>{error}</p>}
       <Table className="mt-2 items-center">
