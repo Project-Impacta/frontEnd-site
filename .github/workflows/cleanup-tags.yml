@@ -1,36 +1,36 @@
-# name: Cleanup Tags
+name: Cleanup Tags
 
-# on:
-#   workflow_dispatch:
-#   push:
-#     branches:
-#       - main
-#       - dev
-#       - feature/*
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev
+      - feature/*
 
-# jobs:
-#   cleanup_tags:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-#         with:
-#           token: ${{ secrets.GH_TOKEN }}
-#       - name: Set up Git identity
-#         run: |
-#           git config --local user.email "action@github.com"
-#           git config --local user.name "GitHub Action"
-#       - name: Delete tags
-#         run: |
-#           START_TAG=11
-#           END_TAG=12
-#           for i in $(seq $START_TAG $END_TAG); do
-#             for j in $(seq 2 10); do
-#               TAG="v4.$i.$j"
-#               echo "Deleting tag $TAG"
-#               git tag -d "$TAG" || echo "Tag $TAG not found locally."
-#               git push origin :refs/tags/$TAG || echo "Tag $TAG not found remotely."
-#             done
-#           done
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+jobs:
+  cleanup_tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - name: Set up Git identity
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Delete tags
+        run: |
+          START_TAG=11
+          END_TAG=12
+          for i in $(seq $START_TAG $END_TAG); do
+            for j in $(seq 2 10); do
+              TAG="v4.$i.$j"
+              echo "Deleting tag $TAG"
+              git tag -d "$TAG" || echo "Tag $TAG not found locally."
+              git push origin :refs/tags/$TAG || echo "Tag $TAG not found remotely."
+            done
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

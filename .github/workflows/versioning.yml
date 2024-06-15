@@ -1,56 +1,56 @@
-name: Versioning Workflow
+# name: Versioning Workflow
 
-on:
-  push:
-    branches:
-      - main
-      - dev
-      - feature/*
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+#       - feature/*
 
-jobs:
-  versioning:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-      - name: Set up Git identity
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-      - name: Install dependencies
-        run: npm install
-        env:
-          CI: false
-      - name: Ensure Clean Working Directory
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "Working directory is not clean, stashing changes..."
-            git stash --include-untracked
-          fi
-      - name: Check for changes
-        id: check_changes
-        run: |
-          if git diff --quiet HEAD~1 HEAD; then
-            echo "No significant changes detected."
-            echo "::set-output name=changes::false"
-          else
-            echo "Significant changes detected."
-            echo "::set-output name=changes::true"
-          fi
-      - name: Bump version
-        if: steps.check_changes.outputs.changes == 'true'
-        run: npm version patch -m "chore(release):%s"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Push tags
-        if: steps.check_changes.outputs.changes == 'true'
-        run: |
-          git push --follow-tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+# jobs:
+#   versioning:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#         with:
+#           token: ${{ secrets.GH_TOKEN }}
+#       - name: Set up Git identity
+#         run: |
+#           git config --local user.email "action@github.com"
+#           git config --local user.name "GitHub Action"
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '20'
+#       - name: Install dependencies
+#         run: npm install
+#         env:
+#           CI: false
+#       - name: Ensure Clean Working Directory
+#         run: |
+#           if [ -n "$(git status --porcelain)" ]; then
+#             echo "Working directory is not clean, stashing changes..."
+#             git stash --include-untracked
+#           fi
+#       - name: Check for changes
+#         id: check_changes
+#         run: |
+#           if git diff --quiet HEAD~1 HEAD; then
+#             echo "No significant changes detected."
+#             echo "::set-output name=changes::false"
+#           else
+#             echo "Significant changes detected."
+#             echo "::set-output name=changes::true"
+#           fi
+#       - name: Bump version
+#         if: steps.check_changes.outputs.changes == 'true'
+#         run: npm version patch -m "chore(release):%s"
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+#       - name: Push tags
+#         if: steps.check_changes.outputs.changes == 'true'
+#         run: |
+#           git push --follow-tags
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
