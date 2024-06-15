@@ -95,6 +95,7 @@ jobs:
           branch_name="release/$current_version"
           echo "Creating new branch: $branch_name"
           git checkout -b $branch_name
+          git branch --set-upstream-to=origin/main $branch_name
           git pull --rebase
           git push -u origin $branch_name
           echo "New branch $branch_name created and pushed successfully."
