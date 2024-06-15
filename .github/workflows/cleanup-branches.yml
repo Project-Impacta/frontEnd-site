@@ -1,31 +1,31 @@
-name: Cleanup Branches
+# name: Cleanup Branches
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-      - dev
-      - feature/*
-jobs:
-  cleanup_branches:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-      - name: Set up Git identity
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-      - name: Delete branches
-        run: |
-          git fetch --prune
-          for branch in $(git branch -r | grep -v '\->' | grep -v 'main' | grep -v 'dev'); do
-            branch_name=$(echo $branch | sed 's/origin\///')
-            echo "Deleting branch $branch_name"
-            git push origin --delete $branch_name || echo "Branch $branch_name not found remotely."
-          done
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - main
+#       - dev
+#       - feature/*
+# jobs:
+#   cleanup_branches:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#         with:
+#           token: ${{ secrets.GH_TOKEN }}
+#       - name: Set up Git identity
+#         run: |
+#           git config --local user.email "action@github.com"
+#           git config --local user.name "GitHub Action"
+#       - name: Delete branches
+#         run: |
+#           git fetch --prune
+#           for branch in $(git branch -r | grep -v '\->' | grep -v 'main' | grep -v 'dev'); do
+#             branch_name=$(echo $branch | sed 's/origin\///')
+#             echo "Deleting branch $branch_name"
+#             git push origin --delete $branch_name || echo "Branch $branch_name not found remotely."
+#           done
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
