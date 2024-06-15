@@ -32,9 +32,15 @@ jobs:
           git add package.json
           git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
           git stash
-          git pull --rebase
-          git stash pop
-          git push
+          if git pull --rebase; then
+            git stash pop
+            git push
+          else
+            git rebase --abort
+            git stash pop
+            echo "Rebase failed due to conflicts, aborting."
+            exit 1
+          fi
 
   versioning:
     runs-on: ubuntu-latest
@@ -83,8 +89,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Push tags
         run: |
-          git pull --rebase
-          git push --follow-tags
+          if git pull --rebase; then
+            git push --follow-tags
+          else
+            git rebase --abort
+            echo "Rebase failed due to conflicts, aborting."
+            exit 1
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Create new branch
@@ -96,12 +107,13 @@ jobs:
           echo "Creating new branch: $branch_name"
           git checkout -b $branch_name
           git branch --set-upstream-to=origin/main $branch_name
-          if ! git pull --rebase; then
-            echo "Rebase failed due to conflicts, aborting."
+          if git pull --rebase; then
+            git push -u origin $branch_name
+            echo "New branch $branch_name created and pushed successfully."
+          else
             git rebase --abort
+            echo "Rebase failed due to conflicts, aborting."
             exit 1
           fi
-          git push -u origin $branch_name
-          echo "New branch $branch_name created and pushed successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
