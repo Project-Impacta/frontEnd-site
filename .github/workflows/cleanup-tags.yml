@@ -22,10 +22,10 @@ jobs:
           git config --local user.name "GitHub Action"
       - name: Delete tags
         run: |
-          START_TAG=12
-          END_TAG=33
+          START_TAG=11
+          END_TAG=12
           for i in $(seq $START_TAG $END_TAG); do
-            for j in $(seq 0 10); do
+            for j in $(seq 3 10); do
               TAG="v4.$i.$j"
               echo "Deleting tag $TAG"
               git tag -d "$TAG" || echo "Tag $TAG not found locally."
