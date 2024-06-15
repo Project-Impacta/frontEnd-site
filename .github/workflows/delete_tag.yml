@@ -1,0 +1,37 @@
+name: Delete Tag
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - '**'
+
+jobs:
+  delete_tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - name: Run tag cleanup script
+        run: |
+          START_TAG=12
+          END_TAG=20
+          git fetch --prune --prune-tags
+          function delete_tag() {
+            local tag=$1
+            echo "Deleting tag $tag"
+            if git show-ref --tags | grep -q "refs/tags/$tag"; then
+              git tag -d "$tag"
+              git push origin --delete "$tag"
+            else
+              echo "Tag $tag not found locally."
+            fi
+          }
+          for i in $(seq $START_TAG $END_TAG); do
+            TAG="v4.$i.0"
+            delete_tag "$TAG"
+          done
+          echo "Done deleting tags"
