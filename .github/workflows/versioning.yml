@@ -34,15 +34,7 @@ jobs:
             git stash --include-untracked
           fi
       - name: Bump version
-        run: |
-          branch=$(git rev-parse --abbrev-ref HEAD)
-          if [ "$branch" = "main" ]; then
-            npm version major -m "chore(release): %s"
-          elif [ "$branch" = "dev" ]; then
-            npm version minor -m "chore(release): %s"
-          else
-            npm version patch -m "chore(release): %s"
-          fi
+        run: npm version patch -m "chore(release):%s"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Push tags
