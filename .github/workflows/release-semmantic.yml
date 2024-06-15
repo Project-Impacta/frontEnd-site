@@ -96,7 +96,11 @@ jobs:
           echo "Creating new branch: $branch_name"
           git checkout -b $branch_name
           git branch --set-upstream-to=origin/main $branch_name
-          git pull --rebase
+          if ! git pull --rebase; then
+            echo "Rebase failed due to conflicts, aborting."
+            git rebase --abort
+            exit 1
+          fi
           git push -u origin $branch_name
           echo "New branch $branch_name created and pushed successfully."
         env:
