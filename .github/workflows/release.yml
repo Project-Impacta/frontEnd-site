@@ -57,16 +57,21 @@ jobs:
           current_version=$(git describe --tags)
           echo "Current version: $current_version"
           branch_name="release/$current_version"
-          echo "Creating new branch: $branch_name"
-          git checkout -b $branch_name
-          git branch --set-upstream-to=origin/main $branch_name
-          if git pull --rebase; then
-            git push -u origin $branch_name
-            echo "New branch $branch_name created and pushed successfully."
+          echo "Checking if branch $branch_name already exists..."
+          if git show-ref --verify --quiet refs/heads/$branch_name; then
+            echo "Branch $branch_name already exists, skipping creation."
           else
-            git rebase --abort
-            echo "Rebase failed due to conflicts, aborting."
-            exit 1
+            echo "Creating new branch: $branch_name"
+            git checkout -b $branch_name
+            git branch --set-upstream-to=origin/main $branch_name
+            if git pull --rebase; then
+              git push -u origin $branch_name
+              echo "New branch $branch_name created and pushed successfully."
+            else
+              git rebase --abort
+              echo "Rebase failed due to conflicts, aborting."
+              exit 1
+            fi
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
