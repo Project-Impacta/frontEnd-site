@@ -19,11 +19,16 @@ jobs:
         run: |
           START_TAG=12
           END_TAG=33
+          git fetch --prune --prune-tags
           function delete_tag() {
             local tag=$1
             echo "Deleting tag $tag"
-            git tag -d "$tag"
-            git push origin --delete "$tag"
+            if git show-ref --tags | grep -q "refs/tags/$tag"; then
+              git tag -d "$tag"
+              git push origin --delete "$tag"
+            else
+              echo "Tag $tag not found locally."
+            fi
           }
           for i in $(seq $START_TAG $END_TAG); do
             TAG="v4.$i.0"
