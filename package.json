@@ -7,8 +7,18 @@
   "private": true,
   "release": {
     "branches": [
-      "main",
-      "dev"
+      {
+        "name": "main",
+        "type": "major"
+      },
+      {
+        "name": "dev",
+        "type": "minor"
+      },
+      {
+        "name": "*",
+        "type": "patch"
+      }
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
