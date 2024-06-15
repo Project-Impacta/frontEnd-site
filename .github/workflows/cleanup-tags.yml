@@ -1,0 +1,25 @@
+name: Cleanup Tags
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cleanup_tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Git identity
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Delete tags
+        run: |
+          START_TAG=12
+          END_TAG=33
+          for i in $(seq $START_TAG $END_TAG); do
+            TAG="v4.$i.0"
+            echo "Deleting tag $TAG"
+            git tag -d "$TAG" || echo "Tag $TAG not found locally."
+            git push origin :refs/tags/$TAG || echo "Tag $TAG not found remotely."
+          done
