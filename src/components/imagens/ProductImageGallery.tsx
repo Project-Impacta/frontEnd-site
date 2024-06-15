@@ -1,7 +1,13 @@
 import { Alert } from '../ui';
+import useStore from '@/zustand/store';
 import axios from 'axios';
+import {
+  API_URL,
+  NEXT_PUBLIC_FRONTEND_ORIGIN,
+  NEXT_PUBLIC_FRONTEND_TOKEN,
+} from 'environment';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 interface Imagem {
   _id: string;
@@ -17,35 +23,45 @@ interface ProductImageGalleryProps {
 const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   productId,
 }) => {
-  const [imagens, setImagens] = useState<Imagem[]>([]);
+  const { imagens, setImagens } = useStore();
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    const fetchImagens = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/productImage?productId=${productId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+              token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
+            },
+            cancelToken: source.token,
+          },
+        );
+        const imagens = response.data.data.map((imagem: Imagem) => ({
+          ...imagem,
+        }));
+        setImagens(imagens);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Erro ao buscar imagens:', error);
+        }
+      }
+    };
+
     if (productId) {
       fetchImagens();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId]);
 
-  const fetchImagens = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3333/productImage?productId=${productId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            secret_origin: `${process.env.NEXT_PUBLIC_FRONTEND_ORIGIN}`,
-            token: `${process.env.NEXT_PUBLIC_FRONTEND_TOKEN}`,
-          },
-        },
-      );
-      const imagens = response.data.data.map((imagem: Imagem) => ({
-        ...imagem,
-      }));
-      setImagens(imagens);
-    } catch (error) {
-      console.error('Erro ao buscar imagens:', error);
-    }
-  };
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, [productId, setImagens]);
 
   const imagensFiltradas = imagens.filter(
     (imagem) => imagem.productId === productId,
@@ -58,7 +74,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           <div key={imagem._id} style={{ marginBottom: '20px' }}>
             {imagem.hash ? (
               <Image
-                src={`data:image/jpeg;base64,${imagem.hash}`}
+                src={`data:image/webp;base64,${imagem.hash}`}
                 alt={imagem.productId}
                 width={200}
                 height={200}

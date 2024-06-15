@@ -7,7 +7,6 @@ const config: Config = {
     './components/**/*.{ts,tsx,jsx}',
     './src/**/*.{ts,tsx,jsx}',
   ],
-  prefix: '',
   theme: {
     extend: {
       keyframes: {
@@ -47,12 +46,11 @@ const config: Config = {
       },
     },
   },
-  variants: {
-    extend: {
-      borderColor: ['focus-visible'],
-      textColor: ['visited'],
-    },
-  },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 };
 export default config;

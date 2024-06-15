@@ -23,8 +23,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { formatCPF } from '@/lib/utils/form-utils';
 import { FormErrors } from '@/types/userTypes';
+import { formatCPF } from '@/utils/form-utils';
 import { signIn } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
