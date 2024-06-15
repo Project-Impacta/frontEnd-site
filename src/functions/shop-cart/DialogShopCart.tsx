@@ -1,5 +1,6 @@
 'use client';
 
+import PurchaseSummary from '@/components/list/shop-cart-list/PurchaseSummary';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -8,23 +9,18 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { useShoppingCart } from '@/context/ShoppingCartContext';
-import { categoryMapping, formatPriceBR } from '@/types/productTypes';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { CircleMinus, CirclePlus, ShoppingCart } from 'lucide-react';
-import React from 'react';
+import { motion } from 'framer-motion';
+import { ShoppingCart } from 'lucide-react';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ShopCartDialog() {
-  const { shoppingCart, removeFromCart, updateQuantity } = useShoppingCart();
+  const { shoppingCart, removeFromCart, updateQuantity, clearCart } =
+    useShoppingCart();
+  const [purchaseComplete, setPurchaseComplete] = useState(false);
+  const [orderId, setOrderId] = useState<string | null>(null);
 
   const handleIncrease = (id: string) => {
     const item = shoppingCart.find((item) => item._id === id);
@@ -40,20 +36,25 @@ export default function ShopCartDialog() {
     }
   };
 
+  const handleCheckoutComplete = () => {
+    const newOrderId = uuidv4();
+    setOrderId(newOrderId);
+    setPurchaseComplete(true);
+    clearCart(); // Limpa o carrinho após finalizar a compra
+  };
+
+  const handleDialogClose = () => {
+    setPurchaseComplete(false);
+    setOrderId(null);
+  };
+
   const totalItems = shoppingCart.reduce(
     (total, item) => total + item.quantity,
     0,
   );
 
-  const calculateTotal = (): number => {
-    return shoppingCart.reduce(
-      (total, item) => total + item.quantity * item.price,
-      0,
-    );
-  };
-
   return (
-    <Dialog>
+    <Dialog onOpenChange={handleDialogClose}>
       <DialogTrigger asChild>
         <Button className="relative gap-4 max-w-lg mx-auto justify-center">
           <ShoppingCart />
@@ -68,85 +69,51 @@ export default function ShopCartDialog() {
         <DialogHeader className="text-center items-center justify-center">
           <DialogTitle>Carrinho de compras</DialogTitle>
         </DialogHeader>
-        <div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card className="border-none">
-            {shoppingCart.length === 0 ? (
-              <div className="text-center py-4">
-                <p className="text-lg title text-center text-light-textPrimary dark:text-dark-textPrimary">
-                  Seu carrinho está vazio
+            {purchaseComplete ? (
+              <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="p-4 text-center"
+              >
+                <p className="text-2xl font-bold text-green-500">
+                  Compra realizada com sucesso!
                 </p>
-              </div>
+                <p className="mt-4 text-lg">
+                  ID da Compra: <strong>{orderId}</strong>
+                </p>
+                <p className="mt-2 text-lg">
+                  Em breve você receberá um email de nossa equipe para agendar a
+                  entrega.
+                </p>
+              </motion.div>
             ) : (
               <>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px] text-center text-light-textPrimary dark:text-dark-textPrimary">
-                        Produto
-                      </TableHead>
-                      <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
-                        Preço
-                      </TableHead>
-                      <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
-                        Categoria
-                      </TableHead>
-                      <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
-                        Quantidade
-                      </TableHead>
-                      <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
-                        Total
-                      </TableHead>
-                      <TableHead className="text-center text-light-textPrimary dark:text-dark-textPrimary">
-                        Ações
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  {shoppingCart.map((item) => (
-                    <TableBody key={item._id}>
-                      <TableRow>
-                        <TableCell className="font-medium body text-light-textPrimary dark:text-dark-textPrimary text-nowrap">
-                          {item.name}
-                        </TableCell>
-                        <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
-                          {formatPriceBR(item.price)}
-                        </TableCell>
-                        <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
-                          {categoryMapping[item.category]}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center space-x-2">
-                            <Button onClick={() => handleDecrease(item._id)}>
-                              <CircleMinus />
-                            </Button>
-                            <span>{item.quantity}</span>
-                            <Button onClick={() => handleIncrease(item._id)}>
-                              <CirclePlus />
-                            </Button>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right font-medium text-light-textPrimary dark:text-dark-textPrimary flex space-x-1 items-center justify-center ">
-                          {formatPriceBR(item.quantity * item.price)}
-                        </TableCell>
-                        <TableCell>
-                          <Button onClick={() => removeFromCart(item._id)}>
-                            Remover Produto
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  ))}
-                </Table>
-                <Separator className="my-4" />
-                <div className="flex relative justify-between mr-6">
-                  <div className="text-lg font-bold text-light-textPrimary ml-2 mt-2 dark:text-dark-textPrimary">
-                    Total do Pedido: {formatPriceBR(calculateTotal())}
+                {shoppingCart.length === 0 ? (
+                  <div className="text-center py-4">
+                    <p className="text-lg title text-center text-light-textPrimary dark:text-dark-textPrimary">
+                      Seu carrinho está vazio
+                    </p>
                   </div>
-                  <Button className="mr-4 w-[145px]">Finalizar compra</Button>
-                </div>
+                ) : (
+                  <PurchaseSummary
+                    shoppingCart={shoppingCart}
+                    onIncrease={handleIncrease}
+                    onDecrease={handleDecrease}
+                    onRemove={removeFromCart}
+                    onCheckoutComplete={handleCheckoutComplete} // Passando a função aqui
+                  />
+                )}
               </>
             )}
           </Card>
-        </div>
+        </motion.div>
       </DialogContent>
     </Dialog>
   );

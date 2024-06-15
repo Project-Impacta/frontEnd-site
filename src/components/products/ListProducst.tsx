@@ -13,16 +13,20 @@ import {
 import { CreateProductDialog } from '@/functions';
 import ImageGallery from '@/functions/UploadImage';
 import { fetchProducts } from '@/hooks/fetchProducts';
+import { categoryMapping, formatPriceBR } from '@/types/productTypes';
+import useStore from '@/zustand/store';
+import axios from 'axios';
 import {
-  categoryMapping,
-  formatPriceBR,
-  ProductsSchema,
-} from '@/types/productTypes';
+  API_URL,
+  NEXT_PUBLIC_FRONTEND_ORIGIN,
+  NEXT_PUBLIC_FRONTEND_TOKEN,
+} from 'environment';
 import React, { useEffect, useState } from 'react';
 
 const ProductsList: React.FC = () => {
-  const [products, setProducts] = useState<ProductsSchema[]>([]);
+  const { products, setProducts, removeProduct } = useStore();
   const [loading, setLoading] = useState<boolean>(true);
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
   const [dialogMessage, setDialogMessage] = useState<string>('');
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [search, setSearch] = useState('');
@@ -37,9 +41,11 @@ const ProductsList: React.FC = () => {
   const handleCloseDialog = () => setDialogOpen(false);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
     const loadProducts = async () => {
       try {
-        const data = await fetchProducts();
+        const data = await fetchProducts(source.token);
         if (Array.isArray(data.product)) {
           setProducts(data.product);
           setDialogMessage(data.message);
@@ -51,15 +57,49 @@ const ProductsList: React.FC = () => {
         }
         setLoading(false);
       } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-        setDialogMessage(`Erro ao buscar produtos: ${error}`);
-        setDialogOpen(true);
-        setLoading(false);
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Erro ao buscar produtos:', error);
+          setDialogMessage(`Erro ao buscar produtos: ${error}`);
+          setDialogOpen(true);
+          setLoading(false);
+        }
       }
     };
 
     loadProducts();
-  }, []);
+
+    return () => {
+      source.cancel('Component unmounted');
+    };
+  }, [setProducts]);
+
+  const handleDeleteProduct = async (productId: string) => {
+    setDeleteLoading(productId);
+    try {
+      // Deletar o produto
+      await axios.delete(`${API_URL}/product/${productId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
+          token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
+        },
+      });
+
+      // Remover produto do estado
+      removeProduct(productId);
+
+      setDialogMessage('Produto deletado com sucesso.');
+      setDialogOpen(true);
+    } catch (error) {
+      console.error('Erro ao deletar produto:', error);
+      setDialogMessage(`Erro ao deletar produto: ${error}`);
+      setDialogOpen(true);
+    } finally {
+      setDeleteLoading(null);
+    }
+  };
 
   if (loading) {
     return <LoadingDisplay dialogOpen={true} />;
@@ -134,11 +174,19 @@ const ProductsList: React.FC = () => {
                   <TableCell className="text-right body text-light-textPrimary dark:text-dark-textPrimary flex space-x-1 items-center justify-center py-16">
                     <div>{formatPriceBR(product.price)}</div>
                   </TableCell>
-                  <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
+                  <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary space-y-4">
                     <Button
                       onClick={() => setSelectedProductId(product._id ?? '')}
                     >
                       Mostrar Imagens
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteProduct(product._id ?? '')}
+                      disabled={deleteLoading === product._id}
+                    >
+                      {deleteLoading === product._id
+                        ? 'Deletando...'
+                        : 'Deletar Produto'}
                     </Button>
                   </TableCell>
                   <TableCell className="body text-light-textPrimary dark:text-dark-textPrimary">
@@ -162,6 +210,13 @@ const ProductsList: React.FC = () => {
           )}
         </TableBody>
       </Table>
+      {dialogOpen && (
+        <ErrorDisplay
+          dialogOpen={dialogOpen}
+          dialogMessage={dialogMessage}
+          handleCloseDialog={handleCloseDialog}
+        />
+      )}
     </div>
   );
 };

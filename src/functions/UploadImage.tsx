@@ -168,7 +168,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ productId }) => {
               <Alert>Imagem não disponível</Alert>
             )}
             <div className="flex items-center justify-center mt-2">
-              <Button onClick={() => handleDelete(imagem._id)}>Excluir</Button>
+              <Button onClick={() => handleDelete(imagem._id)}>
+                Excluir Imagem
+              </Button>
             </div>
           </div>
         ))

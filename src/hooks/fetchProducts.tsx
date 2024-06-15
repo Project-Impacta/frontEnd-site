@@ -1,28 +1,26 @@
+import axios from 'axios';
 import {
   API_URL,
   NEXT_PUBLIC_FRONTEND_ORIGIN,
   NEXT_PUBLIC_FRONTEND_TOKEN,
 } from 'environment';
 
-export const fetchProducts = async () => {
+export const fetchProducts = async (cancelToken: axios.CancelToken) => {
   try {
-    const requestOptions = {
-      method: 'GET',
+    const response = await axios.get(`${API_URL}/product`, {
       headers: {
         'Content-Type': 'application/json',
         secret_origin: `${NEXT_PUBLIC_FRONTEND_ORIGIN}`,
         token: `${NEXT_PUBLIC_FRONTEND_TOKEN}`,
       },
-    };
-
-    const response = await fetch(`${API_URL}/product`, requestOptions);
-    if (!response.ok) {
-      throw new Error('Erro ao buscar produtos');
-    }
-    const data = await response.json();
-    return data;
+      cancelToken,
+    });
+    return response.data;
   } catch (error: any) {
-    // Adicionando :any para definir o tipo da variável error como any
-    throw new Error(`Erro ao buscar produtos: ${error.message}`);
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw new Error(`Erro ao buscar produtos: ${error.message}`);
+    }
   }
 };
