@@ -5,40 +5,25 @@
   "author": "Jh0w",
   "license": "MIT",
   "private": true,
-  "release": {
-    "branches": [
+ "release": {
+  "branches": [
+    { "name": "main", "type": "major" },
+    { "name": "dev", "type": "minor" },
+    { "name": "*", "type": "patch" }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    [
+      "@semantic-release/github",
       {
-        "name": "main",
-        "type": "major"
-      },
-      {
-        "name": "dev",
-        "type": "minor"
-      },
-      {
-        "name": "*",
-        "type": "patch"
+        "assets": [
+          { "path": "build.zip", "label": "Build for version ${nextRelease.version}" },
+          { "path": "coverage.zip", "label": "Coverage report for version ${nextRelease.version}" }
+        ]
       }
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            {
-              "path": "build.zip",
-              "label": "Build for version ${nextRelease.version}"
-            },
-            {
-              "path": "coverage.zip",
-              "label": "Coverage report for version ${nextRelease.version}"
-            }
-          ]
-        }
       ]
     ]
   },
