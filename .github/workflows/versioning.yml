@@ -33,11 +33,21 @@ jobs:
             echo "Working directory is not clean, stashing changes..."
             git stash --include-untracked
           fi
+      - name: Check for significant changes
+        id: check_changes
+        run: |
+          if git diff --quiet HEAD~1 HEAD -- . ':!package.json' ':!package-lock.json'; then
+            echo "::set-output name=changes::false"
+          else
+            echo "::set-output name=changes::true"
+          fi
       - name: Bump version
+        if: steps.check_changes.outputs.changes == 'true'
         run: npm version patch -m "chore(release):%s"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Push tags
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           if git pull --rebase; then
             git push --follow-tags
