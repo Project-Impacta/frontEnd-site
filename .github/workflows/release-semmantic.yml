@@ -1,0 +1,82 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+          persist-credentials: true
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.11.1'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+        run: npx semantic-release
+      - name: Commit updated package.json
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json
+          git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
+          git push
+
+  versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Check if tag event
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        run: echo "Tag event detected, proceeding with versioning"
+      - name: Exit if not tag event
+        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags/')
+        run: |
+          echo "No tag event detected, skipping versioning"
+          exit 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.11.1'
+      - name: Install dependencies
+        run: npm install
+        env:
+          CI: false
+      - name: Update Package Lock
+        run: npm update
+      - name: Formatando Padrão Lint e Prettier
+        run: npm run format
+      - name: Check if working directory is clean
+        run: |
+          git diff-index --quiet HEAD -- || (echo "Working directory is not clean" && exit 1)
+      - name: Bump version
+        run: npm version patch -m "Bump version to %s"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Push tags
+        run: git push --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Create new branch
+        run: |
+          echo "Getting current version..."
+          current_version=$(git describe --tags)
+          echo "Current version: $current_version"
+          branch_name="release/$current_version"
+          echo "Creating new branch: $branch_name"
+          git checkout -b $branch_name
+          git push -u origin $branch_name
+          echo "New branch $branch_name created and pushed successfully."
