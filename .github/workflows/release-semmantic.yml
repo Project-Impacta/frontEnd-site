@@ -29,7 +29,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          if ! git diff --exit-code; then
+          if git diff --quiet; then
+            echo "No changes to commit, skipping."
+          else
             git add package.json
             git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
             git stash
@@ -42,8 +44,6 @@ jobs:
               echo "Rebase failed due to conflicts, aborting."
               exit 1
             fi
-          else
-            echo "No changes to commit, skipping."
           fi
 
   versioning:
@@ -61,7 +61,7 @@ jobs:
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         run: echo "Tag event detected, proceeding with versioning"
       - name: Exit if not tag event
-        if: github.event_name == 'push' && ! contains(github.ref, 'refs/tags/')
+        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags/')
         run: |
           echo "No tag event detected, skipping versioning"
           exit 0
