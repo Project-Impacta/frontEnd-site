@@ -16,7 +16,7 @@ jobs:
       - name: Delete tags
         run: |
           START_TAG=12
-          END_TAG=33
+          END_TAG=30
           for i in $(seq $START_TAG $END_TAG); do
             TAG="v4.$i.0"
             echo "Deleting tag $TAG"
