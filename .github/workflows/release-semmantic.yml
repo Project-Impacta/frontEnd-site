@@ -41,6 +41,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set up Git identity
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
       - name: Check if tag event
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         run: echo "Tag event detected, proceeding with versioning"
