@@ -29,17 +29,21 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add package.json
-          git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
-          git stash
-          if git pull --rebase; then
-            git stash pop
-            git push
+          if ! git diff --exit-code; then
+            git add package.json
+            git commit -m "chore: update package.json version [skip ci]" || echo "No changes to commit"
+            git stash
+            if git pull --rebase; then
+              git stash pop
+              git push
+            else
+              git rebase --abort
+              git stash pop
+              echo "Rebase failed due to conflicts, aborting."
+              exit 1
+            fi
           else
-            git rebase --abort
-            git stash pop
-            echo "Rebase failed due to conflicts, aborting."
-            exit 1
+            echo "No changes to commit, skipping."
           fi
 
   versioning:
@@ -91,6 +95,25 @@ jobs:
         run: |
           if git pull --rebase; then
             git push --follow-tags
+          else
+            git rebase --abort
+            echo "Rebase failed due to conflicts, aborting."
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Create new branch
+        run: |
+          echo "Getting current version..."
+          current_version=$(git describe --tags)
+          echo "Current version: $current_version"
+          branch_name="release/$current_version"
+          echo "Creating new branch: $branch_name"
+          git checkout -b $branch_name
+          git branch --set-upstream-to=origin/main $branch_name
+          if git pull --rebase; then
+            git push -u origin $branch_name
+            echo "New branch $branch_name created and pushed successfully."
           else
             git rebase --abort
             echo "Rebase failed due to conflicts, aborting."
